@@ -1,6 +1,5 @@
 import { ApolloServer } from 'apollo-server-express';
 import { 
-	ApolloServerPluginLandingPageGraphQLPlayground, 
 	ApolloServerPluginDrainHttpServer 
 } from 'apollo-server-core';
 import express from 'express';
@@ -8,16 +7,16 @@ import http from 'http';
 
 import schema from './graphql/schema';
 
-const PORT = 6000;
+const PORT = 4000;
 
 async function startApolloServer() {
 	const app = express();
 	const httpServer = http.createServer(app);
 	const server = new ApolloServer({
+		introspection: true,
 		schema,
 		plugins: [
-			ApolloServerPluginDrainHttpServer({ httpServer }),
-			ApolloServerPluginLandingPageGraphQLPlayground()
+			ApolloServerPluginDrainHttpServer({ httpServer })
 		],
 	});
 	await server.start();

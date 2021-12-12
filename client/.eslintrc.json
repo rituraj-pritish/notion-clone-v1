@@ -1,0 +1,22 @@
+{
+  "extends": "next/core-web-vitals",
+  "rules": {
+    "indent": [
+        "warn",
+        "tab"
+    ],
+    "linebreak-style": [
+        "warn",
+        "unix"
+    ],
+    "quotes": [
+        "warn",
+        "single"
+    ],
+    "semi": [
+        "warn",
+        "always"
+    ],
+    "object-curly-spacing": ["warn", "always"]
+}
+}
