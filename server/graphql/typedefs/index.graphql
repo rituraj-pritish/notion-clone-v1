@@ -1,0 +1,12 @@
+scalar Date
+
+type Query {
+  # Users
+  users: [User]!
+  user(id: ID!): User
+}
+
+type Mutation {
+  # Users
+  createUser(user: UserCreateInput!): User!
+}
