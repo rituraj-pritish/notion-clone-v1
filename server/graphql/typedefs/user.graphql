@@ -1,9 +1,0 @@
-type User {
-  id: ID!
-  name: String!
-  createdAt: Date!
-}
-
-input UserCreateInput {
-  name: String!
-}

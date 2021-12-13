@@ -17,6 +17,7 @@
         "warn",
         "always"
     ],
-    "object-curly-spacing": ["warn", "always"]
+    "object-curly-spacing": ["warn", "always"],
+    "no-multiple-empty-lines": ["error", { "max": 1 }]
 }
 }
