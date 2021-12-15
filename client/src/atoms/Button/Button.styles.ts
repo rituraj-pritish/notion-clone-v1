@@ -18,9 +18,10 @@ const getVariantStyles = (variant: Variant) => {
 	return css`
 		background: transparent;
 		color: ${colors.text};
+		border-color: #dfdfde;
 
 		&:hover {
-			background: #f3f3f3;
+			background: ${colors.buttonHover};;
 		}
 	`;
 };
@@ -41,7 +42,33 @@ export const StyledButton = styled.button<Props>`
 	border-radius: ${theme.borderRadius};
 	padding: 8px 16px;
 	font-size: 16px;
+	display: flex;
+	align-items: center;
 	cursor: pointer;
+	font-weight: 400;
+	font-weight: ${({ bold }) => bold && 500};
   ${({ variant }) => getVariantStyles(variant!)};
+	${({ ghost }) => ghost && css`
+		background: transparent;
+		border-color: transparent;
+	`};
   ${({ size }) => getSizeStyles(size!)};
+`;
+
+interface IconProps {
+	left?: boolean,
+	isEmoji: boolean
+}
+
+export const Icon = styled.span<IconProps>`
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-right: ${({ left }) => left && '6px'};
+	margin-left: ${({ left }) => !left && '6px'};
+
+	${({ isEmoji }) => isEmoji && css`
+		font-size: 20px;
+		max-height: 20px;
+	`};
 `;
