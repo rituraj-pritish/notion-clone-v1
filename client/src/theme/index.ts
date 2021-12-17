@@ -6,6 +6,7 @@ export const colors = {
 };
 
 export default {
+	maxWidth: '1260px',
 	borderRadius: '4px',
 	colors
 };

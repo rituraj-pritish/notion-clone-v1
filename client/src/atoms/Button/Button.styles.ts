@@ -44,6 +44,7 @@ export const StyledButton = styled.button<Props>`
 	font-size: 16px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 	cursor: pointer;
 	font-weight: 400;
 	font-weight: ${({ bold }) => bold && 500};

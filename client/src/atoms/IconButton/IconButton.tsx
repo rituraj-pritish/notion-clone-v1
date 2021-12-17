@@ -1,10 +1,10 @@
 import { Tooltip } from 'atoms';
-import React from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import { StyledButton } from './IconButton.styles';
 
 export type Size = 'small' | 'medium'
 
-export interface Props {
+export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode,
   size?: Size,
 	tooltip?: string | React.ReactElement

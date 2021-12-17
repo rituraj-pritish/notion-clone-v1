@@ -1,6 +1,11 @@
 {
-  "extends": "next/core-web-vitals",
+  "extends": [
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "rules": {
+    "react/react-in-jsx-scope": "off",
     "indent": [
         "warn",
         "tab"
@@ -19,6 +24,16 @@
     ],
     "object-curly-spacing": ["warn", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
-    "import/no-anonymous-default-export": "off"
-}
+    "import/no-anonymous-default-export": "off",
+    "react/jsx-max-props-per-line": ["error", {
+      "maximum": {
+        "single": 2,
+        "multi": 1
+      }
+    }],
+    "react/jsx-first-prop-new-line": "error",
+    "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
+    "react/jsx-closing-tag-location": "error",
+    "react/jsx-props-no-multi-spaces": "error"
+  }
 }

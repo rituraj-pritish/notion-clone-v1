@@ -1,12 +1,13 @@
-import { Tooltip } from 'atoms';
-import { Fragment } from 'react';
+import React, { ButtonHTMLAttributes } from 'react';
 import { IconType } from 'react-icons';
+
+import { Tooltip } from 'atoms';
 import { Icon, StyledButton } from './Button.styles';
 
 export type Variant = 'primary' | 'secondary'
 export type Size = 'small' | 'medium' | 'large'
 
-export interface Props {
+export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode,
   variant?: Variant,
   size?: Size,

@@ -4,6 +4,18 @@ import { Props } from './Space';
 export const RootWrapper = styled.div<Props>`
   display: flex;
   flex-direction: ${({ direction }) => direction === 'vertical' && 'column'};
+  align-items: ${({ align }) => {
+		switch(align) {
+      case 'center':
+        return 'center';
+      case 'start':
+        return 'flex-start';
+      case 'end':
+        return 'flex-end';
+      default:
+        return 'center';
+		}
+	}};
 
   & > * {
     ${({ size, direction }) => {

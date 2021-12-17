@@ -1,10 +1,12 @@
-import Button from 'atoms/Button';
-import { NoAuthNavbar } from 'components';
 import type { NextPage } from 'next';
+
+import { NoAuthNavbar } from 'components';
 
 const Home: NextPage = () => {
 	return (
-		<NoAuthNavbar/>
+		<div>
+			<NoAuthNavbar/>
+		</div>
 	);
 };
 
