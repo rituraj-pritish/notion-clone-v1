@@ -5,6 +5,7 @@ import { useMutation } from 'react-query';
 import api from 'api';
 import { SIGN_IN } from 'graphql/users';
 import { SignInInput, SignInResponse } from 'types/users';
+import AUTH_TOKEN from 'enums/authToken';
 
 const LoginForm = () => {
 	const [email, setEmail] = useState('ab@gmail.com');
@@ -16,7 +17,7 @@ const LoginForm = () => {
 		() => api<SignInResponse, SignInInput>(SIGN_IN, { email, password }),
 		{
 			onSuccess: (data) => {
-				localStorage.setItem('auth_token', data.token);
+				localStorage.setItem(AUTH_TOKEN, data.token);
 			}
 		}
 	);

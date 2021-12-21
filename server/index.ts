@@ -8,6 +8,8 @@ import {
 import express from 'express';
 import http from 'http';
 import { buildSchema } from 'type-graphql';
+import jwt from 'jsonwebtoken';
+
 import resolvers from './resolvers';
 
 dotenv.config();
@@ -33,6 +35,26 @@ async function startApolloServer() {
 			plugins: [
 				ApolloServerPluginDrainHttpServer({ httpServer })
 			],
+			context: async ({ req }) => {
+				const token = req.headers.authorization || '';
+				
+				try {
+					const {
+						id
+					} = await jwt.verify(
+						token, 
+						process.env.JWT_SECRET,
+					);
+					
+					return {
+						userId: id
+					};
+
+				} catch (error) {
+					//todo handle error
+					console.log('err', error);
+				}
+			}
 		});
 	
 		await server.start();
@@ -44,7 +66,7 @@ async function startApolloServer() {
 			`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
 		);
 	} catch (error) {
-		console.error(error)
+		console.error(error);
 	}
 }
 
