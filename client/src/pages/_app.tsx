@@ -27,6 +27,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 	if(!isLoading && isAuthenticated && PUBLIC_ROUTES.includes(router.asPath)) {
 		router.replace('/dashboard');
+	} else if (!isLoading && !isAuthenticated && !PUBLIC_ROUTES.includes(router.asPath)) {
+		router.replace('/login');
 	}
 
 	return (

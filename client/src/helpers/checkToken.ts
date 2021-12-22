@@ -1,9 +1,12 @@
 import AUTH_TOKEN from 'enums/authToken';
 import jwtDecode, { JwtPayload } from 'jwt-decode';
 import moment from 'moment';
+import { User } from 'types/users';
 
 interface Payload extends JwtPayload {
   id: string
+	name: string
+	email: string
   exp: number
 }
 
@@ -21,9 +24,24 @@ export default () => {
 			localStorage.removeItem(AUTH_TOKEN);
 			return false;
 		}
-		console.log('cal');
+
 		return true;
 	} catch (error) {
 		return false;
 	}
+};
+
+export const getUserDetails = (): User => {
+	const token = localStorage.getItem(AUTH_TOKEN) || '';
+	const {
+		id,
+		email,
+		name
+	} = jwtDecode<Payload>(token);
+
+	return {
+		id,
+		email,
+		name
+	};
 };

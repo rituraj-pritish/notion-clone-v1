@@ -1,13 +1,17 @@
-import useAuthentication from 'hooks/useAuthentication';
 import React from 'react';
 
+import { Navbar, Sidebar } from 'components';
+import { RootWrapper } from './Layout.styles';
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
-	const { isAuthenticated } = useAuthentication();
-	console.log('ias', isAuthenticated);
 	return (
-		<div>
-			{children}
-		</div>
+		<RootWrapper>
+			<Sidebar/>
+			<div>
+				<Navbar/>
+				{children}
+			</div>
+		</RootWrapper>
 	);
 };
 

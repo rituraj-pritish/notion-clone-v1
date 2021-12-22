@@ -26,7 +26,11 @@ export class UsersResolver {
 		const isPasswordCorrect =  await bcrypt.compare(password.toString(), user.password); 
 		if(!isPasswordCorrect) throw new AuthenticationError('Invalid Credentials');
 		const token = jwt.sign(
-			{ id: user.id },
+			{ 
+				id: user.id,
+				name: user.name,
+				email: user.email
+			},
 			process.env.JWT_SECRET!,
 			{ expiresIn: '10days' }
 		);

@@ -6,10 +6,12 @@ import api from 'api';
 import { SIGN_IN } from 'graphql/users';
 import { SignInInput, SignInResponse } from 'types/users';
 import AUTH_TOKEN from 'enums/authToken';
+import { useRouter } from 'next/router';
 
 const LoginForm = () => {
 	const [email, setEmail] = useState('ab@gmail.com');
 	const [password, setPassword] = useState('123456');
+	const router = useRouter();
 
 	const {
 		mutateAsync
@@ -18,6 +20,7 @@ const LoginForm = () => {
 		{
 			onSuccess: (data) => {
 				localStorage.setItem(AUTH_TOKEN, data.token);
+				router.replace('/dashboard');
 			}
 		}
 	);

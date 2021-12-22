@@ -1,10 +1,19 @@
 import React from 'react';
 import { createState, useState } from '@hookstate/core';
-import checkToken from 'helpers/checkToken';
 
-const AUTH_STATE = createState({
+import { User } from 'types/users';
+import checkToken, { getUserDetails } from 'helpers/checkToken';
+
+interface State {
+	isLoading: boolean
+	isAuthenticated: boolean
+	user: null | User
+}
+
+const AUTH_STATE = createState<State>({
 	isLoading: true,
-	isAuthenticated: false
+	isAuthenticated: false,
+	user: null
 });
 
 export default () => {
@@ -12,9 +21,12 @@ export default () => {
 
 	const checkIfAuthenticated = () => {
 		const isLoggedIn = checkToken();
+		const user = isLoggedIn ? getUserDetails() : null;
+
 		authState.set({
-			isAuthenticated: isLoggedIn,
-			isLoading: false
+			isAuthenticated: !!isLoggedIn,
+			isLoading: false,
+			user
 		});
 	};
   
