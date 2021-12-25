@@ -17,6 +17,14 @@ export class User {
   @prop({ type: String, required: true })
   	password: string;
 
+  @Field(() => [ID])
+  @prop({ type: [String], required: true })
+  	workspaces: string[];
+  
+  @Field(() => ID)
+  @prop({ type: String, required: true })
+  currentWorkspace: string;
+
   @Field()
   @prop({ required: true, default: Date.now })
   	createdAt: Date;

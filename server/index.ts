@@ -51,21 +51,23 @@ async function startApolloServer() {
 				ApolloServerPluginDrainHttpServer({ httpServer })
 			],
 			context: async ({ req, res }) => {
-				const token = req.cookies.auth_token;
+				const token = req.headers.authorization || req.cookies.auth_token;
+
+				res.header('Access-Control-Allow-Origin', process.env.CLIENT_BASE_URL);
 
 				if(!token) return { res };
 
 				try {
-					const {	id } = await jwt.verify(token, process.env.JWT_SECRET);
-					
+					const {	user, workspace } = await jwt.verify(token, process.env.JWT_SECRET);
+
 					return {
-						userId: id,
+						user,
+						workspace,
 						res
 					};
 
 				} catch (error) {
 					//todo handle error
-					console.log('context err', error);
 					return {
 						res
 					};

@@ -1,8 +1,11 @@
+import { Center } from 'atoms';
 import LoginForm from 'components/LoginForm';
 
 const Login = () => {
 	return (
-		<LoginForm/>
+		<Center minHeight='100vh'>
+			<LoginForm/>
+		</Center>
 	);
 };
 

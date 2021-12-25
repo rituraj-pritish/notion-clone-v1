@@ -4,18 +4,18 @@ import { BsTriangleFill } from 'react-icons/bs';
 import { FiFileText, FiPlusSquare } from 'react-icons/fi';
 
 import { Flex, IconButton, Space } from 'atoms';
-import { PageOptions } from './SideBar.styles';
-import SidebarItem from './SidebarItem';
+import { PageOptions } from './SidebarPages.styles';
+import SidebarItem from '../SidebarItem';
 
 interface Props {
 	id: string
 	name: string
-	emoji?: string
+	icon?: string
 }
 
 const SidebarPage = ({
 	id,
-	emoji,
+	icon,
 	name
 }: Props) => {
 	const router = useRouter();
@@ -39,7 +39,7 @@ const SidebarPage = ({
 							<BsTriangleFill style={{ transform: 'rotate(90deg)' }} size={12}/>
 						</IconButton>
 						<IconButton size='small' tooltip='Change icon'>
-							{emoji || <FiFileText/>}
+							{icon || <FiFileText/>}
 						</IconButton>
 						<div>{name}</div>
 					</Space>

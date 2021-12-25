@@ -120,11 +120,3 @@ export const NewPage = styled.div`
     margin-right: 12px;
   }
 `;
-
-export const PageOptions = styled(Flex)`
-  opacity: 0;
-
-  ${SidebarItemWrapper}:hover &{
-    opacity: 1;
-  }
-`;

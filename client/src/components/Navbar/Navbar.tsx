@@ -24,9 +24,6 @@ const Navbar = () => {
 					</IconButton>
 				)}
 			</div>
-			<Button onClick={() => localStorage.removeItem(AUTH_TOKEN)}>
-				Logout
-			</Button>
 		</RootWrapper>
 	);
 };

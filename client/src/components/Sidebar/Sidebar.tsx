@@ -7,7 +7,8 @@ import SidebarHeader from './SidebarHeader';
 import useSidebar from 'hooks/useSidebar';
 import { useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
-import SidebarPage from './SidebarPage';
+import SidebarPage from './SidebarPages/SidebarPage';
+import SidebarPages from './SidebarPages';
 
 const NewPageFooter = () => {
 	return (
@@ -50,17 +51,7 @@ const Sidebar = () => {
 				onMouseLeave={() => isCollapsed && setIsHovering(false)}
 			>
 				<SidebarHeader />
-				<div>
-					<SidebarPage
-						id = '1234'
-						emoji = '🤔'
-						name = 'Page 1'
-					/>
-					<SidebarPage
-						id = '12345'
-						name = 'Page 2'
-					/>
-				</div>
+				<SidebarPages/>
 				<NewPageFooter/>
 			</Content>
 			<Trigger onMouseEnter={() => setIsHovering(true)} />

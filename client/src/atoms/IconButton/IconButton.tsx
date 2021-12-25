@@ -14,12 +14,17 @@ const IconButton = ({
 	children,
 	size = 'medium',
 	tooltip,
+	onClick,
 	...otherProps
 }: Props): JSX.Element => {
 	const iconButton = (
 		<StyledButton 
 			size={size} 
 			isEmoji={typeof children === 'string'}
+			onClick={e => {
+				e.stopPropagation();
+				if(onClick) onClick(e);
+			}}
 			{...otherProps}
 		>
 			{children}

@@ -22,7 +22,7 @@ const LoginForm = () => {
 				if(data.token) {
 					localStorage.setItem(AUTH_TOKEN, data.token);
 				}
-				// router.replace('/dashboard');
+				router.replace('/');
 			}
 		}
 	);

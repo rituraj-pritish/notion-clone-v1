@@ -10,6 +10,10 @@ export class Page {
   @prop({ type: String })
   	name: string;
 
+  @Field({ nullable: true })
+  @prop({ type: String })
+  	icon: string;
+
   @Field()
   @prop({ required: true, default: Date.now })
   	createdAt: Date;

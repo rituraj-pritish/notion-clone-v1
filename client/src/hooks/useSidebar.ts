@@ -8,10 +8,6 @@ interface State {
 	width: number
 }
 
-if(typeof window !== 'undefined') {
-	console.log('this', localStorage.getItem(WIDTH_KEY));
-}
-
 const INITIAL_STATE = {
 	isCollapsed: false,
 	width: 200

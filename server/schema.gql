@@ -3,18 +3,24 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+input CreatePageInput {
+  icon: String!
+  name: String!
+}
+
 """
 The javascript `Date` as string. Type represents date and time as the ISO Date string.
 """
 scalar DateTime
 
 type Mutation {
-  createPage(name: String!): Page!
+  createPage(createPageInput: CreatePageInput!): Page!
   signup(newUserInput: UserInput!): User!
 }
 
 type Page {
   createdAt: DateTime!
+  icon: String
   id: ID!
   name: String!
   updatedAt: DateTime!
@@ -22,19 +28,28 @@ type Page {
 
 type Query {
   getPage(id: String!): Page!
+  getWorkspace: Workspace!
+  logout: Boolean!
   signin(email: String!, password: String!): User!
 }
 
 type User {
   createdAt: DateTime!
+  currentWorkspace: ID!
   email: String!
   id: ID!
   name: String!
   updatedAt: DateTime!
+  workspaces: [ID!]!
 }
 
 input UserInput {
   email: String!
   name: String!
   password: String!
+}
+
+type Workspace {
+  id: ID!
+  pages: [Page!]!
 }
