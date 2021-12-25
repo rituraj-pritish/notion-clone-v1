@@ -1,6 +1,7 @@
 import { darken } from 'polished';
 import styled, { css } from 'styled-components';
 import { ResizableBox } from 'react-resizable';
+import { Flex } from 'atoms';
 
 const greyHoverBg = '#efefef';
 const hoverBg = darken(0.05, '#F7F6F3');
@@ -41,7 +42,7 @@ export const Content = styled.div<RootWrapperProps>`
 export const Trigger = styled.div`
   content: '';
   background: transparent;
-  height: 100%;
+  height: calc(100% - 56px);
   position: absolute;
   right: 0;
   width: 50px;
@@ -82,15 +83,31 @@ export const SidebarHeaderWrapper = styled.div`
 
 interface SidebarItemProps {
   isCollapsed: boolean
+  isActive?: boolean
 }
 
 export const SidebarItemWrapper = styled.div<SidebarItemProps>`
   color: ${color};
   cursor: pointer;
+
+  & * {
+    color: ${color};
+  }
+
+  button {
+    &:hover {
+      background: ${({ isCollapsed }) => darken(0.05, isCollapsed ? greyHoverBg : hoverBg)};
+    }
+  }
   
   &:hover {
     background: ${({ isCollapsed }) => isCollapsed ? greyHoverBg : hoverBg};
   }
+
+  ${({ isActive, isCollapsed }) => isActive && css`
+    background: ${isCollapsed ? greyHoverBg : hoverBg};
+    font-weight: 500;
+  `};
 `;
 
 export const NewPage = styled.div`
@@ -101,5 +118,13 @@ export const NewPage = styled.div`
   svg {
     font-size: 26px;
     margin-right: 12px;
+  }
+`;
+
+export const PageOptions = styled(Flex)`
+  opacity: 0;
+
+  ${SidebarItemWrapper}:hover &{
+    opacity: 1;
   }
 `;

@@ -1,16 +1,17 @@
 import useSidebar from 'hooks/useSidebar';
-import React from 'react';
+import React, { HTMLAttributes } from 'react';
 import { SidebarItemWrapper } from './SideBar.styles';
 
-interface Props {
+export interface Props extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactChild
+	isActive?: boolean
 }
 
-const SidebarItem = ({ children }: Props) => {
+const SidebarItem = ({ children, ...props }: Props) => {
 	const { isCollapsed } = useSidebar();
 
 	return (
-		<SidebarItemWrapper isCollapsed={isCollapsed} >
+		<SidebarItemWrapper {...props} isCollapsed={isCollapsed} >
 			{children}
 		</SidebarItemWrapper>
 	);

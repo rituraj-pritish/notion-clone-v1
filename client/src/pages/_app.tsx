@@ -25,6 +25,8 @@ function MyApp({ Component, pageProps }: AppProps) {
 		checkToken();
 	}, []);
 
+	if(isLoading) return null;
+
 	if(!isLoading && isAuthenticated && PUBLIC_ROUTES.includes(router.asPath)) {
 		router.replace('/dashboard');
 	} else if (!isLoading && !isAuthenticated && !PUBLIC_ROUTES.includes(router.asPath)) {
