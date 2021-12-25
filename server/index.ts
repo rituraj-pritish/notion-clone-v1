@@ -1,5 +1,7 @@
 import 'reflect-metadata';
 
+import cookieParser from 'cookie-parser';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
 import { 
@@ -27,6 +29,19 @@ async function startApolloServer() {
 		});
 	
 		const app = express();
+
+		app.use(cookieParser());
+
+		const whiteList = [process.env.CLIENT_BASE_URL!];
+
+		if(process.env.NODE_ENV === 'development') {
+			whiteList.push('https://studio.apollographql.com');
+		}
+
+		app.use(cors({
+			origin: whiteList,
+			credentials: true
+		}));
 		const httpServer = http.createServer(app);
 	
 		const server = new ApolloServer({
@@ -35,24 +50,25 @@ async function startApolloServer() {
 			plugins: [
 				ApolloServerPluginDrainHttpServer({ httpServer })
 			],
-			context: async ({ req }) => {
-				const token = req.headers.authorization || '';
-				
+			context: async ({ req, res }) => {
+				const token = req.cookies.auth_token;
+
+				if(!token) return { res };
+
 				try {
-					const {
-						id
-					} = await jwt.verify(
-						token, 
-						process.env.JWT_SECRET,
-					);
+					const {	id } = await jwt.verify(token, process.env.JWT_SECRET);
 					
 					return {
-						userId: id
+						userId: id,
+						res
 					};
 
 				} catch (error) {
 					//todo handle error
-					console.log('err', error);
+					console.log('context err', error);
+					return {
+						res
+					};
 				}
 			}
 		});

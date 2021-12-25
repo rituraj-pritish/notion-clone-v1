@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { FiChevronsRight } from 'react-icons/fi';
 import { AiOutlineMenu } from 'react-icons/ai';
 
-import { IconButton } from 'atoms';
+import { Button, IconButton } from 'atoms';
 import useSidebarCollapsed from 'hooks/useSidebar';
 import { RootWrapper } from './Navbar.styles';
+import AUTH_TOKEN from 'enums/authToken';
 
 const Navbar = () => {
 	const { isCollapsed, toggleCollapsed } = useSidebarCollapsed();
@@ -23,6 +24,9 @@ const Navbar = () => {
 					</IconButton>
 				)}
 			</div>
+			<Button onClick={() => localStorage.removeItem(AUTH_TOKEN)}>
+				Logout
+			</Button>
 		</RootWrapper>
 	);
 };

@@ -1,24 +1,20 @@
 import { AuthenticationError } from 'apollo-server-errors';
-import { Arg, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { User, UserModel } from '../../models/user.model';
 import { UserInput } from './user.types';
-
-@ObjectType()
-class UserWithToken extends User {
-	@Field()
-		token: string;
-}
+import { Context } from 'apollo-server-core';
 
 @Resolver()
 export class UsersResolver {
-	@Query(() => UserWithToken)
+	@Query(() => User)
 	async signin(
 		@Arg('email') email: string,
-		@Arg('password') password: string
-	): Promise<UserWithToken> {
+		@Arg('password') password: string,
+		@Ctx() context: Context
+	): Promise<User> {
 		const user = await UserModel.findOne({ email });
 
 		if(!user) throw new AuthenticationError('Invalid Credentials');
@@ -34,11 +30,11 @@ export class UsersResolver {
 			process.env.JWT_SECRET!,
 			{ expiresIn: '10days' }
 		);
+		
+		context.res.header('Access-Control-Allow-Origin', process.env.CLIENT_BASE_URL);
+		context.res.cookie('auth_token', token);
 
-		return {
-			...user._doc,
-			token
-		};
+		return user;
 	}
 
   @Mutation(() => User) 

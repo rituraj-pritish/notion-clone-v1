@@ -1,21 +1,26 @@
 import AUTH_TOKEN from 'enums/authToken';
-import { request, RequestDocument } from 'graphql-request';
+import { GraphQLClient, RequestDocument } from 'graphql-request';
 
 const URL = process.env.API_URL;
 
 export default async <T, V>(graphQlRequest: RequestDocument, variables: V): Promise<T> => {
 	let token: string = '';
 
+	const graphQLClient = new GraphQLClient(URL!, {
+		credentials: 'include',
+	});
+
 	if(typeof window !== 'undefined') {
 		token = localStorage.getItem(AUTH_TOKEN) || '';
 	}
-	
+
 	const requestHeaders = {
 		authorization: token
 	};
 	
 	try {
-		const data = await request<T>(URL!, graphQlRequest, variables, requestHeaders);
+		const data = await graphQLClient.request<T>(
+			graphQlRequest, variables, requestHeaders);
 		return Object.values(data)[0];
 	} catch (error) {
 		return error;

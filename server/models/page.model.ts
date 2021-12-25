@@ -1,21 +1,14 @@
 import { getModelForClass, prop } from '@typegoose/typegoose';
-import { Field, ObjectType, ID } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 
 @ObjectType()
-export class User {
+export class Page {
   @Field(() => ID)
   	id: string;
 
   @Field()
-  @prop({ type: String, required: true })
-  	email: string;
-
-  @Field()
-  @prop({ type: String, required: true })
+  @prop({ type: String })
   	name: string;
-
-  @prop({ type: String, required: true })
-  	password: string;
 
   @Field()
   @prop({ required: true, default: Date.now })
@@ -26,4 +19,4 @@ export class User {
   	updatedAt: Date;
 }
 
-export const UserModel = getModelForClass(User);
+export const PageModel = getModelForClass(Page);

@@ -19,8 +19,10 @@ const LoginForm = () => {
 		() => api<SignInResponse, SignInInput>(SIGN_IN, { email, password }),
 		{
 			onSuccess: (data) => {
-				localStorage.setItem(AUTH_TOKEN, data.token);
-				router.replace('/dashboard');
+				if(data.token) {
+					localStorage.setItem(AUTH_TOKEN, data.token);
+				}
+				// router.replace('/dashboard');
 			}
 		}
 	);

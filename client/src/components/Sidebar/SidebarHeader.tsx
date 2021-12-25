@@ -1,15 +1,13 @@
 import { FiChevronsLeft } from 'react-icons/fi';
 
 import { IconButton } from 'atoms';
-import useAuthentication from 'hooks/useAuthentication';
 import { SidebarHeaderWrapper } from './SideBar.styles';
 import useSidebar from 'hooks/useSidebar';
 import SidebarItem from './SidebarItem';
 
 const SidebarHeader = () => {
-	const { user } = useAuthentication();
 	const { isCollapsed, toggleCollapsed } = useSidebar();
-
+	const user = { name: 'Shubham' };
 	if(!user) return null;
 
 	return (
