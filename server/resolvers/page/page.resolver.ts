@@ -1,36 +1,75 @@
 import { Page, PageModel } from '../../models/page.model';
 import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import { WorkspaceModel } from '../../models/workspace.model';
-import { CreatePageInput } from './page.types';
+import { CreatePageInput, UpdatePageInput } from './page.types';
+import Context from '../../types/Context';
 
 @Resolver()
 export class PageResolver {
-	@Query(() => Page)
-	async getPage(
-		@Arg('id') id: string
-	): Promise<Page | null> {
-		const page = await PageModel.findById(id);
-
-		return page;
+	@Query(() => [Page])
+	async getPages(
+		@Arg('ids') ids: string
+	): Promise<Page[]> {
+		const commaSeparatedIds = ids.split(',');
+		const pages = await PageModel.find({ _id: { $in: commaSeparatedIds } });
+		
+		return pages;
 	}
 
   @Mutation(() => Page) 
 	async createPage(
     @Arg('createPageInput') {
     	name,
-    	icon
+    	icon,
+    	hierarchy
     }: CreatePageInput,
-		@Ctx() { workspace }
+		@Ctx() { workspace }: Context
 	): Promise<Page> {
 		const page = await PageModel.create({
 			name,
-			icon
+			icon,
+			hierarchy: {
+				root: hierarchy?.root || null,
+				parent: hierarchy?.parent || null,
+				children: hierarchy?.children || []
+			}
 		});
+
 		const space = await WorkspaceModel.findById(workspace);
 
-		await space?.pages.push(page.id);
+		if(!hierarchy) {
+			await space?.update({
+				pages: [...space.pages, page.id]
+			});
+		}
+
+		if(hierarchy?.parent) {
+			const parentPage = await PageModel.findById(hierarchy.parent);
+			await parentPage?.update({
+				hierarchy: {
+					...parentPage.hierarchy._doc,
+					children: [...parentPage.hierarchy.children, page.id]
+				}
+			});
+		}
+
 		await space?.save();
 
 		return page;
 	}
+
+	@Mutation(() => Page)
+  async updatePage(
+		@Arg('updatePageInput') {
+			id,
+			icon
+		}: UpdatePageInput
+  ): Promise<Page> {
+  	const page = await PageModel.findById(id);
+  	await page?.update({
+  		icon
+  	});
+  	await page?.save();
+  	return page;
+  }
 }

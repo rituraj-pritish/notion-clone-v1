@@ -7,7 +7,6 @@ import SidebarHeader from './SidebarHeader';
 import useSidebar from 'hooks/useSidebar';
 import { useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
-import SidebarPage from './SidebarPages/SidebarPage';
 import SidebarPages from './SidebarPages';
 
 const NewPageFooter = () => {

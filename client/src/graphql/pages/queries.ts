@@ -1,11 +1,15 @@
 import { gql } from 'graphql-request';
 
 export const GET_PAGES = gql`
-  query GetPage($id: String!) {
-    getPage(id: $id) {
+  query GetPages($ids: String!) {
+    getPages(ids: $ids) {
       id
       name
       icon
+      hierarchy {
+        root
+        children
+      }
     }
   }
 `;

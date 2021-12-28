@@ -1,14 +1,14 @@
 import { AuthenticationError } from 'apollo-server-errors';
-import { Arg, Ctx, Field, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
 import { User, UserModel } from '../../models/user.model';
 import { UserInput } from './user.types';
-import { Context } from 'apollo-server-core';
+import Context from '../../types/Context';
 import { WorkspaceModel } from '../../models/workspace.model';
 
-const signToken = user => {
+const signToken = (user: User) => {
 	return jwt.sign(
 		{ 
 			user: user.id,
@@ -49,7 +49,7 @@ export class UsersResolver {
 			email,
 			name
 		}: UserInput,
-		@Ctx() ctx
+		@Ctx() ctx: Context
 	): Promise<User> {
 		const existingUser = await UserModel.findOne({ email });
 
@@ -75,7 +75,7 @@ export class UsersResolver {
 	}
 
 	@Query(() => Boolean)
-  async logout(@Ctx() ctx): Promise<boolean> {
+  async logout(@Ctx() ctx: Context): Promise<boolean> {
   	ctx.res.clearCookie('auth_token');
   	return true;
   }

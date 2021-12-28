@@ -10,8 +10,9 @@ import {
 import express from 'express';
 import http from 'http';
 import { buildSchema } from 'type-graphql';
-import jwt from 'jsonwebtoken';
+import jwt, { Secret } from 'jsonwebtoken';
 
+import Context from './types/Context';
 import resolvers from './resolvers';
 
 dotenv.config();
@@ -50,7 +51,7 @@ async function startApolloServer() {
 			plugins: [
 				ApolloServerPluginDrainHttpServer({ httpServer })
 			],
-			context: async ({ req, res }) => {
+			context: async ({ req, res }): Promise<Partial<Context>> => {
 				const token = req.headers.authorization || req.cookies.auth_token;
 
 				res.header('Access-Control-Allow-Origin', process.env.CLIENT_BASE_URL);
@@ -58,7 +59,8 @@ async function startApolloServer() {
 				if(!token) return { res };
 
 				try {
-					const {	user, workspace } = await jwt.verify(token, process.env.JWT_SECRET);
+					const secret: Secret = process.env.JWT_SECRET!;
+					const {	user, workspace } = await jwt.verify(token, secret);
 
 					return {
 						user,

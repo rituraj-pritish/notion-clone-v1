@@ -13,11 +13,6 @@
     "typeRoots" : ["./node_modules/@types", "./src/@types"],
     "strictPropertyInitialization": false,
     "sourceMap": true,
-    "baseUrl": ".",
-    "paths": {
-      "resolvers/*": ["./resolvers/*"],
-      "models/*": ["./models/*"]
-    },
     "outDir": "dist"
   },
   "include": [

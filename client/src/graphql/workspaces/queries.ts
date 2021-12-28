@@ -7,6 +7,10 @@ export const GET_WORKSPACE = gql`
         id
         name
         icon
+        hierarchy {
+          root
+          children
+        }
       }
     }
   }

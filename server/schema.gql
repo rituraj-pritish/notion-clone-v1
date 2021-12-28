@@ -4,7 +4,8 @@
 # -----------------------------------------------
 
 input CreatePageInput {
-  icon: String!
+  hierarchy: HierarchyInput
+  icon: String
   name: String!
 }
 
@@ -13,13 +14,27 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
+type Hierarchy {
+  children: [ID!]
+  parent: ID
+  root: ID
+}
+
+input HierarchyInput {
+  children: [ID!]
+  parent: ID
+  root: ID
+}
+
 type Mutation {
   createPage(createPageInput: CreatePageInput!): Page!
   signup(newUserInput: UserInput!): User!
+  updatePage(updatePageInput: UpdatePageInput!): Page!
 }
 
 type Page {
   createdAt: DateTime!
+  hierarchy: Hierarchy!
   icon: String
   id: ID!
   name: String!
@@ -27,10 +42,17 @@ type Page {
 }
 
 type Query {
-  getPage(id: String!): Page!
+  getPages(ids: String!): [Page!]!
   getWorkspace: Workspace!
   logout: Boolean!
   signin(email: String!, password: String!): User!
+}
+
+input UpdatePageInput {
+  children: [ID!]
+  icon: String
+  id: ID!
+  parent: ID
 }
 
 type User {

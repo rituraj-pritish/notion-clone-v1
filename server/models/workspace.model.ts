@@ -1,4 +1,4 @@
-import { getModelForClass, plugin, prop } from '@typegoose/typegoose';
+import { getModelForClass, plugin, prop, Ref } from '@typegoose/typegoose';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { Page } from './page.model';
 import autoPopulate from 'mongoose-autopopulate';
@@ -10,8 +10,8 @@ export class Workspace {
   	id: string;
 
   @Field(() => [Page])
-  @prop({ type: [Page], autopopulate: true, ref: Page })
-  	pages: Page[];
+  @prop({ autopopulate: true, ref: Page })
+  	pages: Ref<Page>[];
 }
 
 export const WorkspaceModel = getModelForClass(Workspace);
