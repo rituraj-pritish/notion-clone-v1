@@ -1,69 +1,57 @@
 import { useRouter } from 'next/router';
-import { AiOutlineEllipsis } from 'react-icons/ai';
 import { BsTriangleFill } from 'react-icons/bs';
 import { FiFileText } from 'react-icons/fi';
 
 import { Flex, IconButton, Space } from 'atoms';
-import { PageOptions } from './SidebarPage.styles';
+import { Left, PageName, PageOptions } from './SidebarPage.styles';
 import SidebarItem from '../SidebarItem';
 import AddChildPage from './AddChildPage';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import api from 'api';
 import { GET_PAGES } from 'graphql/pages/queries';
+import { Page } from 'types/page';
+import SidebarPageMoreOptions from './SidebarPageMoreOptions';
 
-interface Hierarchy {
-	root: string
-	parent: string
-	children: string[]
-}
-interface Props {
-	id: string
-	name: string
-	icon?: string
-	hierarchy: Hierarchy
+interface Props extends Page {
+	depth?: number
 }
 
 const SidebarPage = ({
 	id,
 	icon,
 	name,
-	hierarchy
+	hierarchy,
+	depth = 0
 }: Props) => {
+	const { refetch } = useQuery<Page[]>(
+		[id, 'children'],
+		() => api(GET_PAGES, { ids: hierarchy.children.join(',') }),
+		{ enabled: false }
+	);
 	const router = useRouter();
 	const { pageId } = router.query;
 
-	const [children, setChildren] = useState<Array | null>(null);
+	const [children, setChildren] = useState<Page[] | null>(null);
 
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
 	const toggleCollapsed = () => setIsCollapsed(state => !state);
 
-	const getChildren = async (reqs) => {
-		// try {
-		// 	const ch = await Promise.all(reqs);
-		// 	return ch;
-		// } catch (error) {
-		// 	console.log('er', error);
-		// }
-		Promise.all(reqs).then(res => setChildren(res.flat()));
-	};
-
 	useEffect(() => {
-		if(!isCollapsed) {
+		if(!isCollapsed && !children) {
 			if(hierarchy.children.length === 0) setChildren([]);
 
-			const reqs = hierarchy.children
-				.map(id => api(GET_PAGES, {
-					ids: hierarchy.children.join(',')
-				}));
-			
-			setChildren(getChildren(reqs));
+			refetch()
+				.then(res => {
+					if(res.data) setChildren(res.data);
+				});
 		}
+	// eslint-disable-next-line
 	}, [isCollapsed]);
 
 	const isActive = id === pageId;
-	console.log('ch', children);
+	
 	return (
 		<>
 			<SidebarItem 
@@ -74,8 +62,9 @@ const SidebarPage = ({
 					justifyContent='space-between'
 					px={12}
 					py={1}
+					pl={depth ? (depth * 26) + 12 : 12}
 				>
-					<Flex alignItems='center'>
+					<Left>
 						<Space size={4}>
 							<IconButton
 								size='small'
@@ -93,20 +82,25 @@ const SidebarPage = ({
 							<IconButton size='small' tooltip='Change icon'>
 								{icon || <FiFileText/>}
 							</IconButton>
-							<div>{name}</div>
+							<PageName>{name}</PageName>
 						</Space>
-					</Flex>
-					<PageOptions>
+					</Left>
+					{/* <PageOptions>
 						<Space size={4}>
-							<IconButton size='small' tooltip='Delete, duplicate and more...'>
-								<AiOutlineEllipsis/>
-							</IconButton>
+							<SidebarPageMoreOptions/>
 							<AddChildPage id={id} root={hierarchy?.root}/>
 						</Space>
-					</PageOptions>
+					</PageOptions> */}
 				</Flex>
 			</SidebarItem>
-			{children && Array.isArray(children) && children.map(page => <SidebarPage {...page} />)}
+			{children && !isCollapsed && 
+				Array.isArray(children) && children.map(page => 
+				<SidebarPage
+					key={page.id}
+					depth={depth + 1}
+					{...page}
+				/>
+			)}
 		</>
 	);
 };
