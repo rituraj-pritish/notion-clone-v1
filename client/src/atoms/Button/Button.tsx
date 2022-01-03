@@ -18,7 +18,7 @@ export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	bold?: boolean 
 }
 
-const Button = ({
+const Button = React.forwardRef(({
 	variant = 'secondary',
 	size = 'small',
 	children,
@@ -28,7 +28,7 @@ const Button = ({
 	ghost,
 	bold,
 	...otherProps
-}: Props): JSX.Element => {
+}: Props, ref): JSX.Element => {
 
 	const button = (
 		<StyledButton
@@ -36,6 +36,7 @@ const Button = ({
 			size={size}
 			ghost={ghost}
 			bold={bold}
+			ref={ref}
 			{...otherProps}
 		>
 			{LeftIcon && 
@@ -59,6 +60,6 @@ const Button = ({
 	);
 
 	return button;
-};
+});
 
 export default Button;
