@@ -4,7 +4,7 @@ import { BsThreeDots } from 'react-icons/bs';
 import IconButton from './index';
 
 export default {
-	title: 'iconButton',
+	title: 'Atoms/iconButton',
 	component: IconButton
 } as ComponentMeta<typeof IconButton>;
 

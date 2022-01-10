@@ -33,7 +33,7 @@ export const StyledButton = styled.button<Props & StyleProps>`
   font-size: 24px;
   max-height: 32px;
   max-width: 32px;
-  color: #5C5A55;
+  color: ${theme.iconButton};
   ${({ size, isEmoji }) => getSizeStyles(size!, isEmoji)};
 
   &:hover {

@@ -15,6 +15,14 @@ const getVariantStyles = (variant: Variant) => {
 		}
 	`;
 
+	if(variant === 'tertiary') return css`
+		color: #878682;
+		
+		&:hover {
+			background: ${colors.buttonHover};;
+		}
+	`;
+
 	return css`
 		background: transparent;
 		color: ${colors.text};

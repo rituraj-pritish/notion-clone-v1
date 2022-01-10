@@ -7,6 +7,18 @@ interface Props extends TooltipProps {
 	children: React.ReactElement 
 }
 
+const overlayStyle: React.CSSProperties = {
+	position: 'absolute'
+};
+const overlayInnerStyle: React.CSSProperties = {
+	background: 'black',
+	color: 'white',
+	width: 'fit-content',
+	padding: '4px 12px',
+	fontSize: '14px',
+	borderRadius: theme.borderRadius
+};
+
 const Tooltip = ({ children, ...props }: Props) => {
 	return (
 		<RcTooltip 
@@ -14,17 +26,8 @@ const Tooltip = ({ children, ...props }: Props) => {
 			destroyTooltipOnHide 
 			mouseEnterDelay={0.5}
 			mouseLeaveDelay={0}
-			overlayStyle={{
-				position: 'absolute'
-			}}
-			overlayInnerStyle={{
-				background: 'black',
-				color: 'white',
-				width: 'fit-content',
-				padding: '4px 12px',
-				fontSize: '14px',
-				borderRadius: theme.borderRadius
-			}} 
+			overlayStyle={overlayStyle}
+			overlayInnerStyle={overlayInnerStyle} 
 			{...props}
 		>
 			{children}

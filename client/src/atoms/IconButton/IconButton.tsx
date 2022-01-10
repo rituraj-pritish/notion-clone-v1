@@ -10,13 +10,13 @@ export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	tooltip?: string | React.ReactElement
 }
 
-const IconButton = ({
+const IconButton = React.forwardRef(({
 	children,
 	size = 'medium',
 	tooltip,
 	onClick,
 	...otherProps
-}: Props): JSX.Element => {
+}: Props, ref): JSX.Element => {
 	const iconButton = (
 		<StyledButton 
 			size={size} 
@@ -25,6 +25,7 @@ const IconButton = ({
 				e.stopPropagation();
 				if(onClick) onClick(e);
 			}}
+			ref={ref}
 			{...otherProps}
 		>
 			{children}
@@ -38,6 +39,6 @@ const IconButton = ({
 	);
 
 	return iconButton;
-};
+});
 
 export default IconButton;

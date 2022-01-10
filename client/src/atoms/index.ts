@@ -7,6 +7,7 @@ import Link from './Link';
 import Popover from './Popover';
 import Space from './Space';
 import Tooltip from './Tooltip';
+import Modal from './Modal';
 
 export {
 	Button,
@@ -15,6 +16,7 @@ export {
 	Link,
 	IconButton,
 	Input,
+	Modal,
 	Popover,
 	Space,
 	Tooltip,

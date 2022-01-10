@@ -19,7 +19,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
 
 	if(token) {
 		const data = await api(GET_WORKSPACE, {}, token);
-
+		
 		return {
 			redirect: {
 				destination: `${data.pages[0].id}`,

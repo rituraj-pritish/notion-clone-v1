@@ -1,7 +1,7 @@
 import { darken } from 'polished';
 import styled, { css } from 'styled-components';
 import { ResizableBox } from 'react-resizable';
-import { Flex } from 'atoms';
+import theme from 'theme';
 
 const greyHoverBg = '#efefef';
 const hoverBg = darken(0.05, '#F7F6F3');
@@ -32,9 +32,7 @@ export const Content = styled.div<RootWrapperProps>`
     width: ${width + 'px'};
     position: absolute;
     height: 80%;
-    box-shadow: rgb(15 15 15 / 5%) 0px 0px 0px 1px, 
-      rgb(15 15 15 / 10%) 0px 3px 6px, 
-      rgb(15 15 15 / 20%) 0px 9px 24px;
+    box-shadow: ${theme.boxShadow}
     top: 50%;
   `};
 `;

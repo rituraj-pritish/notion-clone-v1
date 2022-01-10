@@ -3,7 +3,7 @@ import { BsImageFill } from 'react-icons/bs';
 import Button from './index';
 
 export default {
-	title: 'button',
+	title: 'Atoms/button',
 	component: Button
 } as ComponentMeta<typeof Button>;
 
