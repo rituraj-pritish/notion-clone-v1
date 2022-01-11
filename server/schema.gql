@@ -28,22 +28,25 @@ input HierarchyInput {
 
 type Mutation {
   createPage(createPageInput: CreatePageInput!): Page!
+  deletePage(id: String!): Boolean!
   signup(newUserInput: UserInput!): User!
   updatePage(updatePageInput: UpdatePageInput!): Page!
 }
 
 type Page {
   createdAt: DateTime!
+  deletedAt: DateTime
   hierarchy: Hierarchy!
   icon: String
   id: ID!
   name: String!
   updatedAt: DateTime!
+  workspace: ID!
 }
 
 type Query {
   getPages(ids: String!): [Page!]!
-  getWorkspace: Workspace!
+  getWorkspace: [Page!]!
   logout: Boolean!
   signin(email: String!, password: String!): User!
 }
@@ -69,9 +72,4 @@ input UserInput {
   email: String!
   name: String!
   password: String!
-}
-
-type Workspace {
-  id: ID!
-  pages: [Page!]!
 }

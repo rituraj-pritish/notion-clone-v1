@@ -1,9 +1,10 @@
 import { FiPlusSquare } from 'react-icons/fi';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { IconButton } from 'atoms';
 import api from 'api';
 import { CREATE_PAGE } from 'graphql/pages';
+import { Page } from 'types/page';
 
 interface Props {
 	id: string
@@ -11,8 +12,10 @@ interface Props {
 }
 
 const AddChildPage = ({ id, root }: Props) => {
+	const queryClient = useQueryClient();
+	
 	const { mutateAsync } = useMutation(
-		() => api(CREATE_PAGE, {
+		() => api<Page>(CREATE_PAGE, {
 			createPageInput: {
 				name: 'Untitled',
 				hierarchy: {
@@ -20,7 +23,18 @@ const AddChildPage = ({ id, root }: Props) => {
 					parent: id
 				}
 			}
-		})
+		}),
+		{
+			onSuccess: (newPage) => {
+				queryClient.setQueryData<Page[] | undefined>(
+					[id, 'children'],
+					prevPages => {
+						if(!prevPages) return; 
+						return prevPages.concat(newPage);
+					}
+				);
+			}
+		}
 	);
 
 	return (

@@ -6,6 +6,8 @@ export const SIGN_IN = gql`
       name
       id
       email
+      workspaces
+      currentWorkspace
     }
   }
 `;

@@ -2,7 +2,7 @@ import { GraphQLClient, RequestDocument } from 'graphql-request';
 
 const URL = process.env.API_URL;
 
-export default async <T, V>(
+export default async <T, V = {}>(
 	graphQlRequest: RequestDocument, 
 	variables?: V,
 	token?: string

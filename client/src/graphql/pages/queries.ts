@@ -9,6 +9,7 @@ export const GET_PAGES = gql`
       hierarchy {
         root
         children
+        parent
       }
     }
   }

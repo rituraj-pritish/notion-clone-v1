@@ -7,6 +7,7 @@ import { User, UserModel } from '../../models/user.model';
 import { UserInput } from './user.types';
 import Context from '../../types/Context';
 import { WorkspaceModel } from '../../models/workspace.model';
+import { PageModel } from '../../models/page.model';
 
 const signToken = (user: User) => {
 	return jwt.sign(
@@ -14,7 +15,7 @@ const signToken = (user: User) => {
 			user: user.id,
 			name: user.name,
 			email: user.email,
-			workspace: user.currentWorkspace || user.workspaces[0]
+			workspace: user.currentWorkspace
 		},
 		process.env.JWT_SECRET!,
 		{ expiresIn: '10days' }
@@ -57,12 +58,25 @@ export class UsersResolver {
 
 		const hashed = await bcrypt.hash(password, 10);
 
-		const workspace = await WorkspaceModel.create({});
-
 		const user = await UserModel.create({
 			email,
 			name,
-			password: hashed,
+			password: hashed
+		});
+
+		const workspace = await WorkspaceModel.create({
+			users: [{
+				user: user.id,
+				role: 'admin'
+			}]
+		});
+
+		await PageModel.create({
+			name: 'Getting Started',
+			workspace: workspace.id
+		});
+
+		await user.update({
 			workspaces: [workspace.id],
 			currentWorkspace: workspace.id
 		});

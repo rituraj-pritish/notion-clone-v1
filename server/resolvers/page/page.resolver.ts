@@ -1,6 +1,5 @@
 import { Page, PageModel } from '../../models/page.model';
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import { WorkspaceModel } from '../../models/workspace.model';
+import { Arg, Ctx, Mutation, Query, Resolver, ID } from 'type-graphql';
 import { CreatePageInput, UpdatePageInput } from './page.types';
 import Context from '../../types/Context';
 
@@ -11,7 +10,9 @@ export class PageResolver {
 		@Arg('ids') ids: string
 	): Promise<Page[]> {
 		const commaSeparatedIds = ids.split(',');
-		const pages = await PageModel.find({ _id: { $in: commaSeparatedIds } });
+		const pages = await PageModel.find({ 
+			$and: [{ _id: { $in: commaSeparatedIds } },  { deletedAt: undefined }]
+		});
 		
 		return pages;
 	}
@@ -32,16 +33,9 @@ export class PageResolver {
 				root: hierarchy?.root || null,
 				parent: hierarchy?.parent || null,
 				children: hierarchy?.children || []
-			}
+			},
+			workspace
 		});
-
-		const space = await WorkspaceModel.findById(workspace);
-
-		if(!hierarchy) {
-			await space?.update({
-				pages: [...space.pages, page.id]
-			});
-		}
 
 		if(hierarchy?.parent) {
 			const parentPage = await PageModel.findById(hierarchy.parent);
@@ -52,8 +46,6 @@ export class PageResolver {
 				}
 			});
 		}
-
-		await space?.save();
 
 		return page;
 	}
@@ -72,4 +64,12 @@ export class PageResolver {
   	await page?.save();
   	return page;
   }
+
+	@Mutation(() => Boolean)
+	async deletePage(@Arg('id') id: string) {
+		await PageModel.findByIdAndUpdate(id, {
+			deletedAt: new Date()
+		});
+		return true;
+	}
 }

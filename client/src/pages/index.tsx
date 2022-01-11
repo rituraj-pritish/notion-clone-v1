@@ -3,6 +3,7 @@ import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'ne
 import { NoAuthNavbar } from 'components';
 import api from 'api';
 import { GET_WORKSPACE } from 'graphql/workspaces';
+import { Page } from 'types/page';
 
 const Home: NextPage = () => {
 	return (
@@ -18,11 +19,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
 	const token = ctx.req.cookies.auth_token;
 
 	if(token) {
-		const data = await api(GET_WORKSPACE, {}, token);
+		const data = await api<Page[]>(GET_WORKSPACE, {}, token);
 		
 		return {
 			redirect: {
-				destination: `${data.pages[0].id}`,
+				destination: `${data[0].id}`,
 				permanent: false
 			} 
 		};

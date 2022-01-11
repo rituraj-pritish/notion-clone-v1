@@ -8,13 +8,39 @@ import useSidebar from 'hooks/useSidebar';
 import { useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
 import SidebarPages from './SidebarPages';
+import { useMutation, useQueryClient } from 'react-query';
+import { CREATE_PAGE } from 'graphql/pages';
+import api from 'api';
+import { Page } from 'types/page';
 
 const NewPageFooter = () => {
+	const queryClient = useQueryClient();
+	
+	const { mutateAsync } = useMutation(
+		() => api<Page>(CREATE_PAGE, {
+			createPageInput: {
+				name: 'Untitled',
+				hierarchy: {
+					root: null,
+					parent: null
+				}
+			}
+		}),
+		{
+			onSuccess: newPage => {
+				queryClient.setQueryData<Page[]>(
+					'rootPages', 
+					prevPages => prevPages!.concat(newPage)
+				);
+			}
+		}
+	);
+
 	return (
 		<SidebarItem>
-			<NewPage>
+			<NewPage onClick={mutateAsync}>
 				<BsPlus/>
-							New page
+					New page
 			</NewPage>
 		</SidebarItem>
 	);

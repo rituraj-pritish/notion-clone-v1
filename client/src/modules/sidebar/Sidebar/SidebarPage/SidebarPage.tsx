@@ -1,9 +1,8 @@
 import { useRouter } from 'next/router';
 import { BsTriangleFill } from 'react-icons/bs';
-import { FiFileText } from 'react-icons/fi';
 
 import { Flex, IconButton, Space } from 'atoms';
-import { Left, PageName, PageOptions } from './SidebarPage.styles';
+import { Left, PageName } from './SidebarPage.styles';
 import SidebarItem from '../SidebarItem';
 import AddChildPage from './AddChildPage';
 import { useEffect, useState } from 'react';
@@ -12,6 +11,8 @@ import api from 'api';
 import { GET_PAGES } from 'graphql/pages/queries';
 import { Page } from 'types/page';
 import SidebarPageMoreOptions from './SidebarPageMoreOptions';
+import ChangeIcon from 'shared/ChangeIcon';
+import useSidebar from 'hooks/useSidebar';
 
 interface Props extends Page {
 	depth?: number
@@ -30,10 +31,11 @@ const SidebarPage = ({
 		{ enabled: false }
 	);
 	const router = useRouter();
+	const { width } = useSidebar();
 	const { pageId } = router.query;
 
 	const [children, setChildren] = useState<Page[] | null>(null);
-
+	const [isHovering, setIsHovering] = useState<boolean>(false);
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
 	const toggleCollapsed = () => setIsCollapsed(state => !state);
@@ -57,6 +59,8 @@ const SidebarPage = ({
 			<SidebarItem 
 				isActive={isActive} 
 				onClick={() => router.push(`/${id}`)}
+				onMouseEnter={() => setIsHovering(true)}
+				onMouseLeave={() => setIsHovering(false)}
 			>
 				<Flex
 					justifyContent='space-between'
@@ -79,18 +83,20 @@ const SidebarPage = ({
 									size={10}
 								/>
 							</IconButton>
-							<IconButton size='small' tooltip='Change icon'>
-								{icon || <FiFileText/>}
-							</IconButton>
-							<PageName>{name}</PageName>
+							<ChangeIcon icon={icon} pageId={id}/>
+							<PageName style={{
+								width: isHovering ? `${width - 131}px` : undefined
+							}}
+							>{name}
+							</PageName>
 						</Space>
 					</Left>
-					{/* <PageOptions>
+					{isHovering && (
 						<Space size={4}>
-							<SidebarPageMoreOptions/>
+							<SidebarPageMoreOptions pageId={id} parent={hierarchy.parent}/>
 							<AddChildPage id={id} root={hierarchy?.root}/>
 						</Space>
-					</PageOptions> */}
+					)}
 				</Flex>
 			</SidebarItem>
 			{children && !isCollapsed && 

@@ -18,11 +18,11 @@ export class User {
   	password: string;
 
   @Field(() => [ID])
-  @prop({ type: [String], required: true })
+  @prop({ type: [String] })
   	workspaces: string[];
   
   @Field(() => ID)
-  @prop({ type: String, required: true })
+  @prop({ type: String })
   currentWorkspace: string;
 
   @Field()
