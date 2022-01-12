@@ -6,6 +6,7 @@ import Input from './Input';
 import Link from './Link';
 import Popover from './Popover';
 import Space from './Space';
+import Spinner from './Spinner';
 import Tooltip from './Tooltip';
 import Modal from './Modal';
 
@@ -19,5 +20,6 @@ export {
 	Modal,
 	Popover,
 	Space,
+	Spinner,
 	Tooltip,
 };

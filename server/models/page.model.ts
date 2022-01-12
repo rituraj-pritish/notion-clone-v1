@@ -38,6 +38,10 @@ export class Page {
   @prop({ type: mongoose.Types.ObjectId, required: true })
   	workspace: string;
 
+  @Field()
+  @prop({ type: Boolean, default: false })
+  	favorite: boolean;
+
   @Field({ nullable: true })
   @prop({ type: Date })
   	deletedAt: Date;

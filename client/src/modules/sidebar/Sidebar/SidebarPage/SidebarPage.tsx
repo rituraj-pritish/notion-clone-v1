@@ -1,12 +1,12 @@
 import { useRouter } from 'next/router';
 import { BsTriangleFill } from 'react-icons/bs';
+import { useEffect, useState } from 'react';
+import { useQuery } from 'react-query';
 
 import { Flex, IconButton, Space } from 'atoms';
 import { Left, PageName } from './SidebarPage.styles';
 import SidebarItem from '../SidebarItem';
 import AddChildPage from './AddChildPage';
-import { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
 import api from 'api';
 import { GET_PAGES } from 'graphql/pages/queries';
 import { Page } from 'types/page';
@@ -19,12 +19,16 @@ interface Props extends Page {
 }
 
 const SidebarPage = ({
-	id,
-	icon,
-	name,
-	hierarchy,
-	depth = 0
+	depth = 0,
+	...page
 }: Props) => {
+	const {
+		id,
+		icon,
+		name,
+		hierarchy,
+	}: Page = page;
+
 	const { refetch } = useQuery<Page[]>(
 		[id, 'children'],
 		() => api(GET_PAGES, { ids: hierarchy.children.join(',') }),
@@ -54,6 +58,7 @@ const SidebarPage = ({
 
 	const isActive = id === pageId;
 	
+	const showNestedElements = children && !isCollapsed && Array.isArray(children);
 	return (
 		<>
 			<SidebarItem 
@@ -83,9 +88,14 @@ const SidebarPage = ({
 									size={10}
 								/>
 							</IconButton>
-							<ChangeIcon icon={icon} pageId={id}/>
+							<ChangeIcon
+								icon={icon}
+								pageId={id}
+								haveChildren={hierarchy.children?.length > 0}
+							/>
 							<PageName style={{
-								width: isHovering ? `${width - 131}px` : undefined
+								width: isHovering ? `${width - 131}px` : undefined,
+								color: isActive ? 'black' : undefined
 							}}
 							>{name}
 							</PageName>
@@ -93,14 +103,17 @@ const SidebarPage = ({
 					</Left>
 					{isHovering && (
 						<Space size={4}>
-							<SidebarPageMoreOptions pageId={id} parent={hierarchy.parent}/>
-							<AddChildPage id={id} root={hierarchy?.root}/>
+							<SidebarPageMoreOptions {...page}/>
+							<AddChildPage
+								nestedPages={hierarchy.children}
+								id={id}
+								root={hierarchy?.root}
+							/>
 						</Space>
 					)}
 				</Flex>
 			</SidebarItem>
-			{children && !isCollapsed && 
-				Array.isArray(children) && children.map(page => 
+			{showNestedElements && children.map(page => 
 				<SidebarPage
 					key={page.id}
 					depth={depth + 1}

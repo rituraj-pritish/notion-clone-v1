@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FiFileText } from 'react-icons/fi';
+import { AiOutlineFile } from 'react-icons/ai';
 import { emojiIndex } from 'emoji-mart';
 import { VscSmiley } from 'react-icons/vsc';
 import _random from 'lodash/random';
@@ -17,12 +18,16 @@ const getRandomEmoji = () => {
 
 interface Props {
 	icon?: string,
-	pageId: string
+	iconSize?: 'small' | 'medium',
+	pageId: string,
+	haveChildren?: boolean
 }
 
 const ChangeIcon = ({
 	icon,
-	pageId
+	pageId,
+	iconSize = 'small',
+	haveChildren
 }: Props) => {
 	const {
 		mutateAsync
@@ -80,12 +85,17 @@ const ChangeIcon = ({
 		</Flex>
 	), []);
 
+	const renderIcon = () => {
+		if(emoji) return emoji;
+		return haveChildren ? <FiFileText/> : <AiOutlineFile/>;
+	};
+
 	return (
 		<Popover
 			title={title}
 			trigger={(
-				<IconButton size='small' tooltip='Change icon'>
-					{emoji || <FiFileText/>}
+				<IconButton size={iconSize} tooltip='Change icon'>
+					{renderIcon()}
 				</IconButton>
 			)}
 			placement='bottom'

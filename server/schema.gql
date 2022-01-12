@@ -36,6 +36,7 @@ type Mutation {
 type Page {
   createdAt: DateTime!
   deletedAt: DateTime
+  favorite: Boolean!
   hierarchy: Hierarchy!
   icon: String
   id: ID!
@@ -45,6 +46,7 @@ type Page {
 }
 
 type Query {
+  getPage(id: String!): Page!
   getPages(ids: String!): [Page!]!
   getWorkspace: [Page!]!
   logout: Boolean!

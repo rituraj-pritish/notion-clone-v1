@@ -5,15 +5,15 @@ import { IconButton } from 'atoms';
 import api from 'api';
 import { CREATE_PAGE } from 'graphql/pages';
 import { Page } from 'types/page';
+import { GET_PAGES } from 'graphql/pages/queries';
 
 interface Props {
 	id: string
-	root?: string
+	root?: string,
+	nestedPages: string[]
 }
 
-const AddChildPage = ({ id, root }: Props) => {
-	const queryClient = useQueryClient();
-	
+const AddChildPage = ({ id, root, nestedPages }: Props) => {	
 	const { mutateAsync } = useMutation(
 		() => api<Page>(CREATE_PAGE, {
 			createPageInput: {
@@ -23,18 +23,7 @@ const AddChildPage = ({ id, root }: Props) => {
 					parent: id
 				}
 			}
-		}),
-		{
-			onSuccess: (newPage) => {
-				queryClient.setQueryData<Page[] | undefined>(
-					[id, 'children'],
-					prevPages => {
-						if(!prevPages) return; 
-						return prevPages.concat(newPage);
-					}
-				);
-			}
-		}
+		})
 	);
 
 	return (

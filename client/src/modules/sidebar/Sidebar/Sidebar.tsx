@@ -1,14 +1,14 @@
 import { BsPlus } from 'react-icons/bs';
 import _throttle from 'lodash/throttle';
 import { ResizeCallbackData } from 'react-resizable';
+import { useMutation, useQueryClient } from 'react-query';
+import { useEffect, useState } from 'react';
 
 import { NewPage, RootWrapper, Handle, Content, Trigger } from './SideBar.styles';
 import SidebarHeader from './SidebarHeader';
 import useSidebar from 'hooks/useSidebar';
-import { useEffect, useState } from 'react';
 import SidebarItem from './SidebarItem';
 import SidebarPages from './SidebarPages';
-import { useMutation, useQueryClient } from 'react-query';
 import { CREATE_PAGE } from 'graphql/pages';
 import api from 'api';
 import { Page } from 'types/page';
@@ -71,15 +71,15 @@ const Sidebar = () => {
 		>
 			<Content
 				isCollapsed={isCollapsed}
+				isHovering={isHovering}
 				width={width}
-				style={{ transform: isCollapsed && `translate(${isHovering ? 0 : '-100%'} ,-50%)` }}
 				onMouseLeave={() => isCollapsed && setIsHovering(false)}
 			>
 				<SidebarHeader />
 				<SidebarPages/>
 				<NewPageFooter/>
 			</Content>
-			<Trigger onMouseEnter={() => setIsHovering(true)} />
+			{!isHovering && (<Trigger onMouseEnter={() => setIsHovering(true)} />)}
 		</RootWrapper>
 	);
 };

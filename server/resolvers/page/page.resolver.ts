@@ -17,6 +17,14 @@ export class PageResolver {
 		return pages;
 	}
 
+	@Query(() => Page)
+	async getPage(
+		@Arg('id') id: string
+	): Promise<Page | null> {
+		const page = await PageModel.findById(id);
+		return page;
+	}
+
   @Mutation(() => Page) 
 	async createPage(
     @Arg('createPageInput') {

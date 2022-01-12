@@ -1,32 +1,31 @@
-import { AiOutlineEllipsis } from 'react-icons/ai';
-
-import { IconButton, Popover } from 'atoms';
 import { useMutation, useQueryClient } from 'react-query';
+import { IoTrashOutline } from 'react-icons/io5';
+import { BsPencilSquare } from 'react-icons/bs';
+
 import api from 'api';
 import { DELETE_PAGE } from 'graphql/pages';
 import { Page } from 'types/page';
-
-interface Props {
-	pageId: string,
-	parent: string
-}
+import { Menu, MenuItem } from 'components';
+import RenamePage from 'shared/RenamePage';
 
 const SidebarPageMoreOptions = ({
-	pageId,
-	parent
-}: Props) => {
+	id,
+	hierarchy,
+	name,
+	icon
+}: Page) => {
 	const queryClient = useQueryClient();
-	const queryKey = parent ? [parent, 'children'] : 'rootPages'; 
+	const queryKey = hierarchy.parent ? [hierarchy.parent, 'children'] : 'rootPages'; 
 
 	const {
 		mutateAsync: deletePage
 	} = useMutation(
-		() => api(DELETE_PAGE, { id: pageId }),
+		() => api(DELETE_PAGE, { id }),
 		{
 			onSuccess: () => {
 				queryClient.setQueryData<Page[]>(
 					queryKey,
-					(prevPages) => prevPages!.filter(({ id }) => id !== pageId)	 
+					(prevPages) => prevPages!.filter(({ id: pId }) => pId !== id)	 
 				);
 			}
 		}
@@ -37,15 +36,17 @@ const SidebarPageMoreOptions = ({
 	};
 
 	return (
-		<Popover
-			trigger={(
-				<IconButton size='small' tooltip='Delete, duplicate and more...'>
-					<AiOutlineEllipsis/>
-				</IconButton>
-			)}
-		>
-			<div onClick={onDelete}>Delete</div>
-		</Popover>
+		<Menu tooltip='Delete, duplicate and more...'>
+			<RenamePage
+				trigger={(
+					<MenuItem icon={<BsPencilSquare/>}>Rename</MenuItem>
+				)}
+				id={id}
+				name={name}
+				icon={icon}
+			/>
+			<MenuItem icon={<IoTrashOutline size={20}/>} onClick={onDelete}>Delete</MenuItem>
+		</Menu>
 	);
 };
 

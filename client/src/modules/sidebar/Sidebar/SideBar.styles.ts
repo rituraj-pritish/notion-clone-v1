@@ -9,7 +9,8 @@ const color = '#8A8883';
 
 interface RootWrapperProps {
   isCollapsed: boolean,
-  width: number
+  width: number,
+  isHovering?: boolean
 }
 
 export const RootWrapper = styled(ResizableBox)<RootWrapperProps>`
@@ -27,13 +28,14 @@ export const Content = styled.div<RootWrapperProps>`
   background: transparent;
   transition: all 0.2s;
 
-  ${({ isCollapsed, width }) => isCollapsed && css`
+  ${({ isCollapsed, width, isHovering }) => isCollapsed && css`
     background: white;
     width: ${width + 'px'};
     position: absolute;
     height: 80%;
-    box-shadow: ${theme.boxShadow}
+    box-shadow: ${theme.boxShadow};
     top: 50%;
+    transform: ${`translate(${isHovering ? 0 : '-100%'}, -50%)`};
   `};
 `;
 
@@ -112,6 +114,7 @@ export const NewPage = styled.div`
   display: flex;
   align-items: center;
   padding: 8px 16px;
+  border-top: 1px solid #e6e5e0;
 
   svg {
     font-size: 26px;

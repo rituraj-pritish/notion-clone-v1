@@ -39,9 +39,10 @@ const Popover = ({
 			)}
 			trigger={action}
 			visible={isVisible}
+			placement='auto'
 			interactive
 			onClickOutside={() => setIsVisible(false)}
-			onUntrigger={() => setIsVisible(false)}
+			// onUntrigger={() => setIsVisible(false)}
 			{...props}
 		>
 			{React.cloneElement(
