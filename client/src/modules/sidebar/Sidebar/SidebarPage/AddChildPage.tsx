@@ -2,10 +2,9 @@ import { FiPlusSquare } from 'react-icons/fi';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { IconButton } from 'atoms';
-import api from 'api';
-import { CREATE_PAGE } from 'graphql/pages';
 import { Page } from 'types/page';
 import { GET_PAGES } from 'graphql/pages/queries';
+import { createPage } from 'api/endpoints';
 
 interface Props {
 	id: string
@@ -15,13 +14,12 @@ interface Props {
 
 const AddChildPage = ({ id, root, nestedPages }: Props) => {	
 	const { mutateAsync } = useMutation(
-		() => api<Page>(CREATE_PAGE, {
-			createPageInput: {
-				name: 'Untitled',
-				hierarchy: {
-					root: root ? root : id,
-					parent: id
-				}
+		() => createPage({
+			name: 'Untitled',
+			hierarchy: {
+				root: root ? root : id,
+				parent: id,
+				children: []
 			}
 		})
 	);
@@ -30,7 +28,7 @@ const AddChildPage = ({ id, root, nestedPages }: Props) => {
 		<IconButton
 			size='small'
 			tooltip='Quickly add a page inside'
-			onClick={mutateAsync}
+			onClick={() => mutateAsync()}
 		>
 			<FiPlusSquare/>
 		</IconButton>

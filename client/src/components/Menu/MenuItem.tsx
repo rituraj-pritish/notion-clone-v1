@@ -6,7 +6,7 @@ interface Props extends HTMLAttributes<HTMLDivElement> {
 	children: string | React.ReactChildren
 }
 
-const MenuItem = React.forwardRef(({ icon, children, ...props }: Props, ref) => {
+const MenuItem = React.forwardRef(({ icon, children, ...props }: Props, ref: React.Ref<HTMLDivElement>) => {
 	return (
 		<MenuItemWrapper {...props} ref={ref}>
 			{icon}

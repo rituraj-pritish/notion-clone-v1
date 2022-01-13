@@ -30,7 +30,7 @@ const Button = React.forwardRef(({
 	ghost,
 	bold,
 	...otherProps
-}: Props, ref): JSX.Element => {
+}: Props, ref: React.Ref<HTMLButtonElement>): JSX.Element => {
 
 	const button = (
 		<StyledButton

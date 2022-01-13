@@ -2,8 +2,7 @@ import { useMutation, useQueryClient } from 'react-query';
 import { IoTrashOutline } from 'react-icons/io5';
 import { BsPencilSquare } from 'react-icons/bs';
 
-import api from 'api';
-import { DELETE_PAGE } from 'graphql/pages';
+import { deletePage as deletePageEndpoint } from 'api/endpoints';
 import { Page } from 'types/page';
 import { Menu, MenuItem } from 'components';
 import RenamePage from 'shared/RenamePage';
@@ -20,7 +19,7 @@ const SidebarPageMoreOptions = ({
 	const {
 		mutateAsync: deletePage
 	} = useMutation(
-		() => api(DELETE_PAGE, { id }),
+		() => deletePageEndpoint(id),
 		{
 			onSuccess: () => {
 				queryClient.setQueryData<Page[]>(

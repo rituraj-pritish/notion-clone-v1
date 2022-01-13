@@ -94,7 +94,7 @@ const SidebarPage = ({
 								haveChildren={hierarchy.children?.length > 0}
 							/>
 							<PageName style={{
-								width: isHovering ? `${width - 131}px` : undefined,
+								width: isHovering ? `${width - (depth ? (depth * 26) + 131 : 131)}px` : undefined,
 								color: isActive ? 'black' : undefined
 							}}
 							>{name}

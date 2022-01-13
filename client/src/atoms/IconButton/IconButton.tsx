@@ -16,7 +16,7 @@ const IconButton = React.forwardRef(({
 	tooltip,
 	onClick,
 	...otherProps
-}: Props, ref): JSX.Element => {
+}: Props, ref: React.Ref<HTMLButtonElement>): JSX.Element => {
 	const iconButton = (
 		<StyledButton 
 			size={size} 

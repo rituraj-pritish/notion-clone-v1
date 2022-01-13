@@ -57,6 +57,7 @@ input UpdatePageInput {
   children: [ID!]
   icon: String
   id: ID!
+  name: String
   parent: ID
 }
 

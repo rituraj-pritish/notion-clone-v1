@@ -62,13 +62,16 @@ export class PageResolver {
   async updatePage(
 		@Arg('updatePageInput') {
 			id,
-			icon
+			icon,
+			name
 		}: UpdatePageInput
   ): Promise<Page> {
   	const page = await PageModel.findById(id);
   	await page?.update({
-  		icon
+  		icon,
+  		name
   	});
+		
   	await page?.save();
   	return page;
   }

@@ -29,6 +29,9 @@ export class CreatePageInput implements Partial<Page> {
 export class UpdatePageInput implements Partial<Page> {
   @Field(() => ID)
   	id: string;
+
+	@Field({ nullable: true })
+		name: string;
     
   @Field({ nullable: true })
   	icon: string;

@@ -8,8 +8,7 @@ import _random from 'lodash/random';
 import { Button, Flex, IconButton, Popover } from 'atoms';
 import { EmojiPicker } from 'components';
 import { useMutation } from 'react-query';
-import api from 'api';
-import { UPDATE_PAGE } from 'graphql/pages';
+import { updatePage } from 'api/endpoints';
 
 const getRandomEmoji = () => {
 	const emojis = Object.values(emojiIndex.emojis);
@@ -32,11 +31,9 @@ const ChangeIcon = ({
 	const {
 		mutateAsync
 	} = useMutation(
-		(newIcon) => api(UPDATE_PAGE, {
-			updatePageInput: {
-				id: pageId,
-				icon: newIcon
-			}
+		(newIcon: string | undefined) => updatePage({
+			id: pageId,
+			icon: newIcon
 		})
 	);
 
@@ -55,8 +52,8 @@ const ChangeIcon = ({
 
 	const onRemoveClick = async close => {
 		try {
-			await mutateAsync(null);
-			setEmoji(null);
+			await mutateAsync();
+			setEmoji('');
 			close();
 		} catch (error) {
 			console.log('e', error);

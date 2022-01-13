@@ -4,6 +4,9 @@
     "eslint:recommended",
     "plugin:react/recommended"
   ],
+  "globals": {
+    "JSX": true
+  },
   "rules": {
     "react/react-in-jsx-scope": "off",
     "indent": [
