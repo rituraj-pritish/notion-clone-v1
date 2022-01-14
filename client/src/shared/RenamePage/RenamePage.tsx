@@ -17,11 +17,6 @@ const RenamePage = ({ trigger, name, id, icon }: Page) => {
 	const popoverRef = useRef(null);
 
 	useEffect(() => {
-		setText(name);
-		inputRef.current?.focus();
-	}, []);
-
-	useEffect(() => {
 		if(enterPress) {
 			if(text !== name) {
 				mutateAsync({
@@ -40,20 +35,28 @@ const RenamePage = ({ trigger, name, id, icon }: Page) => {
 			offset={[-15, 0]}
 			ref={popoverRef}
 		>
-			<Flex p={2}>
-				<Space>
-					<ChangeIcon
-						iconSize='medium'
-						icon={icon}
-						pageId={id}
-					/>
-					<Input
-						placeholder={name}
-						onChange={e => setText(e.target.value)}
-						ref={inputRef}
-					/>
-				</Space>
-			</Flex>
+			{(isVisible) => {
+				if(isVisible) {
+					setText(name);
+					inputRef.current?.focus();
+				}
+
+				return (
+					<Flex p={2}>
+						<Space>
+							<ChangeIcon
+								iconSize='medium'
+								icon={icon}
+								pageId={id}
+							/>
+							<Input
+								placeholder={name}
+								onChange={e => setText(e.target.value)}
+								ref={inputRef}
+							/>
+						</Space>
+					</Flex>
+				);}}
 		</Popover>
 	);
 };

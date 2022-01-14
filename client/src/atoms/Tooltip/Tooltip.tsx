@@ -2,6 +2,7 @@ import RcTooltip from 'rc-tooltip';
 import { TooltipProps } from 'rc-tooltip/lib/Tooltip';
 import React from 'react';
 import theme from 'theme';
+import { SubText } from './Tooltip.styles';
 
 interface Props extends TooltipProps {
 	children: React.ReactElement 
@@ -14,8 +15,8 @@ const overlayInnerStyle: React.CSSProperties = {
 	background: 'black',
 	color: 'white',
 	width: 'fit-content',
-	padding: '4px 12px',
-	fontSize: '14px',
+	padding: '6px 8px',
+	fontSize: '12px',
 	borderRadius: theme.borderRadius
 };
 
@@ -34,5 +35,7 @@ const Tooltip = ({ children, ...props }: Props) => {
 		</RcTooltip>
 	);
 };
+
+Tooltip.SubText = SubText;
 
 export default Tooltip;

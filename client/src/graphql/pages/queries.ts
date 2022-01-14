@@ -6,6 +6,7 @@ export const GET_PAGES = gql`
       id
       name
       icon
+      favorite
       hierarchy {
         root
         children
@@ -21,6 +22,7 @@ export const GET_PAGE = gql`
       id
       name
       icon
+      favorite
       hierarchy {
         root
         children

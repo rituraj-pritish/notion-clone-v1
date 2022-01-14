@@ -1,18 +1,21 @@
 import { useMutation, useQueryClient } from 'react-query';
 import { IoTrashOutline } from 'react-icons/io5';
-import { BsPencilSquare } from 'react-icons/bs';
+import { BsPencilSquare, BsStar } from 'react-icons/bs';
 
-import { deletePage as deletePageEndpoint } from 'api/endpoints';
+import { deletePage as deletePageEndpoint, updatePage } from 'api/endpoints';
 import { Page } from 'types/page';
 import { Menu, MenuItem } from 'components';
 import RenamePage from 'shared/RenamePage';
 
-const SidebarPageMoreOptions = ({
-	id,
-	hierarchy,
-	name,
-	icon
-}: Page) => {
+const SidebarPageMoreOptions = (props: Page) => {
+	const {
+		id,
+		hierarchy,
+		name,
+		icon,
+		favorite
+	} = props;
+
 	const queryClient = useQueryClient();
 	const queryKey = hierarchy.parent ? [hierarchy.parent, 'children'] : 'rootPages'; 
 
@@ -26,6 +29,28 @@ const SidebarPageMoreOptions = ({
 					queryKey,
 					(prevPages) => prevPages!.filter(({ id: pId }) => pId !== id)	 
 				);
+			}
+		}
+	);
+
+	const {
+		mutateAsync: toggleFavorite
+	} = useMutation(
+		() => updatePage({
+			id,
+			favorite: !favorite
+		}),
+		{
+			onSuccess: () => {
+				queryClient.setQueryData(
+					'rootPages', 
+					prevData => ({
+						...prevData,
+						favorites: prevData.favorites 
+							? prevData.favorites.map(item => ({ ...item, favorite: !favorite }))
+							: [{ ...props, favorite: !favorite }]
+					})
+				);	
 			}
 		}
 	);
@@ -45,6 +70,9 @@ const SidebarPageMoreOptions = ({
 				icon={icon}
 			/>
 			<MenuItem icon={<IoTrashOutline size={20}/>} onClick={onDelete}>Delete</MenuItem>
+			<MenuItem icon={<BsStar/>} onClick={() => toggleFavorite()}>
+				{favorite ? 'Remove from' : 'Add to'} Favorites
+			</MenuItem>
 		</Menu>
 	);
 };

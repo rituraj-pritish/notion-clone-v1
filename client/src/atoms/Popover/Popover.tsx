@@ -7,7 +7,7 @@ type Callback = () => void
 
 type RenderComponent = React.ReactElement<any> |
 // eslint-disable-next-line
-	((cb: Callback) => React.ReactElement<any>)
+	((visible: boolean, cb: Callback) => React.ReactElement<any>)
 
 interface Props extends Omit<TippyProps, 'trigger' | 'children'> {
   children: RenderComponent
@@ -32,7 +32,7 @@ const Popover = React.forwardRef(({
 
 	const render = (component: typeof children) => {
 		if(typeof component === 'function') {
-			return component(() => setIsVisible(false));
+			return component(isVisible, () => setIsVisible(false));
 		}
 		return component;
 	};

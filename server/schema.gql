@@ -48,13 +48,14 @@ type Page {
 type Query {
   getPage(id: String!): Page!
   getPages(ids: String!): [Page!]!
-  getWorkspace: [Page!]!
+  getWorkspace: WorkspaceReturn!
   logout: Boolean!
   signin(email: String!, password: String!): User!
 }
 
 input UpdatePageInput {
   children: [ID!]
+  favorite: Boolean
   icon: String
   id: ID!
   name: String
@@ -75,4 +76,9 @@ input UserInput {
   email: String!
   name: String!
   password: String!
+}
+
+type WorkspaceReturn {
+  favorites: [Page!]!
+  private: [Page!]!
 }

@@ -8,5 +8,6 @@ export interface Page {
 	id: string
 	name: string
 	icon?: string
-	hierarchy: Hierarchy,
+	hierarchy: Hierarchy
+	favorite: boolean
 }

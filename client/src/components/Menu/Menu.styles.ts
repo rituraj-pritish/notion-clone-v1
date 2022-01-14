@@ -14,5 +14,10 @@ export const MenuItemWrapper = styled.div`
     margin-right: 12px;
     font-size: 18px;
     color: black;
+    fill: black;
+    
+    path {
+      color: black;
+    }
   }
 `;

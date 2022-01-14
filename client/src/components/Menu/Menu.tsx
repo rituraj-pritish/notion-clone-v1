@@ -9,7 +9,7 @@ interface Props {
 	children: React.ReactElement[]
 }
 
-const Menu = ({ trigger, tooltip, children }: Props) => {
+const Menu = ({ trigger, tooltip, children, ...props }: Props) => {
 	return (
 		<Popover
 			trigger={trigger || (
@@ -17,8 +17,13 @@ const Menu = ({ trigger, tooltip, children }: Props) => {
 					<IoEllipsisHorizontal/>
 				</IconButton>
 			)}
+			{...props}
 		>
-			<Flex flexDirection='column' py={1}>
+			<Flex
+				flexDirection='column'
+				py={2}
+				width={260}
+			>
 				{children}
 			</Flex>
 		</Popover>

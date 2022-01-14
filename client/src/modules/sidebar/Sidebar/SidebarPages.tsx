@@ -1,18 +1,24 @@
-import api from 'api';
-import { GET_WORKSPACE } from 'graphql/workspaces';
 import { useQuery } from 'react-query';
-import { Page } from 'types/page';
-import SidebarPage from './SidebarPage';
+
+import { getWorkspace } from 'api/endpoints/workspace';
+import SidebarPageGroup from '../SidebarPageGroup';
 
 const SidebarPages = () => {
 	const { data } = useQuery(
 		'rootPages',
-		() => api<Page[]>(GET_WORKSPACE)
+		getWorkspace
 	);
 
 	return (
 		<div>
-			{data?.map(page => <SidebarPage key={page.id} {...page} />)}
+			<SidebarPageGroup
+				name='FAVORITES'
+				pages={data?.favorites}
+			/>
+			<SidebarPageGroup
+				name='PRIVATE'
+				pages={data?.private}
+			/>
 		</div>
 	);
 };

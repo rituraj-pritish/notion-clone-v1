@@ -63,13 +63,15 @@ export class PageResolver {
 		@Arg('updatePageInput') {
 			id,
 			icon,
-			name
+			name,
+			favorite
 		}: UpdatePageInput
   ): Promise<Page> {
   	const page = await PageModel.findById(id);
   	await page?.update({
   		icon,
-  		name
+  		name,
+			favorite
   	});
 		
   	await page?.save();

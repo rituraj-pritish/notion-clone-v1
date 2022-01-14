@@ -1,15 +1,24 @@
 import { gql } from 'graphql-request';
 
+const PageFragment = gql`
+  fragment pageParts on Page {
+    id
+    name
+    icon
+    favorite
+    hierarchy {
+      root
+      children
+    }
+  }
+`;
+
 export const GET_WORKSPACE = gql`
+  ${PageFragment}
   query GetWorkspace {
     getWorkspace {
-      id
-      name
-      icon
-      hierarchy {
-        root
-        children
-      }
+      private {...pageParts}
+      favorites {...pageParts}
     }
   }
 `;

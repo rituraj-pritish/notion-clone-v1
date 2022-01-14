@@ -41,4 +41,7 @@ export class UpdatePageInput implements Partial<Page> {
 
   @Field(() => [ID], { nullable: true })
   	children: string[];
+
+	@Field({ nullable: true })
+		favorite: boolean;
 }

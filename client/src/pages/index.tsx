@@ -19,11 +19,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx: GetServerSideP
 	const token = ctx.req.cookies.auth_token;
 
 	if(token) {
-		const data = await api<Page[]>(GET_WORKSPACE, {}, token);
+		const data = await api<{private: Page[], favorites: []}>(GET_WORKSPACE, {}, token);
 		
 		return {
 			redirect: {
-				destination: `${data[0].id}`,
+				destination: `${data.private[0].id}`,
 				permanent: false
 			} 
 		};
