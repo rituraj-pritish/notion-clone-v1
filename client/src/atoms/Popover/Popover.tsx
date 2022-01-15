@@ -5,14 +5,14 @@ import { useImperativeHandle } from 'react';
 
 type Callback = () => void
 
-type RenderComponent = React.ReactElement<any> |
+export type PopoverRenderComponent = React.ReactElement<any> |
 // eslint-disable-next-line
 	((visible: boolean, cb: Callback) => React.ReactElement<any> | false)
 
-interface Props extends Omit<TippyProps, 'trigger' | 'children'> {
-  children: RenderComponent
+export interface PopoverProps extends Omit<TippyProps, 'trigger' | 'children'> {
+  children: PopoverRenderComponent
   trigger: React.ReactElement<any>
-  title?: RenderComponent
+  title?: PopoverRenderComponent
   action?: string
 }
 
@@ -23,12 +23,11 @@ interface Handle {
 const Popover = React.forwardRef(({
 	children,
 	trigger,
-	// todo add logic to handle action
-	// action = 'click',
 	title,
 	placement = 'auto',
+	className,
 	...props
-}: Props, ref: React.Ref<Handle>) => {
+}: PopoverProps, ref?: React.Ref<Handle>) => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	useImperativeHandle(ref, () => ({
@@ -45,33 +44,34 @@ const Popover = React.forwardRef(({
 	};
 
 	return (
-		<Tippy
-			render={attrs => (
-				<RootWrapper {...attrs}>
-					<>
-						{title && <Title>{render(title)}</Title>}
-						<Content>
-							{render(children)}
-						</Content>
-					</>
-				</RootWrapper>
-			)}
-			visible={isVisible}
-			placement={placement}
-			interactive
-			onClickOutside={() => setIsVisible(false)}
-			// onUntrigger={() => setIsVisible(false)}
-			{...props}
-		>
-			{React.cloneElement(
-				trigger, 
-				{ 
-					onClick: (e: Event) => {
-						if(typeof trigger.props.onClick === 'function') trigger.props.onClick(e);
-						setIsVisible(state => !state); 
-					} 
-				})}
-		</Tippy>
+		<div className={className} onClick={e => e.stopPropagation()}>
+			<Tippy
+				render={attrs => (
+					<RootWrapper {...attrs}>
+						<>
+							{title && <Title>{render(title)}</Title>}
+							<Content>
+								{render(children)}
+							</Content>
+						</>
+					</RootWrapper>
+				)}
+				visible={isVisible}
+				placement={placement}
+				interactive
+				onClickOutside={() => setIsVisible(false)}
+				{...props}
+			>
+				{React.cloneElement(
+					trigger, 
+					{ 
+						onClick: (e: Event) => {
+							if(typeof trigger.props.onClick === 'function') trigger.props.onClick(e);
+							setIsVisible(state => !state); 
+						} 
+					})}
+			</Tippy>
+		</div>
 	);
 });
 

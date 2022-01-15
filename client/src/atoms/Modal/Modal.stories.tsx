@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { Flex } from '..';
 import Modal from './index';
 
 export default {
@@ -8,9 +9,20 @@ export default {
 
 export const modal: ComponentStory<typeof Modal> = () => {
 	return (
-		<Modal trigger={<div>Trigger</div>}>
+		<>
+			<Modal trigger={<div>Normal</div>}>
       Content
-		</Modal>
+			</Modal>
+			<Flex mt={6}>
+				<Modal
+					trigger={<div>Popover like</div>}
+					showOverlay={false}
+					useAsPopover
+				>
+				Content
+				</Modal>
+			</Flex>
+		</>
 	);
 };
 

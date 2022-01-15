@@ -1,7 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import * as logo from '@/assets/logo.svg';
+// eslint-disable-next-line
+// @ts-ignore svg compile issue
+import  Logo from '@/assets/logo.svg';
 import { RootWrapper } from './NoAuthNavbar.styles';
 import { Button, Link, Space } from  '@/atoms';
 
@@ -10,7 +12,7 @@ const NoAuthNavbar = () => {
 	return (
 		<RootWrapper>
 			<Link href='/'>
-				<Image src={logo} alt='Notion Logo'/>
+				<Image src={Logo} alt='Notion Logo'/>
 			</Link>
 			<Space>
 				<Button

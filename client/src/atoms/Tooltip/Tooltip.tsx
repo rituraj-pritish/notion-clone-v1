@@ -8,19 +8,21 @@ interface Props extends Omit<TippyProps, 'children'> {
 	overlay: string | React.ReactElement<any>
 }
 
-const Tooltip = ({ children, overlay, ...props }: Props) => {
+const Tooltip = ({ children, overlay, className, ...props }: Props) => {
 	return (
-		<Tippy
-			render={(attrs) => (
-				<RootOverlay {...attrs}>
-					{overlay}
-				</RootOverlay>
-			)}
-			delay={[500, 200]}
-			{...props}
-		>
-			{children}
-		</Tippy>
+		<div className={className}>
+			<Tippy
+				render={(attrs) => (
+					<RootOverlay {...attrs}>
+						{overlay}
+					</RootOverlay>
+				)}
+				delay={[500, 200]}
+				{...props}
+			>
+				{children}
+			</Tippy>
+		</div>
 	);
 };
 

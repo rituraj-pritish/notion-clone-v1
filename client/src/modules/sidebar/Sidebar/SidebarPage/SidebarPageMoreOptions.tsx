@@ -5,16 +5,18 @@ import { BsPencilSquare, BsStar } from 'react-icons/bs';
 import { deletePage as deletePageEndpoint, updatePage } from  '@/api/endpoints';
 import { Page } from 'types/page';
 import { Menu, MenuItem } from  '@/components';
-import RenamePage from  '@/shared/RenamePage';
 import { GetWorkspaceResult } from '@/api/endpoints/workspace';
 import queryKeys from '@/constants/queryKeys';
+import { Modal } from '@/atoms';
+import { useState } from 'react';
+import RenamePage from '@/shared/RenamePage';
 
 const SidebarPageMoreOptions = (props: Page) => {
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+
 	const {
 		id,
 		hierarchy,
-		name,
-		icon,
 		favorite
 	} = props;
 
@@ -68,20 +70,39 @@ const SidebarPageMoreOptions = (props: Page) => {
 	};
 
 	return (
-		<Menu tooltip='Delete, duplicate and more...'>
-			<RenamePage
-				trigger={(
-					<MenuItem icon={<BsPencilSquare/>}>Rename</MenuItem>
+		<>
+			<Menu
+				tooltip='Delete, duplicate and more...'
+				placement='auto-end'
+				offset={[8, -4]}
+			>
+				{(_, close) => (
+					<>
+						<MenuItem
+							onClick={() => {
+								close();
+								setIsModalVisible(true);
+							}}
+							icon={<BsPencilSquare/>}
+						>Rename
+						</MenuItem>
+						<MenuItem icon={<IoTrashOutline size={20}/>} onClick={onDelete}>
+						Delete
+						</MenuItem>
+						<MenuItem icon={<BsStar/>} onClick={() => toggleFavorite()}>
+							{favorite ? 'Remove from' : 'Add to'} Favorites
+						</MenuItem>
+					</>
 				)}
-				id={id}
-				name={name}
-				icon={icon}
-			/>
-			<MenuItem icon={<IoTrashOutline size={20}/>} onClick={onDelete}>Delete</MenuItem>
-			<MenuItem icon={<BsStar/>} onClick={() => toggleFavorite()}>
-				{favorite ? 'Remove from' : 'Add to'} Favorites
-			</MenuItem>
-		</Menu>
+			</Menu>
+			<Modal
+				onRequestClose={() => setIsModalVisible(false)}
+				useAsPopover
+				visible={isModalVisible}
+			>
+				<RenamePage onEnter={() => setIsModalVisible(false)} {...props}/>
+			</Modal>
+		</>
 	);
 };
 

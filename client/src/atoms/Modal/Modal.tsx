@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import ReactModal, { Props as ModalProps } from 'react-modal';
+import { CSSProperties } from 'styled-components';
+
 import theme from  '@/theme';
+import useMousePosition from '@/hooks/useMousePosition';
 
 interface Props extends Omit<ModalProps, 'isOpen'> {
   onOpen?: () => void
   onClose?: () => void
+	showOverlay?: boolean
+	useAsPopover?: boolean
 }
 
 interface WithoutTriggerProps extends Props {
@@ -17,15 +22,38 @@ interface TriggerProps extends Props {
   visible?: never
 }
 
-const styles = {
-	overlay: {
+type GetStyleOptions = Pick<Props, 'showOverlay' | 'useAsPopover'>
+
+const getStyles = (
+	{ showOverlay, useAsPopover }: GetStyleOptions, customStyles = {}
+) => {
+	let overlay: CSSProperties = {
 		background: 'rgba(0, 0, 0, 0.4)'
-	},
-	content: {
+	};
+
+	const content: CSSProperties = {
 		border: 'none',
 		borderRadius: theme.borderRadius,
 		padding: 0
+	};
+
+	if(!showOverlay || useAsPopover) {
+		overlay = {
+			background: 'transparent'
+		};
+
+		content.boxShadow = theme.boxShadow;
+		content.width = 'fit-content';
+		content.height = 'fit-content';
 	}
+
+	return {
+		overlay,
+		content: {
+			...content,
+			...customStyles
+		}
+	};
 };
 
 const Modal = ({
@@ -33,8 +61,14 @@ const Modal = ({
 	trigger,
 	visible,
 	onOpen,
-	onClose
+	onClose,
+	showOverlay = true,
+	useAsPopover = false,
+	style = {},
+	...props
 }: TriggerProps | WithoutTriggerProps) => {
+	const mousePosition = useMousePosition();
+	const [modalPosition, setModalPosition] = useState({});
 	const [isVisible, setIsVisible] = useState(visible || false);
 
 	useEffect(() => {
@@ -55,8 +89,19 @@ const Modal = ({
 				shouldCloseOnOverlayClick
 				onRequestClose={() => setIsVisible(false)}
 				onAfterClose={onClose}
-				onAfterOpen={onOpen}
-				style={styles}
+				onAfterOpen={() => {
+					if(useAsPopover) {
+						setModalPosition({ top: mousePosition.y, left: mousePosition.x });
+					}
+					if(onOpen) onOpen();
+				}}
+				style={{ 
+					...getStyles(
+						{ useAsPopover, showOverlay }, 
+						{ ...style, ...modalPosition }
+					) 
+				}}
+				{...props}
 			>
 				{children}
 			</ReactModal>
