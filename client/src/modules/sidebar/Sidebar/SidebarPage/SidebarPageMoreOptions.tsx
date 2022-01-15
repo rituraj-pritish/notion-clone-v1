@@ -2,10 +2,10 @@ import { useMutation, useQueryClient } from 'react-query';
 import { IoTrashOutline } from 'react-icons/io5';
 import { BsPencilSquare, BsStar } from 'react-icons/bs';
 
-import { deletePage as deletePageEndpoint, updatePage } from 'api/endpoints';
+import { deletePage as deletePageEndpoint, updatePage } from  '@/api/endpoints';
 import { Page } from 'types/page';
-import { Menu, MenuItem } from 'components';
-import RenamePage from 'shared/RenamePage';
+import { Menu, MenuItem } from  '@/components';
+import RenamePage from  '@/shared/RenamePage';
 
 const SidebarPageMoreOptions = (props: Page) => {
 	const {

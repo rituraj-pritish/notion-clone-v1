@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 
 import logo from 'assets/logo.svg';
 import { RootWrapper } from './NoAuthNavbar.styles';
-import { Button, Link, Space } from 'atoms';
+import { Button, Link, Space } from  '@/atoms';
 
 const NoAuthNavbar = () => {
 	const router = useRouter();

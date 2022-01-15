@@ -1,4 +1,4 @@
-import { GraphQLClient, RequestDocument } from 'graphql-request';
+import { GraphQLClient, RequestDocument } from  'graphql-request';
 
 const URL = process.env.API_URL;
 

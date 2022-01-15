@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import theme, { colors } from 'theme';
+import theme, { colors } from '@/theme';
 import { Props } from './Input';
 
 export const StyledInput = styled.input<Props>`

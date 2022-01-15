@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { getWorkspace } from 'api/endpoints/workspace';
+import { getWorkspace } from  '@/api/endpoints/workspace';
 import SidebarPageGroup from '../SidebarPageGroup';
 
 const SidebarPages = () => {

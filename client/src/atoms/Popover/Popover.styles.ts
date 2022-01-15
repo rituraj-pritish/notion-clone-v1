@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import theme from 'theme';
+import theme from  '@/theme';
 
 export const Title = styled.div`
   border-bottom: 0.5px solid ${theme.divider};

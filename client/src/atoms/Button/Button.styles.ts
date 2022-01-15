@@ -1,7 +1,7 @@
 import { darken } from 'polished';
 import styled, { css } from 'styled-components';
 
-import theme, { colors } from 'theme';
+import theme, { colors } from '@/theme';
 import { Props, Size, Variant } from './Button';
 
 const getVariantStyles = (variant: Variant) => {

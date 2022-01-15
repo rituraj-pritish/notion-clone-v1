@@ -6,11 +6,11 @@ import { useEffect, useState } from 'react';
 
 import { NewPage, RootWrapper, Handle, Content, Trigger } from './SideBar.styles';
 import SidebarHeader from './SidebarHeader';
-import useSidebar from 'hooks/useSidebar';
+import useSidebar from  '@/hooks/useSidebar';
 import SidebarItem from './SidebarItem';
 import SidebarPages from './SidebarPages';
-import { CREATE_PAGE } from 'graphql/pages';
-import api from 'api';
+import { CREATE_PAGE } from  '@/graphql/pages';
+import api from  '@/api';
 import { Page } from 'types/page';
 
 const NewPageFooter = () => {

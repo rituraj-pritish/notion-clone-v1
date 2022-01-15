@@ -1,4 +1,4 @@
-import { Flex, Tooltip } from 'atoms';
+import { Flex, Tooltip } from  '@/atoms';
 import { useState } from 'react';
 import { Page } from 'types/page';
 import SidebarPage from '../Sidebar/SidebarPage';

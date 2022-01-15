@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Button, Input, Space } from 'atoms';
-import { RootWrapper } from './LoginForm.styles';
 import { useMutation } from 'react-query';
-import api from 'api';
-import { SIGN_IN } from 'graphql/users';
-import { SignInInput, SignInResponse } from 'types/users';
-import AUTH_TOKEN from 'enums/authToken';
 import { useRouter } from 'next/router';
+
+import { Button, Input, Space } from '@/atoms';
+import { RootWrapper } from './LoginForm.styles';
+import api from '@/api/index';
+import { SIGN_IN } from '@/graphql/users';
+import { SignInInput, SignInResponse } from '@/types/users';
 
 const LoginForm = () => {
 	const [email, setEmail] = useState('ab@gmail.com');
@@ -18,10 +18,7 @@ const LoginForm = () => {
 	} = useMutation(
 		() => api<SignInResponse, SignInInput>(SIGN_IN, { email, password }),
 		{
-			onSuccess: (data) => {
-				if(data.token) {
-					localStorage.setItem(AUTH_TOKEN, data.token);
-				}
+			onSuccess: () => {
 				router.replace('/');
 			}
 		}

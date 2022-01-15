@@ -3,16 +3,16 @@ import { BsTriangleFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 
-import { Flex, IconButton, Space } from 'atoms';
+import { Flex, IconButton, Space } from  '@/atoms';
 import { Left, PageName } from './SidebarPage.styles';
 import SidebarItem from '../SidebarItem';
 import AddChildPage from './AddChildPage';
-import api from 'api';
-import { GET_PAGES } from 'graphql/pages/queries';
+import api from  '@/api';
+import { GET_PAGES } from  '@/graphql/pages/queries';
 import { Page } from 'types/page';
 import SidebarPageMoreOptions from './SidebarPageMoreOptions';
-import ChangeIcon from 'shared/ChangeIcon';
-import useSidebar from 'hooks/useSidebar';
+import ChangeIcon from  '@/shared/ChangeIcon';
+import useSidebar from  '@/hooks/useSidebar';
 
 interface Props extends Page {
 	depth?: number

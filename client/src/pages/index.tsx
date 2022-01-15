@@ -1,8 +1,8 @@
 import type { GetServerSideProps, GetServerSidePropsContext, NextPage } from 'next';
 
-import { NoAuthNavbar } from 'components';
-import api from 'api';
-import { GET_WORKSPACE } from 'graphql/workspaces';
+import { NoAuthNavbar } from  '@/components';
+import api from  '@/api';
+import { GET_WORKSPACE } from  '@/graphql/workspaces';
 import { Page } from 'types/page';
 
 const Home: NextPage = () => {

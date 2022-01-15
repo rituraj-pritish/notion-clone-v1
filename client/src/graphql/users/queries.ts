@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request';
+import { gql } from  'graphql-request';
 
 export const SIGN_IN = gql`
   query Signin($password: String!, $email: String!) {

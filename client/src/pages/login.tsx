@@ -1,5 +1,5 @@
-import { Center } from 'atoms';
-import LoginForm from 'modules/login/LoginForm';
+import LoginForm from '@/modules/login/LoginForm';
+import { Center } from '@/atoms';
 
 const Login = () => {
 	return (

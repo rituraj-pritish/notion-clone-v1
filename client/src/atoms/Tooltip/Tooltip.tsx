@@ -1,7 +1,7 @@
 import RcTooltip from 'rc-tooltip';
 import { TooltipProps } from 'rc-tooltip/lib/Tooltip';
 import React from 'react';
-import theme from 'theme';
+import theme from  '@/theme';
 import { SubText } from './Tooltip.styles';
 
 interface Props extends TooltipProps {

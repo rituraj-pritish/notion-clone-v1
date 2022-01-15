@@ -1,9 +1,9 @@
 import { FiChevronsLeft } from 'react-icons/fi';
 import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
 
-import { Flex, IconButton } from 'atoms';
+import { Flex, IconButton } from  '@/atoms';
 import { SidebarHeaderWrapper } from '../SideBar.styles';
-import useSidebar from 'hooks/useSidebar';
+import useSidebar from  '@/hooks/useSidebar';
 import SidebarItem from '../SidebarItem';
 
 const SidebarHeaderTrigger = () => {

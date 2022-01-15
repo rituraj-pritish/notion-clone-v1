@@ -1,5 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Button } from 'atoms';
+import { Button } from  '@/atoms';
 import Popover from './index';
 
 export default {

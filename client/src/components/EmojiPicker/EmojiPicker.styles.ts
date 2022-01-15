@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import 'emoji-mart/css/emoji-mart.css';
-import theme from 'theme';
+import theme from  '@/theme';
 
 export const PickerWrapper  = styled.div`
   .emoji-mart-preview {

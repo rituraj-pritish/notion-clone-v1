@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request';
+import { gql } from  'graphql-request';
 
 const PageFragment = gql`
   fragment pageParts on Page {

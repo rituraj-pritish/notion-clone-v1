@@ -5,10 +5,10 @@ import { emojiIndex } from 'emoji-mart';
 import { VscSmiley } from 'react-icons/vsc';
 import _random from 'lodash/random';
 
-import { Button, Flex, IconButton, Popover } from 'atoms';
-import { EmojiPicker } from 'components';
+import { Button, Flex, IconButton, Popover } from  '@/atoms';
+import { EmojiPicker } from  '@/components';
 import { useMutation } from 'react-query';
-import { updatePage } from 'api/endpoints';
+import { updatePage } from  '@/api/endpoints';
 
 const getRandomEmoji = () => {
 	const emojis = Object.values(emojiIndex.emojis);

@@ -1,4 +1,4 @@
-import useSidebar from 'hooks/useSidebar';
+import useSidebar from  '@/hooks/useSidebar';
 import React, { HTMLAttributes } from 'react';
 import { SidebarItemWrapper } from './SideBar.styles';
 

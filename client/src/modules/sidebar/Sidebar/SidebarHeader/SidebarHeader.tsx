@@ -1,10 +1,10 @@
 import { useMutation } from 'react-query';
 import { useRouter } from 'next/router';
 
-import { Button, Popover } from 'atoms';
+import { Button, Popover } from  '@/atoms';
 import SidebarHeaderTrigger from './SidebarHeaderTrigger';
-import api from 'api';
-import { LOGOUT } from 'graphql/users';
+import api from  '@/api';
+import { LOGOUT } from  '@/graphql/users';
 
 const SidebarHeader = () => {
 	const router = useRouter();

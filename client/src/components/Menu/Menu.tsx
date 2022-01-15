@@ -1,7 +1,7 @@
 import { IoEllipsisHorizontal } from 'react-icons/io5';
 import React from 'react';
 
-import { Flex, IconButton, Popover } from 'atoms';
+import { Flex, IconButton, Popover } from  '@/atoms';
 
 interface Props {
 	trigger?: React.ReactElement,

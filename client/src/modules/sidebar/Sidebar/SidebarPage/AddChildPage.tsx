@@ -1,10 +1,10 @@
 import { FiPlusSquare } from 'react-icons/fi';
 import { useMutation, useQueryClient } from 'react-query';
 
-import { IconButton } from 'atoms';
+import { IconButton } from  '@/atoms';
 import { Page } from 'types/page';
-import { GET_PAGES } from 'graphql/pages/queries';
-import { createPage } from 'api/endpoints';
+import { GET_PAGES } from  '@/graphql/pages/queries';
+import { createPage } from  '@/api/endpoints';
 
 interface Props {
 	id: string

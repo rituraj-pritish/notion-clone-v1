@@ -2,9 +2,9 @@ import React from 'react';
 import { GetServerSidePropsContext } from 'next';
 import Head from 'next/head';
 
-import api from 'api';
-import { Layout } from 'components';
-import { GET_PAGE } from 'graphql/pages/queries';
+import api from  '@/api';
+import { Layout } from  '@/components';
+import { GET_PAGE } from  '@/graphql/pages/queries';
 import { Page as PageType } from 'types/page';
 
 const Page = ({

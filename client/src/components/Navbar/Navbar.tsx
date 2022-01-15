@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { FiChevronsRight } from 'react-icons/fi';
 import { AiOutlineMenu } from 'react-icons/ai';
 
-import { IconButton } from 'atoms';
-import useSidebarCollapsed from 'hooks/useSidebar';
+import { IconButton } from  '@/atoms';
+import useSidebarCollapsed from  '@/hooks/useSidebar';
 import { RootWrapper } from './Navbar.styles';
 
 const Navbar = () => {

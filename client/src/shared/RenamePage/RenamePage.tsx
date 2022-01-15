@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRef, useState } from 'react';
 
-import ChangeIcon from 'shared/ChangeIcon';
-import { Flex, Input, Popover, Space } from 'atoms';
-import { updatePage } from 'api/endpoints';
-import useKeyPress from 'hooks/useKeyPress';
+import ChangeIcon from  '@/shared/ChangeIcon';
+import { Flex, Input, Popover, Space } from  '@/atoms';
+import { updatePage } from  '@/api/endpoints';
+import useKeyPress from  '@/hooks/useKeyPress';
 import { Page } from 'types/page';
 
 const RenamePage = ({ trigger, name, id, icon }: Page) => {

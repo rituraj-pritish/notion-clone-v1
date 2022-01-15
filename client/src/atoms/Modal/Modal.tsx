@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import ReactModal, { Props as ModalProps } from 'react-modal';
-import theme from 'theme';
+import theme from  '@/theme';
 
 interface Props extends Omit<ModalProps, 'isOpen'> {
   onOpen?: () => void
