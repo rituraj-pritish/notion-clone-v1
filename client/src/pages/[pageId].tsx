@@ -30,7 +30,7 @@ const Page = ({
 export default Page;
 
 export async function getServerSideProps (ctx: GetServerSidePropsContext) {
-	const pageId = ctx.params.pageId;
+	const pageId = ctx.params?.pageId;
 	const page = await api(GET_PAGE, { id: pageId });
 
 	return {

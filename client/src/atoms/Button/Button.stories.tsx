@@ -10,23 +10,58 @@ export default {
 export const button: ComponentStory<typeof Button> = () => {
 	return (
 		<>
-			<Button variant='primary'>Primary</Button>
-			<Button>Secondary</Button>
-			<Button ghost>Ghost</Button>
+			<Button size='small' variant='primary'>Primary</Button>
+			<Button size='small' variant='primary'>Secondary</Button>
+			<Button
+				size='small'
+				variant='primary'
+				ghost
+			>Ghost
+			</Button>
 			<br/>
 			<div style={{ display: 'flex' }}>
-				<Button rightIcon='😄' size='small'>Small Emoji</Button>
-				<Button size='small'>Small</Button>
-				<Button leftIcon='😄' size='small'>Small Emoji</Button>
+				<Button
+					variant='secondary'
+					rightIcon='😄'
+					size='small'
+				>Small Emoji
+				</Button>
+				<Button variant='secondary' size='small'>Small</Button>
+				<Button
+					variant='secondary'
+					leftIcon='😄'
+					size='small'
+				>Small Emoji
+				</Button>
 			</div>
 			<div style={{ display: 'flex' }}>
-				<Button rightIcon={BsImageFill} size='small'>Small Icon</Button>
-				<Button size='small'>Small</Button>
-				<Button leftIcon={BsImageFill} size='small'>Small Icon</Button>
+				<Button
+					variant='secondary'
+					rightIcon={BsImageFill}
+					size='small'
+				>Small Icon
+				</Button>
+				<Button variant='secondary' size='small'>Small</Button>
+				<Button
+					variant='secondary'
+					leftIcon={BsImageFill}
+					size='small'
+				>Small Icon
+				</Button>
 			</div>
 			<br/>
-			<Button leftIcon='😄' size='small'>Emoji</Button>
-			<Button size='small' tooltip='Tooltip'>With Tooltip</Button>
+			<Button
+				variant='secondary'
+				leftIcon='😄'
+				size='small'
+			>Emoji
+			</Button>
+			<Button
+				variant='secondary'
+				size='small'
+				tooltip='Tooltip'
+			>With Tooltip
+			</Button>
 		</>
 	);
 };

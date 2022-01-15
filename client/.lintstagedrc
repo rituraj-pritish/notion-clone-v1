@@ -1,3 +1,4 @@
 {
-  "**/*.(js|ts|jsx|tsx)": "eslint --fix"
+  "**/*.(js|ts|jsx|tsx)": "eslint --fix",
+  "**/*.(ts|tsx)": "tsc-files --noEmit"
 }

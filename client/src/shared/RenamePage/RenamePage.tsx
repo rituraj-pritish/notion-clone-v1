@@ -8,12 +8,13 @@ import { updatePage } from  '@/api/endpoints';
 import useKeyPress from  '@/hooks/useKeyPress';
 import { Page } from '@/types/page';
 
-interface Props extends Page {
-	trigger: React.ReactElement
+interface RenameFieldProps extends Partial<Page> {
+	id: string,
+	setText: (t: string) => void
 }
 
-const RenameField = ({ name, icon, id, setText }: Page & { setText: (t: string) => void }) => {
-	const inputRef = useRef<HTMLInputElement>();
+const RenameField = ({ name, icon, id, setText }: RenameFieldProps) => {
+	const inputRef = useRef<HTMLInputElement>(null);
 	
 	useEffect(() => {
 		inputRef.current?.focus();
@@ -37,12 +38,18 @@ const RenameField = ({ name, icon, id, setText }: Page & { setText: (t: string) 
 	);
 };
 
-const RenamePage = ({ trigger, name, id, icon }: Props) => {
+interface RenamePageProps extends Partial<Page> {
+	name: string
+	id: string
+	trigger: React.ReactElement
+}
+
+const RenamePage = ({ trigger, name, id, icon }: RenamePageProps) => {
 	const [text, setText] = useState<string>(name);
 	const enterPress = useKeyPress('Enter');
 	const { mutateAsync } = useMutation(updatePage);
 
-	const popoverRef = useRef(null);
+	const popoverRef = useRef<React.ElementRef<typeof Popover>>(null);
 
 	useEffect(() => {
 		if(enterPress && text !== name) {

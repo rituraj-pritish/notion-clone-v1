@@ -18,8 +18,11 @@ const SidebarHeader = () => {
 				</div>
 			}
 		>
-			<Button onClick={() => mutateAsync()
-				.then(() => router.replace('/login'))}
+			<Button
+				size='medium'
+				variant='secondary'
+				onClick={() => mutateAsync()
+					.then(() => router.replace('/login'))}
 			>
 					Logout
 			</Button>

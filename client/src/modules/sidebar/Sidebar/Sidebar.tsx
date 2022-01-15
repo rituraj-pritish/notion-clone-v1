@@ -2,7 +2,7 @@ import { BsPlus } from 'react-icons/bs';
 import _throttle from 'lodash/throttle';
 import { ResizeCallbackData } from 'react-resizable';
 import { useMutation, useQueryClient } from 'react-query';
-import { useEffect, useState } from 'react';
+import { SyntheticEvent, useEffect, useState } from 'react';
 
 import { NewPage, RootWrapper, Handle, Content, Trigger } from './SideBar.styles';
 import SidebarHeader from './SidebarHeader';
@@ -38,7 +38,7 @@ const NewPageFooter = () => {
 
 	return (
 		<SidebarItem>
-			<NewPage onClick={mutateAsync}>
+			<NewPage onClick={() => mutateAsync()}>
 				<BsPlus/>
 					New page
 			</NewPage>
@@ -54,7 +54,7 @@ const Sidebar = () => {
 		if(isCollapsed) setIsHovering(true);
 	}, [isCollapsed]);
 
-	const fun = (_, { size }: ResizeCallbackData) => {
+	const fun = (_: SyntheticEvent, { size }: ResizeCallbackData) => {
 		setWidth(size.width);
 	};
 

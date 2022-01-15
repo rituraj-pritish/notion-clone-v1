@@ -2,7 +2,7 @@ import { GraphQLClient, RequestDocument } from  'graphql-request';
 
 const URL = process.env.API_URL;
 
-export default async <T, V = {}>(
+export default async <T, V = Record<string, unknown>>(
 	graphQlRequest: RequestDocument, 
 	variables?: V,
 	token?: string
@@ -11,7 +11,7 @@ export default async <T, V = {}>(
 		credentials: 'include',
 	});
 
-	const requestHeaders = {};
+	const requestHeaders: HeadersInit = {};
 
 	if(token && typeof token === 'string') requestHeaders.authorization = token;
 
@@ -21,6 +21,8 @@ export default async <T, V = {}>(
 		);
 		return Object.values(data)[0];
 	} catch (error) {
+		// todo find solution
+		//@ts-expect-error todo
 		return error;
 	}
 };

@@ -1,5 +1,4 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { Button } from  '@/atoms';
 import Modal from './index';
 
 export default {
@@ -9,7 +8,7 @@ export default {
 
 export const modal: ComponentStory<typeof Modal> = () => {
 	return (
-		<Modal trigger={<Button>Trigger</Button>}>
+		<Modal trigger={<div>Trigger</div>}>
       Content
 		</Modal>
 	);

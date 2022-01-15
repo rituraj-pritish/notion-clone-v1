@@ -8,7 +8,7 @@ export default {
 
 export const changeIcon: ComponentStory<typeof ChangeIcon> = () => {
 	return (
-		<ChangeIcon/>
+		<ChangeIcon pageId=''/>
 	);
 };
 

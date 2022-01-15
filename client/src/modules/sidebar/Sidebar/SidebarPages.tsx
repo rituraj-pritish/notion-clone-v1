@@ -7,17 +7,17 @@ import queryKeys from '@/constants/queryKeys';
 const SidebarPages = () => {
 	const { data } = useQuery(
 		queryKeys.ROOT_PAGES,
-		getWorkspace
+		() => getWorkspace()
 	);
 	return (
 		<div>
 			<SidebarPageGroup
 				name='FAVORITES'
-				pages={data?.favorites}
+				pages={data?.favorites || []}
 			/>
 			<SidebarPageGroup
 				name='PRIVATE'
-				pages={data?.private}
+				pages={data?.private || []}
 			/>
 		</div>
 	);

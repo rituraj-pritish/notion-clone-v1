@@ -7,6 +7,7 @@ import { Page } from 'types/page';
 import { Menu, MenuItem } from  '@/components';
 import RenamePage from  '@/shared/RenamePage';
 import { GetWorkspaceResult } from '@/api/endpoints/workspace';
+import queryKeys from '@/constants/queryKeys';
 
 const SidebarPageMoreOptions = (props: Page) => {
 	const {
@@ -46,12 +47,15 @@ const SidebarPageMoreOptions = (props: Page) => {
 				queryClient.setQueryData<GetWorkspaceResult>(
 					queryKeys.ROOT_PAGES, 
 					(prevData) => {
-						if(!prevData) return;
+						if(!prevData) return {
+							private: []
+						}; 
+						// todo handle update
 						return {
 							...prevData!,
 							favorites: favorite
-								? prevData.favorites.filter(({ id: fId }) => fId !== id)
-								: [props, ...prevData.favorites]
+								? prevData.favorites!.filter(({ id: fId }) => fId !== id)
+								: [props, ...prevData.favorites!]
 						};
 					}
 				);	

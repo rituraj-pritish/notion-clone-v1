@@ -11,12 +11,12 @@ interface Props {
 
 const { SubText } = Tooltip;
 
-const SidebarPageGroup = ({ name, pages }: Props) => {
+const SidebarPageGroup = ({ name, pages = [] }: Props) => {
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   
 	const toggleCollapsed = () => setIsCollapsed(state => !state);
 
-	if(!pages || pages.length === 0) return null;
+	if(pages.length === 0) return null;
 
 	return (
 		<Flex flexDirection='column' mb={isCollapsed ? 2 : 4}>
@@ -27,7 +27,7 @@ const SidebarPageGroup = ({ name, pages }: Props) => {
 						<SubText>Only you can access these pages.</SubText>
 					</>
 				)}
-				placement='topLeft'
+				placement='top-start'
 			>
 				<GroupName onClick={toggleCollapsed}>{name}</GroupName>
 			</Tooltip>

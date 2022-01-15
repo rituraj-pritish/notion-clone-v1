@@ -3,7 +3,7 @@ import { MenuItemWrapper } from './Menu.styles';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {
 	icon: React.ReactElement,
-	children: string | React.ReactChildren
+	children: string | React.ReactChild[]
 }
 
 const MenuItem = React.forwardRef(

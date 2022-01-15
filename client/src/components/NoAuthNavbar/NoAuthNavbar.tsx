@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 
-import logo from 'assets/logo.svg';
+import * as logo from '@/assets/logo.svg';
 import { RootWrapper } from './NoAuthNavbar.styles';
 import { Button, Link, Space } from  '@/atoms';
 
@@ -15,6 +15,7 @@ const NoAuthNavbar = () => {
 			<Space>
 				<Button
 					size='small'
+					variant='secondary'
 					ghost
 					bold
 					onClick={() => router.push('/login')}

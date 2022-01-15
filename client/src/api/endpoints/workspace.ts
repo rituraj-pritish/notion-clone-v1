@@ -10,6 +10,6 @@ export interface GetWorkspaceResult {
 
 export type GetWorkspaceVariables = string
 
-export const getWorkspace = (token: GetWorkspaceVariables) => {
+export const getWorkspace = (token?: GetWorkspaceVariables) => {
 	return api<GetWorkspaceResult>(GET_WORKSPACE, {}, token);
 };

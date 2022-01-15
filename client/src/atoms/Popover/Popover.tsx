@@ -1,4 +1,4 @@
-import React, { Ref, useState } from 'react';
+import React, { useState } from 'react';
 import Tippy, { TippyProps } from '@tippyjs/react/headless';
 import { Content, RootWrapper, Title } from './Popover.styles';
 import { useImperativeHandle } from 'react';
@@ -16,6 +16,10 @@ interface Props extends Omit<TippyProps, 'trigger' | 'children'> {
   action?: string
 }
 
+interface Handle {
+	close: VoidFunction
+}
+
 const Popover = React.forwardRef(({
 	children,
 	trigger,
@@ -24,7 +28,7 @@ const Popover = React.forwardRef(({
 	title,
 	placement = 'auto',
 	...props
-}: Props, ref: Ref<any>) => {
+}: Props, ref: React.Ref<Handle>) => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	useImperativeHandle(ref, () => ({

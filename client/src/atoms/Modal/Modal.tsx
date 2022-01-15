@@ -44,7 +44,7 @@ const Modal = ({
 	return (
 		<>
 			{trigger && React.cloneElement(trigger, {
-				onClick: e => {
+				onClick: (e: Event) => {
 					if(typeof trigger.props.onClick === 'function') trigger.props.onClick(e);
 					setIsVisible(state => !state);
 				}

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FiFileText } from 'react-icons/fi';
 import { AiOutlineFile } from 'react-icons/ai';
-import { emojiIndex } from 'emoji-mart';
+import { BaseEmoji, emojiIndex } from 'emoji-mart';
 import { VscSmiley } from 'react-icons/vsc';
 import _random from 'lodash/random';
 
@@ -12,6 +12,7 @@ import { updatePage } from  '@/api/endpoints';
 
 const getRandomEmoji = () => {
 	const emojis = Object.values(emojiIndex.emojis);
+	//@ts-expect-error type mismatch
 	return emojis[_random(0, emojis.length - 1)].native;
 };
 
@@ -39,7 +40,7 @@ const ChangeIcon = ({
 
 	const [emoji, setEmoji] = useState(icon);
 
-	const onRandomClick = async close => {
+	const onRandomClick = async (close: VoidFunction) => {
 		try {
 			const randomEmoji = getRandomEmoji();
 			await mutateAsync(randomEmoji);
@@ -50,9 +51,9 @@ const ChangeIcon = ({
 		}
 	};
 
-	const onRemoveClick = async close => {
+	const onRemoveClick = async (close: VoidFunction) => {
 		try {
-			await mutateAsync();
+			await mutateAsync(undefined);
 			setEmoji('');
 			close();
 		} catch (error) {
@@ -60,7 +61,7 @@ const ChangeIcon = ({
 		}
 	};
 
-	const title = React.useCallback((close: () => void) => (
+	const title = React.useCallback((_, close: VoidFunction) => (
 		<Flex justifyContent='flex-end'>
 			<Button
 				size='small'
@@ -97,10 +98,10 @@ const ChangeIcon = ({
 			)}
 			placement='bottom'
 		>
-			{(close) => (
+			{(_, close) => (
 				<EmojiPicker
 					emojiTooltip
-					onSelect={async ({ native }) => {
+					onSelect={async ({ native }: BaseEmoji) => {
 						await mutateAsync(native);
 						setEmoji(native);
 						close();

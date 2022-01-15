@@ -39,7 +39,7 @@ const SidebarPage = ({
 	const { pageId } = router.query;
 
 	const [children, setChildren] = useState<Page[] | null>(null);
-	const [isHovering, setIsHovering] = useState<boolean>(true);
+	const [isHovering, setIsHovering] = useState<boolean>(false);
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
 	const toggleCollapsed = () => setIsCollapsed(state => !state);

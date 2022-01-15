@@ -5,7 +5,7 @@ import { RootOverlay, SubText } from './Tooltip.styles';
 
 interface Props extends Omit<TippyProps, 'children'> {
 	children: React.ReactElement,
-	overlay: React.ReactElement
+	overlay: string | React.ReactElement<any>
 }
 
 const Tooltip = ({ children, overlay, ...props }: Props) => {

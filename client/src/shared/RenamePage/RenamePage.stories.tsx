@@ -8,9 +8,12 @@ export default {
 
 export const renamePage: ComponentStory<typeof RenamePage> = () => {
 	return (
-		<RenamePage trigger={(
-			<div>Name</div>
-		)}
+		<RenamePage
+			name='Name'
+			id='1'
+			trigger={(
+				<div>Name</div>
+			)}
 		/>
 	);
 };
