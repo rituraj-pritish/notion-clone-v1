@@ -80,6 +80,7 @@ export class UsersResolver {
 			workspaces: [workspace.id],
 			currentWorkspace: workspace.id
 		});
+		await user.save();
 		
 		const token = signToken(user);
 		

@@ -8,7 +8,8 @@ export type Size = 'small' | 'medium'
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode,
   size?: Size,
-	tooltip?: string | React.ReactElement
+	tooltip?: string | React.ReactElement,
+	bordered?: boolean
 }
 
 const IconButton = React.forwardRef(({
@@ -16,12 +17,14 @@ const IconButton = React.forwardRef(({
 	size = 'medium',
 	tooltip,
 	onClick,
+	bordered = false,
 	...otherProps
 }: Props, ref: React.Ref<HTMLButtonElement>): JSX.Element => {
 	const iconButton = (
 		<StyledButton 
 			size={size} 
 			isEmoji={typeof children === 'string'}
+			bordered={bordered}
 			onClick={e => {
 				e.stopPropagation();
 				if(onClick) onClick(e);

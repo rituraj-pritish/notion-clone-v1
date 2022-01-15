@@ -17,7 +17,7 @@ export const GET_PAGES = gql`
 `;
 
 export const GET_PAGE = gql`
-  query GetPages($id: String!) {
+  query GetPage($id: String!) {
     getPage(id: $id) {
       id
       name

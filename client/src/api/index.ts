@@ -13,7 +13,7 @@ export default async <T, V = {}>(
 
 	const requestHeaders = {};
 
-	if(token) requestHeaders.authorization = token;
+	if(token && typeof token === 'string') requestHeaders.authorization = token;
 
 	try {
 		const data = await graphQLClient.request<T>(

@@ -23,6 +23,7 @@ module.exports = {
 		'^@/components': '<rootDir>/src/components',
 		'^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
 		'^@/modules/(.*)$': '<rootDir>/src/modules/$1',
+		'^@/mocks/(.*)$': '<rootDir>/src/mocks/$1',
 		'^@/enums/(.*)$': '<rootDir>/src/enums/$1',
 		'^@/types/(.*)$': '<rootDir>/src/types/$1',
 		'^@/graphql/(.*)$': '<rootDir>/src/graphql/$1',
@@ -44,5 +45,5 @@ module.exports = {
 		'/node_modules/',
 		'^.+\\.module\\.(css|sass|scss)$',
 	],
-	testEnvironment: 'jsdom',
+	testEnvironment: 'jest-environment-jsdom',
 };

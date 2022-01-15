@@ -18,6 +18,7 @@ export class WorkspaceResolver {
 	async getWorkspace(
     @Ctx() { workspace }: Context
 	): Promise<WorkspaceReturn> {
+		console.log('wro',  workspace);
 		const all = await PageModel.find({
 			$and: [{ workspace }, { 'hierarchy.root' : null }, { deletedAt: undefined }]
 		});

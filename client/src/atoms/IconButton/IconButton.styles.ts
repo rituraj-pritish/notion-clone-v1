@@ -35,6 +35,7 @@ export const StyledButton = styled.button<Props & StyleProps>`
   max-width: 32px;
   color: ${theme.iconButton};
   ${({ size, isEmoji }) => getSizeStyles(size!, isEmoji)};
+  box-shadow: ${({ bordered }) => bordered && 'inset 0 0 0 1px #cacaca'};
 
   &:hover {
     background: ${colors.buttonHover};;

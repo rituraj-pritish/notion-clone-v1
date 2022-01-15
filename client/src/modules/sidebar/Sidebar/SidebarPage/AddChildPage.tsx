@@ -1,4 +1,4 @@
-import { FiPlusSquare } from 'react-icons/fi';
+import { AiOutlinePlus } from 'react-icons/ai';
 import { useMutation, useQueryClient } from 'react-query';
 
 import { IconButton } from  '@/atoms';
@@ -29,8 +29,9 @@ const AddChildPage = ({ id, root, nestedPages }: Props) => {
 			size='small'
 			tooltip='Quickly add a page inside'
 			onClick={() => mutateAsync()}
+			bordered
 		>
-			<FiPlusSquare/>
+			<AiOutlinePlus/>
 		</IconButton>
 	);
 };

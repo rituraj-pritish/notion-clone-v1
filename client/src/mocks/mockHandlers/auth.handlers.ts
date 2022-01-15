@@ -7,7 +7,8 @@ export default [
 				signin: {
 					name: 'Shubham'
 				}
-			})
+			}),
+			ctx.cookie('auth_token', 'auth_token')
 		);
 	})
 ];
