@@ -12,7 +12,7 @@ const SidebarHeaderTrigger = () => {
 	if(!user) return null;
 
 	return (
-		<SidebarItem>
+		<SidebarItem style={{ marginBottom: '5rem' }}>
 			<SidebarHeaderWrapper>
 				<Flex alignItems='center' style={{ color: 'black', fontWeight: 'bold' }}>
 					{user.name}&apos;s Notion

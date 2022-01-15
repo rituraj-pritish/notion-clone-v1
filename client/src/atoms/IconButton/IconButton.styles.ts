@@ -10,12 +10,11 @@ const getSizeStyles = (size: Size, isEmoji: boolean) => {
 	if(size === 'small') {
 		return css`
       font-size: 18px;
-      padding: 3px;
+      height: 20px;
+      width: 20px;
+      padding: 2px;
       ${isEmoji && css`
-        padding: 2px;
-        height: 24px;
-        width: 24px;
-        font-size: 20px;
+        font-size: 18px;
       `};
     `;
 	}
@@ -29,7 +28,6 @@ export const StyledButton = styled.button<Props & StyleProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
   font-size: 24px;
   max-height: 32px;
   max-width: 32px;

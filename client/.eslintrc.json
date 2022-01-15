@@ -2,7 +2,8 @@
   "extends": [
     "next/core-web-vitals",
     "eslint:recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:@typescript-eslint/recommended"
   ],
   "globals": {
     "JSX": true
@@ -41,6 +42,8 @@
     "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
     "react/jsx-closing-tag-location": "error",
     "react/jsx-props-no-multi-spaces": "error",
-    "react/display-name": "off"
+    "react/display-name": "off",
+    "@typescript-eslint/no-unused-vars": "error",
+    "no-unused-vars": "off"
   }
 }

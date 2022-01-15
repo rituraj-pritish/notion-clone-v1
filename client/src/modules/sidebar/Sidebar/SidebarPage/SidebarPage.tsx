@@ -39,7 +39,7 @@ const SidebarPage = ({
 	const { pageId } = router.query;
 
 	const [children, setChildren] = useState<Page[] | null>(null);
-	const [isHovering, setIsHovering] = useState<boolean>(false);
+	const [isHovering, setIsHovering] = useState<boolean>(true);
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
 
 	const toggleCollapsed = () => setIsCollapsed(state => !state);
@@ -85,7 +85,7 @@ const SidebarPage = ({
 										transform: `rotate(${isCollapsed ? 90 : 180}deg)`,
 										transition: 'transform 0.15s'
 									}}
-									size={10}
+									size={8}
 								/>
 							</IconButton>
 							<ChangeIcon
@@ -94,7 +94,7 @@ const SidebarPage = ({
 								haveChildren={hierarchy.children?.length > 0}
 							/>
 							<PageName style={{
-								width: isHovering ? `${width - (depth ? (depth * 26) + 131 : 131)}px` : undefined,
+								width: isHovering ? `${width - (depth ? (depth * 26) + 116 : 116)}px` : undefined,
 								color: isActive ? 'black' : undefined
 							}}
 							>{name}

@@ -24,7 +24,6 @@ export const Content = styled.div<RootWrapperProps>`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background: transparent;
   transition: all 0.2s;
 

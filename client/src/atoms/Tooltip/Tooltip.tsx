@@ -1,38 +1,26 @@
-import RcTooltip from 'rc-tooltip';
-import { TooltipProps } from 'rc-tooltip/lib/Tooltip';
 import React from 'react';
-import theme from  '@/theme';
-import { SubText } from './Tooltip.styles';
+import Tippy, { TippyProps } from '@tippyjs/react/headless';
 
-interface Props extends TooltipProps {
-	children: React.ReactElement 
+import { RootOverlay, SubText } from './Tooltip.styles';
+
+interface Props extends Omit<TippyProps, 'children'> {
+	children: React.ReactElement,
+	overlay: React.ReactElement
 }
 
-const overlayStyle: React.CSSProperties = {
-	position: 'absolute'
-};
-const overlayInnerStyle: React.CSSProperties = {
-	background: 'black',
-	color: 'white',
-	width: 'fit-content',
-	padding: '6px 8px',
-	fontSize: '12px',
-	borderRadius: theme.borderRadius
-};
-
-const Tooltip = ({ children, ...props }: Props) => {
+const Tooltip = ({ children, overlay, ...props }: Props) => {
 	return (
-		<RcTooltip 
-			placement='bottom' 
-			destroyTooltipOnHide 
-			mouseEnterDelay={0.5}
-			mouseLeaveDelay={0}
-			overlayStyle={overlayStyle}
-			overlayInnerStyle={overlayInnerStyle} 
+		<Tippy
+			render={(attrs) => (
+				<RootOverlay {...attrs}>
+					{overlay}
+				</RootOverlay>
+			)}
+			delay={[500, 200]}
 			{...props}
 		>
 			{children}
-		</RcTooltip>
+		</Tippy>
 	);
 };
 

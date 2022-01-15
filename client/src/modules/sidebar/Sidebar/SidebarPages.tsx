@@ -2,13 +2,13 @@ import { useQuery } from 'react-query';
 
 import { getWorkspace } from  '@/api/endpoints/workspace';
 import SidebarPageGroup from '../SidebarPageGroup';
+import queryKeys from '@/constants/queryKeys';
 
 const SidebarPages = () => {
 	const { data } = useQuery(
-		'rootPages',
+		queryKeys.ROOT_PAGES,
 		getWorkspace
 	);
-
 	return (
 		<div>
 			<SidebarPageGroup

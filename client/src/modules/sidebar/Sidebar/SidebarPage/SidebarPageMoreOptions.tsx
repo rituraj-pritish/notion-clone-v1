@@ -6,6 +6,7 @@ import { deletePage as deletePageEndpoint, updatePage } from  '@/api/endpoints';
 import { Page } from 'types/page';
 import { Menu, MenuItem } from  '@/components';
 import RenamePage from  '@/shared/RenamePage';
+import { GetWorkspaceResult } from '@/api/endpoints/workspace';
 
 const SidebarPageMoreOptions = (props: Page) => {
 	const {
@@ -42,14 +43,17 @@ const SidebarPageMoreOptions = (props: Page) => {
 		}),
 		{
 			onSuccess: () => {
-				queryClient.setQueryData(
-					'rootPages', 
-					prevData => ({
-						...prevData,
-						favorites: prevData.favorites 
-							? prevData.favorites.map(item => ({ ...item, favorite: !favorite }))
-							: [{ ...props, favorite: !favorite }]
-					})
+				queryClient.setQueryData<GetWorkspaceResult>(
+					queryKeys.ROOT_PAGES, 
+					(prevData) => {
+						if(!prevData) return;
+						return {
+							...prevData!,
+							favorites: favorite
+								? prevData.favorites.filter(({ id: fId }) => fId !== id)
+								: [props, ...prevData.favorites]
+						};
+					}
 				);	
 			}
 		}

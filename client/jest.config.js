@@ -21,6 +21,7 @@ module.exports = {
 		'^@/api': '<rootDir>/src/api',
 		'^@/atoms': '<rootDir>/src/atoms',
 		'^@/components': '<rootDir>/src/components',
+		'^@/constants/(.*)$': '<rootDir>/src/constants/$1',
 		'^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
 		'^@/modules/(.*)$': '<rootDir>/src/modules/$1',
 		'^@/mocks/(.*)$': '<rootDir>/src/mocks/$1',

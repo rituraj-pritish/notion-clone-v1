@@ -1,29 +1,55 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRef, useState } from 'react';
 
-import ChangeIcon from  '@/shared/ChangeIcon';
 import { Flex, Input, Popover, Space } from  '@/atoms';
+import ChangeIcon from  '@/shared/ChangeIcon';
 import { updatePage } from  '@/api/endpoints';
 import useKeyPress from  '@/hooks/useKeyPress';
-import { Page } from 'types/page';
+import { Page } from '@/types/page';
 
-const RenamePage = ({ trigger, name, id, icon }: Page) => {
+interface Props extends Page {
+	trigger: React.ReactElement
+}
+
+const RenameField = ({ name, icon, id, setText }: Page & { setText: (t: string) => void }) => {
+	const inputRef = useRef<HTMLInputElement>();
+	
+	useEffect(() => {
+		inputRef.current?.focus();
+	}, []);
+	
+	return (
+		<Flex p={2}>
+			<Space>
+				<ChangeIcon
+					iconSize='medium'
+					icon={icon}
+					pageId={id}
+				/>
+				<Input
+					placeholder={name}
+					onChange={e => setText(e.target.value)}
+					ref={inputRef}
+				/>
+			</Space>
+		</Flex>
+	);
+};
+
+const RenamePage = ({ trigger, name, id, icon }: Props) => {
 	const [text, setText] = useState<string>(name);
 	const enterPress = useKeyPress('Enter');
 	const { mutateAsync } = useMutation(updatePage);
 
-	const inputRef = useRef<HTMLInputElement>();
 	const popoverRef = useRef(null);
 
 	useEffect(() => {
-		if(enterPress) {
-			if(text !== name) {
-				mutateAsync({
-					id,
-					name: text
-				});
-			}
+		if(enterPress && text !== name) {
+			mutateAsync({
+				id,
+				name: text
+			});
 			popoverRef.current?.close();
 		}
 	}, [enterPress]);
@@ -35,28 +61,14 @@ const RenamePage = ({ trigger, name, id, icon }: Page) => {
 			offset={[-15, 0]}
 			ref={popoverRef}
 		>
-			{(isVisible) => {
-				if(isVisible) {
-					setText(name);
-					inputRef.current?.focus();
-				}
-
-				return (
-					<Flex p={2}>
-						<Space>
-							<ChangeIcon
-								iconSize='medium'
-								icon={icon}
-								pageId={id}
-							/>
-							<Input
-								placeholder={name}
-								onChange={e => setText(e.target.value)}
-								ref={inputRef}
-							/>
-						</Space>
-					</Flex>
-				);}}
+			{(isVisible) => isVisible && (
+				<RenameField
+					name={name}
+					icon={icon}
+					id={id}
+					setText={setText}
+				/>
+			)}
 		</Popover>
 	);
 };

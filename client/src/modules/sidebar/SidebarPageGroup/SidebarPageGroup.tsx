@@ -19,7 +19,7 @@ const SidebarPageGroup = ({ name, pages }: Props) => {
 	if(!pages || pages.length === 0) return null;
 
 	return (
-		<Flex flexDirection='column' mb={4}>
+		<Flex flexDirection='column' mb={isCollapsed ? 2 : 4}>
 			<Tooltip 
 				overlay={(
 					<>

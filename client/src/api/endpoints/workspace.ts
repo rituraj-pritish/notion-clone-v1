@@ -1,6 +1,6 @@
 import api from  '@/api';
 import { GET_WORKSPACE } from  '@/graphql/workspaces';
-import { Page } from 'types/page';
+import { Page } from '@/types/page';
 
 export interface GetWorkspaceResult {
 	private: Page[]

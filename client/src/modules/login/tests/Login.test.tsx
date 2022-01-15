@@ -1,4 +1,5 @@
 import { getPage } from 'next-page-tester';
+
 import { screen, waitForElementToBeRemoved } from '@/test/test-utils';
 
 describe('Login page', () => {

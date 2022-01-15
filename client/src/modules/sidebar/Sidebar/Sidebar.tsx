@@ -77,6 +77,7 @@ const Sidebar = () => {
 			>
 				<SidebarHeader />
 				<SidebarPages/>
+				<div style={{ flexGrow: 1 }}/>
 				<NewPageFooter/>
 			</Content>
 			{!isHovering && (<Trigger onMouseEnter={() => setIsHovering(true)} />)}
