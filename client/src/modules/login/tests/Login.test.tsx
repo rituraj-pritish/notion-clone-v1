@@ -1,7 +1,5 @@
 import { getPage } from 'next-page-tester';
-import { screen, waitForElementToBeRemoved, waitFor } from '@/test/test-utils';
-
-import { PRIVATE_PAGES } from '@/mocks/mockData/pages.mock';
+import { screen, waitForElementToBeRemoved } from '@/test/test-utils';
 
 describe('Login page', () => {
 	it('Navigates to first page screen on login', async () => {
@@ -10,8 +8,7 @@ describe('Login page', () => {
 		});
 		render();
 		
-		screen.getByText(/Log in/i).click();
+		screen.getByText(/Log in/i).click( );
 		await waitForElementToBeRemoved(() => screen.queryByPlaceholderText('Enter email'));
-		await waitFor(() => expect(document.title).toEqual(PRIVATE_PAGES[0].name));
 	});
 });
