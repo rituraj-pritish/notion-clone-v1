@@ -16,10 +16,12 @@ import useSidebar from  '@/hooks/useSidebar';
 
 interface Props extends Page {
 	depth?: number
+	isInsideFavoritesGroup: boolean
 }
 
 const SidebarPage = ({
 	depth = 0,
+	isInsideFavoritesGroup,
 	...page
 }: Props) => {
 	const {
@@ -46,8 +48,10 @@ const SidebarPage = ({
 
 	useEffect(() => {
 		if(!isCollapsed && !children) {
-			if(hierarchy.children.length === 0) setChildren([]);
-
+			if(hierarchy.children.length === 0) {
+				setChildren([]);
+				return;
+			}
 			refetch()
 				.then(res => {
 					if(res.data) setChildren(res.data);
@@ -59,6 +63,7 @@ const SidebarPage = ({
 	const isActive = id === pageId;
 	
 	const showNestedElements = children && !isCollapsed && Array.isArray(children);
+
 	return (
 		<>
 			<SidebarItem 
@@ -103,7 +108,7 @@ const SidebarPage = ({
 					</Left>
 					{isHovering && (
 						<Space size={4}>
-							<SidebarPageMoreOptions {...page}/>
+							<SidebarPageMoreOptions isInsideFavoritesGroup={isInsideFavoritesGroup} {...page}/>
 							<AddChildPage
 								nestedPages={hierarchy.children}
 								id={id}
@@ -113,12 +118,19 @@ const SidebarPage = ({
 					)}
 				</Flex>
 			</SidebarItem>
-			{showNestedElements && children.map(page => 
-				<SidebarPage
-					key={page.id}
-					depth={depth + 1}
-					{...page}
-				/>
+			{showNestedElements && (
+				<div>
+					{children.length === 0 
+						? <Flex pl={depth ? (depth * 26) + 24 : 24}>No pages inside</Flex>
+						: children.map(page => 
+							<SidebarPage
+								isInsideFavoritesGroup={isInsideFavoritesGroup}
+								key={page.id}
+								depth={depth + 1}
+								{...page}
+							/>
+						)}
+				</div>
 			)}
 		</>
 	);

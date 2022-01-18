@@ -5,7 +5,7 @@ import SidebarPage from '../Sidebar/SidebarPage';
 import { GroupName } from './SidebarPageGroup.styles';
 
 interface Props {
-  name: string
+  name: 'PRIVATE' | 'FAVORITES' | 'SHARED'
   pages: Page[]
 }
 
@@ -34,7 +34,11 @@ const SidebarPageGroup = ({ name, pages = [] }: Props) => {
 			{!isCollapsed && (
 				<div>
 					{pages.map(page => (
-						<SidebarPage key={page.id} {...page} />
+						<SidebarPage
+							key={page.id}
+							{...page}
+							isInsideFavoritesGroup={name === 'FAVORITES'}
+						/>
 					))}
 				</div>
 			)}

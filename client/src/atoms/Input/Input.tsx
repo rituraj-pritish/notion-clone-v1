@@ -2,14 +2,20 @@ import React, { InputHTMLAttributes } from 'react';
 
 import { StyledInput } from './Input.styles';
 
-export interface Props extends InputHTMLAttributes<HTMLInputElement> {
+type InputType = InputHTMLAttributes<HTMLInputElement>
 
+export interface Props extends Omit<InputType, 'type' | 'size'> {
+	type: 'primary' | 'secondary',
+	inputType?: Pick<InputType, 'type'>
+	size: 'small' | 'medium',
+	fullWidth?: boolean
 }
 
 const Input = React.forwardRef(({
 	...props
 }: Props, ref: React.Ref<HTMLInputElement>) => {
 	return (
+		// @ts-expect-error styled-component ref issue
 		<StyledInput ref={ref} {...props}/>  
 	);
 });

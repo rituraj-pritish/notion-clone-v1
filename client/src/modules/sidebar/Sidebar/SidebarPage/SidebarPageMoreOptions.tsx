@@ -11,13 +11,18 @@ import { Modal } from '@/atoms';
 import { useState } from 'react';
 import RenamePage from '@/shared/RenamePage';
 
-const SidebarPageMoreOptions = (props: Page) => {
+interface Props extends Page {
+	isInsideFavoritesGroup?: boolean
+}
+
+const SidebarPageMoreOptions = (props: Props) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
 	const {
 		id,
 		hierarchy,
-		favorite
+		favorite,
+		isInsideFavoritesGroup
 	} = props;
 
 	const queryClient = useQueryClient();
@@ -78,6 +83,11 @@ const SidebarPageMoreOptions = (props: Page) => {
 			>
 				{(_, close) => (
 					<>
+						{!isInsideFavoritesGroup && (
+							<MenuItem icon={<IoTrashOutline size={20}/>} onClick={onDelete}>
+							Delete
+							</MenuItem>
+						)}
 						<MenuItem
 							onClick={() => {
 								close();
@@ -85,9 +95,6 @@ const SidebarPageMoreOptions = (props: Page) => {
 							}}
 							icon={<BsPencilSquare/>}
 						>Rename
-						</MenuItem>
-						<MenuItem icon={<IoTrashOutline size={20}/>} onClick={onDelete}>
-						Delete
 						</MenuItem>
 						<MenuItem icon={<BsStar/>} onClick={() => toggleFavorite()}>
 							{favorite ? 'Remove from' : 'Add to'} Favorites

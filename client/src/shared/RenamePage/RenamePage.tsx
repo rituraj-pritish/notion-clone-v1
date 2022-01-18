@@ -35,18 +35,24 @@ const RenamePage = ({ name, id, icon, onEnter }: Props) => {
 	}, [enterPress]);
 
 	return (
-		<Flex p={2}>
-			<Space>
+		<Flex p={1}>
+			<Space size={4}>
 				<ChangeIcon
 					iconSize='medium'
 					icon={icon}
 					pageId={id}
+					bordered
 				/>
-				<Input
-					placeholder={name}
-					onChange={e => setText(e.target.value)}
-					ref={inputRef}
-				/>
+				<Flex width={300}>
+					<Input
+						fullWidth
+						size='small'
+						type='secondary'
+						placeholder={name}
+						onChange={e => setText(e.target.value)}
+						ref={inputRef}
+					/>
+				</Flex>
 			</Space>
 		</Flex>
 	);

@@ -1,3 +1,12 @@
+import React from 'react'
+import { Providers } from '../src/pages/_app'
+
+export const decorators = [
+  (Story) => (
+    <Providers><Story/></Providers>
+  )
+]
+
 export const parameters = {
   actions: { argTypesRegex: "^on[A-Z].*" },
   controls: {

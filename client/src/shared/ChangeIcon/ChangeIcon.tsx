@@ -17,17 +17,19 @@ const getRandomEmoji = () => {
 };
 
 interface Props {
-	icon?: string,
-	iconSize?: 'small' | 'medium',
-	pageId: string,
+	icon?: string
+	iconSize?: 'small' | 'medium'
+	pageId: string
 	haveChildren?: boolean
+	bordered?: boolean
 }
 
 const ChangeIcon = ({
 	icon,
 	pageId,
 	iconSize = 'small',
-	haveChildren
+	haveChildren,
+	bordered
 }: Props) => {
 	const {
 		mutateAsync
@@ -62,7 +64,7 @@ const ChangeIcon = ({
 	};
 
 	const title = React.useCallback((_, close: VoidFunction) => (
-		<Flex justifyContent='flex-end'>
+		<Flex justifyContent='flex-end' p={1}>
 			<Button
 				size='small'
 				variant='tertiary'
@@ -92,7 +94,11 @@ const ChangeIcon = ({
 		<Popover
 			title={title}
 			trigger={(
-				<IconButton size={iconSize} tooltip='Change icon'>
+				<IconButton
+					size={iconSize}
+					tooltip='Change icon'
+					bordered={bordered}
+				>
 					{renderIcon()}
 				</IconButton>
 			)}

@@ -18,6 +18,18 @@ const getSizeStyles = (size: Size, isEmoji: boolean) => {
       `};
     `;
 	}
+
+	if(size === 'medium') {
+		return css`
+      font-size: 17px;
+      height: 28px;
+      width: 28px;
+      padding: 3px;
+      ${isEmoji && css`
+        font-size: 20px;
+      `}
+    `;
+	}
 };
 
 export const StyledButton = styled.button<Props & StyleProps>`
@@ -28,9 +40,6 @@ export const StyledButton = styled.button<Props & StyleProps>`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  max-height: 32px;
-  max-width: 32px;
   color: ${theme.iconButton};
   ${({ size, isEmoji }) => getSizeStyles(size!, isEmoji)};
   box-shadow: ${({ bordered }) => bordered && 'inset 0 0 0 1px #cacaca'};
