@@ -1,4 +1,4 @@
-import { getPage, screen, waitForElementToBeRemoved } from '@/test/test-utils';
+import { getPage, screen, waitForElementToBeRemoved } from '@/tests/test-utils';
 
 describe('Login page', () => {
 	it('Navigates to first page screen on login', async () => {

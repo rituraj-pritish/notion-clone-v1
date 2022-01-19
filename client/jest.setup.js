@@ -1,4 +1,4 @@
-import { server } from './src/mocks/server.ts';
+import { server } from './src/tests/mocks/server.ts';
 
 import { QueryCache } from 'react-query';
 const queryCache = new QueryCache();

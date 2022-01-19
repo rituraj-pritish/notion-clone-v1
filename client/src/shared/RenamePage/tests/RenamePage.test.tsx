@@ -1,6 +1,6 @@
-import { PRIVATE_PAGES } from '@/mocks/mockData/pages.mock';
-import { getPage, screen, waitFor, fireEvent } from '@/test/test-utils';
+import { getPage, screen, waitFor, fireEvent } from '@/tests/test-utils';
 import userEvent from '@testing-library/user-event';
+import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock';
 
 describe('Rename page', () => {
 	it('should rename page', async () => {

@@ -66,21 +66,22 @@ const Sidebar = () => {
 			handle={<Handle/>}
 			minConstraints={[200, 0]}
 			maxConstraints={[400, 0]}
-			isCollapsed={isCollapsed}
 			onResize={_throttle(fun, 300)}
 		>
-			<Content
-				isCollapsed={isCollapsed}
-				isHovering={isHovering}
-				width={width}
-				onMouseLeave={() => isCollapsed && setIsHovering(false)}
-			>
-				<SidebarHeader />
-				<SidebarPages/>
-				<div style={{ flexGrow: 1 }}/>
-				<NewPageFooter/>
-			</Content>
-			{!isHovering && (<Trigger onMouseEnter={() => setIsHovering(true)} />)}
+			<>
+				<Content
+					isCollapsed={isCollapsed}
+					isHovering={isHovering}
+					width={width}
+					onMouseLeave={() => isCollapsed && setIsHovering(false)}
+				>
+					<SidebarHeader />
+					<SidebarPages/>
+					<div style={{ flexGrow: 1 }}/>
+					<NewPageFooter/>
+				</Content>
+				{!isHovering && (<Trigger onMouseEnter={() => setIsHovering(true)} />)}
+			</>
 		</RootWrapper>
 	);
 };

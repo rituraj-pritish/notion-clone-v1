@@ -10,11 +10,11 @@ module.exports = {
 		'^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
 
 		// Handle CSS imports (without CSS modules)
-		'^.+\\.(css|sass|scss)$': '<rootDir>/src/mocks/styleMock.js',
+		'^.+\\.(css|sass|scss)$': '<rootDir>/src/tests/mocks/styleMock.js',
 
 		// Handle image imports
 		// https://jestjs.io/docs/webpack#handling-static-assets
-		'^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$': '<rootDir>/src/mocks/fileMock.js',
+		'^.+\\.(jpg|jpeg|png|gif|webp|avif|svg)$': '<rootDir>/src/tests/mocks/fileMock.js',
 
 		// Handle module aliases
 		'^@/api/(.*)$': '<rootDir>/src/api/$1',
@@ -24,13 +24,11 @@ module.exports = {
 		'^@/constants/(.*)$': '<rootDir>/src/constants/$1',
 		'^@/hooks/(.*)$': '<rootDir>/src/hooks/$1',
 		'^@/modules/(.*)$': '<rootDir>/src/modules/$1',
-		'^@/mocks/(.*)$': '<rootDir>/src/mocks/$1',
-		'^@/enums/(.*)$': '<rootDir>/src/enums/$1',
 		'^@/types/(.*)$': '<rootDir>/src/types/$1',
 		'^@/graphql/(.*)$': '<rootDir>/src/graphql/$1',
 		'^@/styles/(.*)$': '<rootDir>/src/styles/$1',
 		'^@/shared/(.*)$': '<rootDir>/src/shared/$1',
-		'^@/test/(.*)$': '<rootDir>/src/test/$1',
+		'^@/tests/(.*)$': '<rootDir>/src/tests/$1',
 		'^@/theme/(.*)$': '<rootDir>/src/theme/$1',
 		'^@/theme': '<rootDir>/src/theme',
 		'^@/pages/(.*)$': '<rootDir>/src/pages/$1'

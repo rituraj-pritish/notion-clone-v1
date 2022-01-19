@@ -8,7 +8,7 @@ const hoverBg = darken(0.05, '#F7F6F3');
 const color = '#8A8883';
 
 interface RootWrapperProps {
-  isCollapsed: boolean,
+  isCollapsed?: boolean,
   width: number,
   isHovering?: boolean
 }
