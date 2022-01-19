@@ -1,17 +1,9 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import React, { useEffect } from 'react';
 import ReactModal from 'react-modal';
-
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			refetchOnMount: false,
-			refetchOnWindowFocus: false
-		}
-	}
-});
+import queryClient from '@/core/queryClient';
 
 export const Providers = ({ children }: { children: React.ReactChild }) => {
 	return (

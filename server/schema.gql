@@ -28,7 +28,7 @@ input HierarchyInput {
 
 type Mutation {
   createPage(createPageInput: CreatePageInput!): Page!
-  deletePage(id: String!): Boolean!
+  deletePage(id: String!): Page!
   signup(newUserInput: UserInput!): User!
   updatePage(updatePageInput: UpdatePageInput!): Page!
 }

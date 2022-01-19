@@ -16,7 +16,7 @@ export const updatePage = (data: Partial<Page> & Pick<Page, 'id'>) => {
 };
 
 export const deletePage = (id: string) => {
-	return api<boolean>(DELETE_PAGE, {
+	return api<Page>(DELETE_PAGE, {
 		id
 	});
 };

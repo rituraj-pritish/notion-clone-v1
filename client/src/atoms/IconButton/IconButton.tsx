@@ -37,7 +37,7 @@ const IconButton = React.forwardRef(({
 	);
 
 	if(tooltip) return (
-		<Tooltip overlay={tooltip}>
+		<Tooltip overlay={tooltip} placement='bottom'>
 			{iconButton}
 		</Tooltip>
 	);

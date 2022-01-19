@@ -31,11 +31,16 @@ const SidebarPage = ({
 		hierarchy,
 	}: Page = page;
 
-	const { refetch } = useQuery<Page[]>(
+	const { refetch, data } = useQuery<Page[]>(
 		[id, 'children'],
 		() => api(GET_PAGES, { ids: hierarchy.children.join(',') }),
 		{ enabled: false }
 	);
+
+	useEffect(() => {
+		setChildren(data!);
+	}, [data]);
+
 	const router = useRouter();
 	const { width } = useSidebar();
 	const { pageId } = router.query;
@@ -111,9 +116,8 @@ const SidebarPage = ({
 						<Space size={4}>
 							<SidebarPageMoreOptions isInsideFavoritesGroup={isInsideFavoritesGroup} {...page}/>
 							<AddChildPage
-								nestedPages={hierarchy.children}
-								id={id}
-								root={hierarchy.root}
+								expandChildren={() => setIsCollapsed(false)}
+								{...page}
 							/>
 						</Space>
 					)}

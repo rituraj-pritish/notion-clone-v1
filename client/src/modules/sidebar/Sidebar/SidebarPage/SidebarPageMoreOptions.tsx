@@ -1,15 +1,14 @@
-import { useMutation, useQueryClient } from 'react-query';
+import { useState } from 'react';
+import { useMutation } from 'react-query';
 import { IoTrashOutline } from 'react-icons/io5';
 import { BsPencilSquare, BsStar } from 'react-icons/bs';
 
 import { deletePage as deletePageEndpoint, updatePage } from  '@/api/endpoints';
 import { Page } from 'types/page';
 import { Menu, MenuItem } from  '@/components';
-import { GetWorkspaceResult } from '@/api/endpoints/workspace';
-import queryKeys from '@/constants/queryKeys';
 import { Modal } from '@/atoms';
-import { useState } from 'react';
 import RenamePage from '@/shared/RenamePage';
+import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
 
 interface Props extends Page {
 	isInsideFavoritesGroup?: boolean
@@ -25,20 +24,12 @@ const SidebarPageMoreOptions = (props: Props) => {
 		isInsideFavoritesGroup
 	} = props;
 
-	const queryClient = useQueryClient();
-	const queryKey = hierarchy.parent ? [hierarchy.parent, 'children'] : 'rootPages'; 
-
 	const {
 		mutateAsync: deletePage
 	} = useMutation(
 		() => deletePageEndpoint(id),
 		{
-			onSuccess: () => {
-				queryClient.setQueryData<Page[]>(
-					queryKey,
-					(prevPages) => prevPages!.filter(({ id: pId }) => pId !== id)	 
-				);
-			}
+			onSuccess: ({ deletedAt }) => onPageUpdate(id, hierarchy, { deletedAt: deletedAt })
 		}
 	);
 
@@ -50,23 +41,7 @@ const SidebarPageMoreOptions = (props: Props) => {
 			favorite: !favorite
 		}),
 		{
-			onSuccess: () => {
-				queryClient.setQueryData<GetWorkspaceResult>(
-					queryKeys.ROOT_PAGES, 
-					(prevData) => {
-						if(!prevData) return {
-							private: []
-						}; 
-						// todo handle update
-						return {
-							...prevData!,
-							favorites: favorite
-								? prevData.favorites!.filter(({ id: fId }) => fId !== id)
-								: [props, ...prevData.favorites!]
-						};
-					}
-				);	
-			}
+			onSuccess: () => onPageUpdate(id, hierarchy, { favorite: !favorite })	
 		}
 	);
 
@@ -94,7 +69,8 @@ const SidebarPageMoreOptions = (props: Props) => {
 								setIsModalVisible(true);
 							}}
 							icon={<BsPencilSquare/>}
-						>Rename
+						>
+							Rename
 						</MenuItem>
 						<MenuItem icon={<BsStar/>} onClick={() => toggleFavorite()}>
 							{favorite ? 'Remove from' : 'Add to'} Favorites

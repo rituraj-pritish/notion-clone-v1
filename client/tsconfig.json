@@ -22,6 +22,7 @@
       "@/assets/*": ["assets/*"],
       "@/atoms": ["atoms"],
       "@/components": ["components"],
+      "@/core/*": ["core/*"],
       "@/constants/*": ["constants/*"],
       "@/graphql/*": ["graphql/*"],
       "@/helpers/*": ["helpers/*"],

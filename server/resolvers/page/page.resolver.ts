@@ -67,20 +67,21 @@ export class PageResolver {
 			favorite
 		}: UpdatePageInput
   ): Promise<Page> {
-  	const page = await PageModel.findOneAndUpdate({ id }, {
+  	const page = await PageModel.findOneAndUpdate({ _id: id }, {
   		icon,
   		name,
   		favorite
   	}, { new: true });
-		
+
   	return page;
   }
 
-	@Mutation(() => Boolean)
+	@Mutation(() => Page)
 	async deletePage(@Arg('id') id: string) {
-		await PageModel.findByIdAndUpdate(id, {
+		const page = await PageModel.findByIdAndUpdate(id, {
 			deletedAt: new Date()
-		});
-		return true;
+		}, { new: true });
+		
+		return page;
 	}
 }

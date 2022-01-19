@@ -29,6 +29,7 @@ export const UPDATE_PAGE = gql`
       id
       name
       icon
+      favorite
       hierarchy {
         root
         children
@@ -44,6 +45,17 @@ export const DELETE_PAGE = gql`
   ) {
     deletePage(
       id: $id
-    )
+    ) {
+      id
+      name
+      icon
+      favorite
+      deletedAt
+      hierarchy {
+        root
+        children
+        parent
+      }
+    }
   }
 `;

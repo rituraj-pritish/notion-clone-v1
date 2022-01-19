@@ -12,6 +12,8 @@ import SidebarPages from './SidebarPages';
 import { CREATE_PAGE } from  '@/graphql/pages';
 import api from  '@/api';
 import { Page } from 'types/page';
+import { GetWorkspaceResult } from '@/api/endpoints/workspace';
+import queryKeys from '@/constants/queryKeys';
 
 const NewPageFooter = () => {
 	const queryClient = useQueryClient();
@@ -28,9 +30,12 @@ const NewPageFooter = () => {
 		}),
 		{
 			onSuccess: newPage => {
-				queryClient.setQueryData<Page[]>(
-					'rootPages', 
-					prevPages => prevPages!.concat(newPage)
+				queryClient.setQueryData<GetWorkspaceResult>(
+					queryKeys.ROOT_PAGES, 
+					prevData => ({
+						...prevData,
+						private: prevData!.private.concat(newPage)
+					})
 				);
 			}
 		}

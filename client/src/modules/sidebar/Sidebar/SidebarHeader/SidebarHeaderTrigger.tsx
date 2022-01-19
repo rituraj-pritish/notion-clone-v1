@@ -14,8 +14,13 @@ const SidebarHeaderTrigger = () => {
 	return (
 		<SidebarItem style={{ marginBottom: '5rem' }}>
 			<SidebarHeaderWrapper>
-				<Flex alignItems='center' style={{ color: 'black', fontWeight: 'bold' }}>
+				<Flex
+					alignItems='center'
+					flexGrow={1}
+					style={{ color: 'black', fontWeight: 'bold' }}
+				>
 					{user.name}&apos;s Notion
+					<Flex flexGrow={1} />
 					<Flex flexDirection='column'>
 						<BiChevronUp size={18}/>
 						<BiChevronDown size={18} style={{ marginTop: '-10px' }}/>

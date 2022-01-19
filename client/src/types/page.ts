@@ -8,4 +8,7 @@ export interface Page {
 		children: string[]
 	}
 	favorite: boolean
+	deletedAt: Date
+	createdAt: Date
+	updatedAt: Date
 }
