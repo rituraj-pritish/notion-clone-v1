@@ -1,11 +1,10 @@
-import { getPage } from 'next-page-tester';
-
-import { screen, waitForElementToBeRemoved } from '@/test/test-utils';
+import { getPage, screen, waitForElementToBeRemoved } from '@/test/test-utils';
 
 describe('Login page', () => {
 	it('Navigates to first page screen on login', async () => {
 		const { render } = await getPage({
-			route: '/login'
+			route: '/login',
+			req: req => req
 		});
 		render();
 		

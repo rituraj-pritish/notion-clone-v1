@@ -32,6 +32,16 @@ export default Page;
 export async function getServerSideProps (ctx: GetServerSidePropsContext) {
 	const pageId = ctx.params?.pageId;
 	const page = await api(GET_PAGE, { id: pageId });
+	const token = ctx.req.cookies.auth_token;
+
+	if(!token) {
+		return {
+			redirect: {
+				destination: '/',
+				permanent: true
+			} 
+		};
+	}
 
 	return {
 		props: page

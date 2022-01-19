@@ -9,6 +9,7 @@ const PageFragment = gql`
     hierarchy {
       root
       children
+      parent
     }
   }
 `;

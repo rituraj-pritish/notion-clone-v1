@@ -6,7 +6,7 @@ type InputType = InputHTMLAttributes<HTMLInputElement>
 
 export interface Props extends Omit<InputType, 'type' | 'size'> {
 	type: 'primary' | 'secondary',
-	inputType?: Pick<InputType, 'type'>
+	inputType?: InputType['type']
 	size: 'small' | 'medium',
 	fullWidth?: boolean
 }

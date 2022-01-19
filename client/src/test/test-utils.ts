@@ -1,8 +1,10 @@
 import { render, RenderOptions } from '@testing-library/react';
+import { getPage } from 'next-page-tester';
 import '@testing-library/jest-dom';
 import React from 'react';
 
 import { Providers } from '../pages/_app';
+import { Options } from 'next-page-tester/dist/commonTypes';
 
 jest.mock('next/image', () => ({
 	__esModule: true,
@@ -10,6 +12,14 @@ jest.mock('next/image', () => ({
 		return 'Next image stub';
 	},
 }));
+
+const customGetPage = (options: Options) => getPage({
+	req: req => {
+		req.cookies.auth_token = 'auth_token';
+		return req;
+	},
+	...options
+});
 
 const customRender = (
 	ui: React.ReactElement, 
@@ -24,4 +34,5 @@ const customRender = (
 };
 
 export * from '@testing-library/react';
+export { customGetPage as getPage };
 export { customRender as render };

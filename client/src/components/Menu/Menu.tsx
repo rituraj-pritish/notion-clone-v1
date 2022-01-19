@@ -38,7 +38,11 @@ const Menu = ({ trigger, tooltip, children, ...props }: Props) => {
 	return (
 		<Popover
 			trigger={trigger || (
-				<IconButton size='small' tooltip={tooltip}>
+				<IconButton
+					size='small'
+					tooltip={tooltip}
+					data-testid='menu-trigger'
+				>
 					<IoEllipsisHorizontal/>
 				</IconButton>
 			)}

@@ -20,7 +20,7 @@ export const CREATE_PAGE = gql`
 `;
 
 export const UPDATE_PAGE = gql`
-   mutation CreatePage(
+   mutation UpdatePage(
     $updatePageInput: UpdatePageInput!
   ) {
     updatePage(

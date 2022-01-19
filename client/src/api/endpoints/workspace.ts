@@ -5,7 +5,7 @@ import { Page } from '@/types/page';
 export interface GetWorkspaceResult {
 	private: Page[]
 	favorites?: Page[]
-	shared?: []
+	shared?: Page[]
 }
 
 export type GetWorkspaceVariables = string

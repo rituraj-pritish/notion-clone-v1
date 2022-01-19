@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useMutation } from 'react-query';
+import { QueryClient, useMutation, useQueryClient } from 'react-query';
 import { useRef, useState } from 'react';
 
 import { Flex, Input, Space } from  '@/atoms';
@@ -7,15 +7,59 @@ import ChangeIcon from  '@/shared/ChangeIcon';
 import { updatePage } from  '@/api/endpoints';
 import useKeyPress from  '@/hooks/useKeyPress';
 import { Page } from '@/types/page';
+import queryKeys from '@/constants/queryKeys';
+import { GetWorkspaceResult } from '@/api/endpoints/workspace';
 
 interface Props extends Page {
 	onEnter: VoidFunction
 }
 
-const RenamePage = ({ name, id, icon, onEnter }: Props) => {
+const updateQuery = (
+	queryClient: QueryClient, 
+	hierarchy: Page['hierarchy'], 
+	text: string,
+	id: string
+) => {
+	const updateRecord = (array: Page[] | undefined) => {
+		if(!array || array.length === 0) return [];
+		const idx = array.findIndex(({ id: pId }) => pId === id);
+
+		if(!array[idx]) return array;
+
+		array[idx] = {
+			...array[idx],
+			name: text
+		};
+		return array;
+	};
+
+	queryClient.setQueryData<GetWorkspaceResult>(
+		queryKeys.ROOT_PAGES, 
+		prevData => ({
+			private: updateRecord(prevData?.private),
+			favorites: updateRecord(prevData?.favorites),
+			shared: updateRecord(prevData?.shared)
+		})
+	);
+	queryClient.setQueryData<Page[] | undefined>(
+		[hierarchy.parent, 'children'],
+		prevData => {
+			if(!prevData) return undefined;
+			return updateRecord(prevData);
+		}
+	);
+};
+
+const RenamePage = ({ onEnter, ...props }: Props) => {
+	const { name, id, hierarchy } = props;
+
+	const queryClient = useQueryClient();
 	const [text, setText] = useState<string>(name);
+
 	const enterPress = useKeyPress('Enter');
-	const { mutateAsync } = useMutation(updatePage);
+	const { mutateAsync } = useMutation(updatePage, {
+		onSuccess: () => updateQuery(queryClient, hierarchy, text, id)
+	});
 	const inputRef = useRef<HTMLInputElement>(null);
 	
 	useEffect(() => {
@@ -35,13 +79,12 @@ const RenamePage = ({ name, id, icon, onEnter }: Props) => {
 	}, [enterPress]);
 
 	return (
-		<Flex p={1}>
+		<Flex p={1} >
 			<Space size={4}>
 				<ChangeIcon
 					iconSize='medium'
-					icon={icon}
-					pageId={id}
 					bordered
+					{...props}
 				/>
 				<Flex width={300}>
 					<Input

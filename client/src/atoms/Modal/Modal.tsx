@@ -5,11 +5,12 @@ import { CSSProperties } from 'styled-components';
 import theme from  '@/theme';
 import useMousePosition from '@/hooks/useMousePosition';
 
-interface Props extends Omit<ModalProps, 'isOpen'> {
+interface Props extends Omit<ModalProps, 'isOpen' | 'style'> {
   onOpen?: () => void
   onClose?: () => void
 	showOverlay?: boolean
 	useAsPopover?: boolean
+	style?: CSSProperties
 }
 
 interface WithoutTriggerProps extends Props {
@@ -25,7 +26,7 @@ interface TriggerProps extends Props {
 type GetStyleOptions = Pick<Props, 'showOverlay' | 'useAsPopover'>
 
 const getStyles = (
-	{ showOverlay, useAsPopover }: GetStyleOptions, customStyles = {}
+	{ showOverlay, useAsPopover }: GetStyleOptions, customStyles: CSSProperties = {}
 ) => {
 	let overlay: CSSProperties = {
 		background: 'rgba(0, 0, 0, 0.4)'
@@ -76,7 +77,7 @@ const Modal = ({
 	}, [visible]);
 
 	return (
-		<>
+		<div onClick={e => e.stopPropagation()}>
 			{trigger && React.cloneElement(trigger, {
 				onClick: (e: Event) => {
 					if(typeof trigger.props.onClick === 'function') trigger.props.onClick(e);
@@ -105,7 +106,7 @@ const Modal = ({
 			>
 				{children}
 			</ReactModal>
-		</>
+		</div>
 	);
 };
 

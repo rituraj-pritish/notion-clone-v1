@@ -28,17 +28,21 @@ const LoginForm = () => {
 		<RootWrapper>
 			<Space direction='vertical' size={16}>
 				<Input
+					type='primary'
+					size='medium'
 					value={email}
 					onChange={e => setEmail(e.target.value)}
 					style={{ width: '100%' }}
 					placeholder='Enter email'
 				/>
 				<Input
+					type='primary'
+					size='medium'
 					value={password}
 					onChange={e => setPassword(e.target.value)}
 					style={{ width: '100%' }}
 					placeholder='Enter password'
-					type='password'
+					inputType='password'
 				/>
 				<Button
 					variant='primary'

@@ -71,6 +71,7 @@ const SidebarPage = ({
 				onClick={() => router.push(`/${id}`)}
 				onMouseEnter={() => setIsHovering(true)}
 				onMouseLeave={() => setIsHovering(false)}
+				data-testid={`sidebar-page-${name}`}
 			>
 				<Flex
 					justifyContent='space-between'
@@ -95,7 +96,7 @@ const SidebarPage = ({
 							</IconButton>
 							<ChangeIcon
 								icon={icon}
-								pageId={id}
+								{...page}
 								haveChildren={hierarchy.children?.length > 0}
 							/>
 							<PageName style={{
@@ -112,7 +113,7 @@ const SidebarPage = ({
 							<AddChildPage
 								nestedPages={hierarchy.children}
 								id={id}
-								root={hierarchy?.root}
+								root={hierarchy.root}
 							/>
 						</Space>
 					)}

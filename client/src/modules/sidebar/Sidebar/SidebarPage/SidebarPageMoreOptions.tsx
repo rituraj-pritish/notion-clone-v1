@@ -106,6 +106,9 @@ const SidebarPageMoreOptions = (props: Props) => {
 				onRequestClose={() => setIsModalVisible(false)}
 				useAsPopover
 				visible={isModalVisible}
+				style={{
+					overflow: 'visible'
+				}}
 			>
 				<RenamePage onEnter={() => setIsModalVisible(false)} {...props}/>
 			</Modal>

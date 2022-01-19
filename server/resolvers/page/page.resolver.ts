@@ -67,14 +67,12 @@ export class PageResolver {
 			favorite
 		}: UpdatePageInput
   ): Promise<Page> {
-  	const page = await PageModel.findById(id);
-  	await page?.update({
+  	const page = await PageModel.findOneAndUpdate({ id }, {
   		icon,
   		name,
-			favorite
-  	});
+  		favorite
+  	}, { new: true });
 		
-  	await page?.save();
   	return page;
   }
 

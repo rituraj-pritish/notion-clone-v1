@@ -1,18 +1,17 @@
 import { AiOutlinePlus } from 'react-icons/ai';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation } from 'react-query';
 
 import { IconButton } from  '@/atoms';
 import { Page } from 'types/page';
-import { GET_PAGES } from  '@/graphql/pages/queries';
 import { createPage } from  '@/api/endpoints';
 
 interface Props {
 	id: string
-	root?: string,
+	root?: Page['hierarchy']['root'],
 	nestedPages: string[]
 }
 
-const AddChildPage = ({ id, root, nestedPages }: Props) => {	
+const AddChildPage = ({ id, root }: Props) => {	
 	const { mutateAsync } = useMutation(
 		() => createPage({
 			name: 'Untitled',

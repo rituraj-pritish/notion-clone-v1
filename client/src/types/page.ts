@@ -1,13 +1,11 @@
-export interface Hierarchy {
-	root: string
-	parent: string
-	children: string[]
-}
-
 export interface Page {
 	id: string
 	name: string
 	icon?: string
-	hierarchy: Hierarchy
+	hierarchy: {
+		root: string | null
+		parent: string | null
+		children: string[]
+	}
 	favorite: boolean
 }
