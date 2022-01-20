@@ -24,7 +24,8 @@ const NewPageFooter = () => {
 				name: 'Untitled',
 				hierarchy: {
 					root: null,
-					parent: null
+					parent: null,
+					children: []
 				}
 			}
 		}),

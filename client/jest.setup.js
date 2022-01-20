@@ -1,11 +1,9 @@
 import { server } from './src/tests/mocks/server.ts';
-
-import { QueryCache } from 'react-query';
-const queryCache = new QueryCache();
+import queryClient from './src/core/queryClient';
 
 beforeAll(() => server.listen());
 afterEach(() => {
+	queryClient.clear();
 	server.resetHandlers();
-	queryCache.clear();
 });
 afterAll(() => server.close());

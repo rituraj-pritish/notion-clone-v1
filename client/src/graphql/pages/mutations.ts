@@ -1,61 +1,33 @@
 import { gql } from  'graphql-request';
+import { PAGE_FRAGMENT } from '.';
 
 export const CREATE_PAGE = gql`
+  ${PAGE_FRAGMENT}
   mutation CreatePage(
     $createPageInput: CreatePageInput!
   ) {
     createPage(
       createPageInput: $createPageInput
-    ) {
-      id
-      name
-      icon
-      hierarchy {
-        root
-        children
-        parent
-      }
-    }
+    ) {...pageFragment}
   }
 `;
 
 export const UPDATE_PAGE = gql`
+  ${PAGE_FRAGMENT}
    mutation UpdatePage(
     $updatePageInput: UpdatePageInput!
   ) {
-    updatePage(
-      updatePageInput: $updatePageInput
-    ) {
-      id
-      name
-      icon
-      favorite
-      hierarchy {
-        root
-        children
-        parent
-      }
-    }
+    updatePage(updatePageInput: $updatePageInput) {...pageFragment}
   }
 `;
 
 export const DELETE_PAGE = gql`
+  ${PAGE_FRAGMENT}
    mutation DeletePage(
     $id: String!
   ) {
     deletePage(
       id: $id
-    ) {
-      id
-      name
-      icon
-      favorite
-      deletedAt
-      hierarchy {
-        root
-        children
-        parent
-      }
-    }
+    ) {...pageFragment}
   }
 `;

@@ -19,6 +19,7 @@ export default async <T, V = Record<string, unknown>>(
 		const data = await graphQLClient.request<T>(
 			graphQlRequest, variables, requestHeaders
 		);
+		
 		return Object.values(data)[0];
 	} catch (error) {
 		// todo find solution
