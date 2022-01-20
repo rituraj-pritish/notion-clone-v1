@@ -4,8 +4,8 @@ import { createState, useState } from '@hookstate/core';
 const WIDTH_KEY = 'sidebar-width';
 
 interface State {
-	isCollapsed: boolean,
-	width: number
+	isCollapsed: boolean;
+	width: number;
 }
 
 const INITIAL_STATE = {
@@ -20,28 +20,32 @@ export default () => {
 
 	useEffect(() => {
 		const width = localStorage.getItem(WIDTH_KEY);
-		if(width) setWidth(Number(width));
+		if (width) setWidth(Number(width));
 		// eslint-disable-next-line
 	}, []);
 
-	const toggleCollapsed = () => sidebarState.set(state => ({
-		...state,
-		isCollapsed: !state.isCollapsed
-	}));
+	const toggleCollapsed = () =>
+		sidebarState.set((state) => ({
+			...state,
+			isCollapsed: !state.isCollapsed
+		}));
 
 	const setWidth = (newWidth: number) => {
 		localStorage.setItem(WIDTH_KEY, newWidth.toString());
 
-		sidebarState.set(state => ({
+		sidebarState.set((state) => ({
 			...state,
 			width: newWidth
 		}));
 	};
 
-	return React.useMemo(() => ({
-		...sidebarState.get(),
-		toggleCollapsed,
-		setWidth
-	// eslint-disable-next-line
-	}), [sidebarState]);
+	return React.useMemo(
+		() => ({
+			...sidebarState.get(),
+			toggleCollapsed,
+			setWidth
+			// eslint-disable-next-line
+		}),
+		[sidebarState]
+	);
 };

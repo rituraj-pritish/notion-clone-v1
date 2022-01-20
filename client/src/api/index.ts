@@ -1,25 +1,27 @@
-import { GraphQLClient, RequestDocument } from  'graphql-request';
+import { GraphQLClient, RequestDocument } from 'graphql-request';
 
 const URL = process.env.API_URL;
 
 export default async <T, V = Record<string, unknown>>(
-	graphQlRequest: RequestDocument, 
+	graphQlRequest: RequestDocument,
 	variables?: V,
 	token?: string
 ): Promise<T> => {
 	const graphQLClient = new GraphQLClient(URL!, {
-		credentials: 'include',
+		credentials: 'include'
 	});
 
 	const requestHeaders: HeadersInit = {};
 
-	if(token && typeof token === 'string') requestHeaders.authorization = token;
+	if (token && typeof token === 'string') requestHeaders.authorization = token;
 
 	try {
 		const data = await graphQLClient.request<T>(
-			graphQlRequest, variables, requestHeaders
+			graphQlRequest,
+			variables,
+			requestHeaders
 		);
-		
+
 		return Object.values(data)[0];
 	} catch (error) {
 		// todo find solution

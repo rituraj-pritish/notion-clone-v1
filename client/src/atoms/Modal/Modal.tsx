@@ -2,31 +2,32 @@ import React, { useEffect, useState } from 'react';
 import ReactModal, { Props as ModalProps } from 'react-modal';
 import { CSSProperties } from 'styled-components';
 
-import theme from  '@/theme';
+import theme from '@/theme';
 import useMousePosition from '@/hooks/useMousePosition';
 
 interface Props extends Omit<ModalProps, 'isOpen' | 'style'> {
-  onOpen?: () => void
-  onClose?: () => void
-	showOverlay?: boolean
-	useAsPopover?: boolean
-	style?: CSSProperties
+	onOpen?: () => void;
+	onClose?: () => void;
+	showOverlay?: boolean;
+	useAsPopover?: boolean;
+	style?: CSSProperties;
 }
 
 interface WithoutTriggerProps extends Props {
-  trigger?: never
-  visible: boolean
+	trigger?: never;
+	visible: boolean;
 }
 
 interface TriggerProps extends Props {
-  trigger: React.ReactElement<any>,
-  visible?: never
+	trigger: React.ReactElement<any>;
+	visible?: never;
 }
 
-type GetStyleOptions = Pick<Props, 'showOverlay' | 'useAsPopover'>
+type GetStyleOptions = Pick<Props, 'showOverlay' | 'useAsPopover'>;
 
 const getStyles = (
-	{ showOverlay, useAsPopover }: GetStyleOptions, customStyles: CSSProperties = {}
+	{ showOverlay, useAsPopover }: GetStyleOptions,
+	customStyles: CSSProperties = {}
 ) => {
 	let overlay: CSSProperties = {
 		background: 'rgba(0, 0, 0, 0.4)'
@@ -38,7 +39,7 @@ const getStyles = (
 		padding: 0
 	};
 
-	if(!showOverlay || useAsPopover) {
+	if (!showOverlay || useAsPopover) {
 		overlay = {
 			background: 'transparent'
 		};
@@ -73,17 +74,19 @@ const Modal = ({
 	const [isVisible, setIsVisible] = useState(visible || false);
 
 	useEffect(() => {
-		if(typeof visible === 'boolean') setIsVisible(visible);
+		if (typeof visible === 'boolean') setIsVisible(visible);
 	}, [visible]);
 
 	return (
-		<div onClick={e => e.stopPropagation()}>
-			{trigger && React.cloneElement(trigger, {
-				onClick: (e: Event) => {
-					if(typeof trigger.props.onClick === 'function') trigger.props.onClick(e);
-					setIsVisible(state => !state);
-				}
-			})}
+		<div onClick={(e) => e.stopPropagation()}>
+			{trigger &&
+				React.cloneElement(trigger, {
+					onClick: (e: Event) => {
+						if (typeof trigger.props.onClick === 'function')
+							trigger.props.onClick(e);
+						setIsVisible((state) => !state);
+					}
+				})}
 			<ReactModal
 				isOpen={isVisible}
 				shouldCloseOnEsc
@@ -91,16 +94,16 @@ const Modal = ({
 				onRequestClose={() => setIsVisible(false)}
 				onAfterClose={onClose}
 				onAfterOpen={() => {
-					if(useAsPopover) {
+					if (useAsPopover) {
 						setModalPosition({ top: mousePosition.y, left: mousePosition.x });
 					}
-					if(onOpen) onOpen();
+					if (onOpen) onOpen();
 				}}
-				style={{ 
+				style={{
 					...getStyles(
-						{ useAsPopover, showOverlay }, 
+						{ useAsPopover, showOverlay },
 						{ ...style, ...modalPosition }
-					) 
+					)
 				}}
 				{...props}
 			>

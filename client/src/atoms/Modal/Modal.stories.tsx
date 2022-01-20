@@ -10,19 +10,16 @@ export default {
 export const modal: ComponentStory<typeof Modal> = () => {
 	return (
 		<>
-			<Modal trigger={<div>Normal</div>}>
-      Content
-			</Modal>
+			<Modal trigger={<div>Normal</div>}>Content</Modal>
 			<Flex mt={6}>
 				<Modal
 					trigger={<div>Popover like</div>}
 					showOverlay={false}
 					useAsPopover
 				>
-				Content
+					Content
 				</Modal>
 			</Flex>
 		</>
 	);
 };
-

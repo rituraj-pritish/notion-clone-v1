@@ -1,3 +1,4 @@
+import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock';
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import ChangeIcon from './index';
 
@@ -7,8 +8,5 @@ export default {
 } as ComponentMeta<typeof ChangeIcon>;
 
 export const changeIcon: ComponentStory<typeof ChangeIcon> = () => {
-	return (
-		<ChangeIcon pageId=''/>
-	);
+	return <ChangeIcon {...PRIVATE_PAGES[0]} />;
 };
-

@@ -21,5 +21,5 @@ export {
 	Popover,
 	Space,
 	Spinner,
-	Tooltip,
+	Tooltip
 };

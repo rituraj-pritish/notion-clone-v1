@@ -24,7 +24,7 @@ const useKeyPress = (targetKey: Key) => {
 			window.removeEventListener('keyup', upHandler);
 		};
 		// eslint-disable-next-line
-	}, []); 
+	}, []);
 	return keyPressed;
 };
 

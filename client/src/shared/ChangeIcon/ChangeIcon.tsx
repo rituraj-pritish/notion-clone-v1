@@ -6,9 +6,9 @@ import { VscSmiley } from 'react-icons/vsc';
 import _random from 'lodash/random';
 import { useMutation } from 'react-query';
 
-import { Button, Flex, IconButton, Popover } from  '@/atoms';
-import { EmojiPicker } from  '@/components';
-import { updatePage } from  '@/api/endpoints';
+import { Button, Flex, IconButton, Popover } from '@/atoms';
+import { EmojiPicker } from '@/components';
+import { updatePage } from '@/api/endpoints';
 import { Page } from '@/types/page';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
 
@@ -19,9 +19,9 @@ const getRandomEmoji = () => {
 };
 
 interface Props extends Page {
-	iconSize?: 'small' | 'medium'
-	haveChildren?: boolean
-	bordered?: boolean
+	iconSize?: 'small' | 'medium';
+	haveChildren?: boolean;
+	bordered?: boolean;
 }
 
 const ChangeIcon = ({
@@ -38,20 +38,15 @@ const ChangeIcon = ({
 		setEmoji(icon);
 	}, [icon]);
 
-	const {
-		mutateAsync
-	} = useMutation(
-		(newIcon: string | undefined) => updatePage({
-			id,
-			icon: newIcon
-		}),
+	const { mutateAsync } = useMutation(
+		(newIcon: string | undefined) =>
+			updatePage({
+				id,
+				icon: newIcon
+			}),
 		{
 			onSuccess: ({ icon }) => {
-				onPageUpdate(
-					id,
-					hierarchy,
-					{ icon }
-				);
+				onPageUpdate(id, hierarchy, { icon });
 			}
 		}
 	);
@@ -77,45 +72,44 @@ const ChangeIcon = ({
 		}
 	};
 
-	const title = React.useCallback((_, close: VoidFunction) => (
-		<Flex justifyContent='flex-end' p={1}>
-			<Button
-				size='small'
-				variant='tertiary'
-				ghost
-				leftIcon={VscSmiley}
-				onClick={() => onRandomClick(close)}
-			>
-        Random
-			</Button>
-			<Button
-				size='small'
-				variant='tertiary'
-				ghost
-				onClick={() => onRemoveClick(close)}
-			>
-        Remove
-			</Button>
-		</Flex>
-	), []);
+	const title = React.useCallback(
+		(_, close: VoidFunction) => (
+			<Flex justifyContent='flex-end' p={1}>
+				<Button
+					size='small'
+					variant='tertiary'
+					ghost
+					leftIcon={VscSmiley}
+					onClick={() => onRandomClick(close)}
+				>
+					Random
+				</Button>
+				<Button
+					size='small'
+					variant='tertiary'
+					ghost
+					onClick={() => onRemoveClick(close)}
+				>
+					Remove
+				</Button>
+			</Flex>
+		),
+		[]
+	);
 
 	const renderIcon = () => {
-		if(emoji) return emoji;
-		return haveChildren ? <FiFileText/> : <AiOutlineFile/>;
+		if (emoji) return emoji;
+		return haveChildren ? <FiFileText /> : <AiOutlineFile />;
 	};
 
 	return (
 		<Popover
 			title={title}
-			trigger={(
-				<IconButton
-					size={iconSize}
-					tooltip='Change icon'
-					bordered={bordered}
-				>
+			trigger={
+				<IconButton size={iconSize} tooltip='Change icon' bordered={bordered}>
 					{renderIcon()}
 				</IconButton>
-			)}
+			}
 			placement='bottom'
 		>
 			{(_, close) => (
@@ -131,7 +125,7 @@ const ChangeIcon = ({
 					}}
 					showPreview={false}
 				/>
-			)} 
+			)}
 		</Popover>
 	);
 };

@@ -6,12 +6,4 @@ import EmojiPicker from './EmojiPicker';
 import Menu from './Menu';
 import MenuItem from './Menu/MenuItem';
 
-export {
-	Layout,
-	Navbar,
-	NoAuthNavbar,
-	Sidebar,
-	EmojiPicker,
-	Menu,
-	MenuItem
-};
+export { Layout, Navbar, NoAuthNavbar, Sidebar, EmojiPicker, Menu, MenuItem };

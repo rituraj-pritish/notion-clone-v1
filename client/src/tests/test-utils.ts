@@ -10,27 +10,26 @@ jest.mock('next/image', () => ({
 	__esModule: true,
 	default: () => {
 		return 'Next image stub';
-	},
+	}
 }));
 
-const customGetPage = (options: Options) => getPage({
-	req: req => {
-		req.cookies.auth_token = 'auth_token';
-		return req;
-	},
-	...options
-});
+const customGetPage = (options: Options) =>
+	getPage({
+		req: (req) => {
+			req.cookies.auth_token = 'auth_token';
+			return req;
+		},
+		...options
+	});
 
 const customRender = (
-	ui: React.ReactElement, 
+	ui: React.ReactElement,
 	options?: Omit<RenderOptions, 'wrapper'>
 ) => {
-	render(
-		ui, {
-			wrapper: Providers,
-			...options
-		}
-	);
+	render(ui, {
+		wrapper: Providers,
+		...options
+	});
 };
 
 export * from '@testing-library/react';

@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRef, useState } from 'react';
 
-import { Flex, Input, Space } from  '@/atoms';
-import ChangeIcon from  '@/shared/ChangeIcon';
-import { updatePage } from  '@/api/endpoints';
-import useKeyPress from  '@/hooks/useKeyPress';
+import { Flex, Input, Space } from '@/atoms';
+import ChangeIcon from '@/shared/ChangeIcon';
+import { updatePage } from '@/api/endpoints';
+import useKeyPress from '@/hooks/useKeyPress';
 import { Page } from '@/types/page';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
 
 interface Props extends Page {
-	onEnter: VoidFunction
+	onEnter: VoidFunction;
 }
 
 const RenamePage = ({ onEnter, ...props }: Props) => {
@@ -20,18 +20,18 @@ const RenamePage = ({ onEnter, ...props }: Props) => {
 
 	const enterPress = useKeyPress('Enter');
 	const { mutateAsync } = useMutation(updatePage, {
-		onSuccess: () => onPageUpdate(id, hierarchy, { name:text })
+		onSuccess: () => onPageUpdate(id, hierarchy, { name: text })
 	});
 	const inputRef = useRef<HTMLInputElement>(null);
-	
+
 	useEffect(() => {
 		inputRef.current?.focus();
 	}, []);
 
 	useEffect(() => {
-		if(enterPress) {
+		if (enterPress) {
 			onEnter();
-			if(text !== name) {
+			if (text !== name) {
 				mutateAsync({
 					id,
 					name: text
@@ -41,20 +41,16 @@ const RenamePage = ({ onEnter, ...props }: Props) => {
 	}, [enterPress]);
 
 	return (
-		<Flex p={1} >
+		<Flex p={1}>
 			<Space size={4}>
-				<ChangeIcon
-					iconSize='medium'
-					bordered
-					{...props}
-				/>
+				<ChangeIcon iconSize='medium' bordered {...props} />
 				<Flex width={300}>
 					<Input
 						fullWidth
 						size='small'
 						type='secondary'
 						placeholder={name}
-						onChange={e => setText(e.target.value)}
+						onChange={(e) => setText(e.target.value)}
 						ref={inputRef}
 					/>
 				</Flex>

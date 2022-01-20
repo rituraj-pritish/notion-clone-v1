@@ -1,4 +1,4 @@
 {
-  "**/*.(js|ts|jsx|tsx)": "eslint --fix",
+  "**/*.(js|ts|jsx|tsx)": ["eslint --fix", "prettier --write"],
   "**/*.(ts|tsx)": "tsc-files --noEmit"
 }

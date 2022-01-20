@@ -1,11 +1,11 @@
-import api from  '@/api';
-import { 
-	CREATE_PAGE, 
-	DELETE_PAGE, 
-	UPDATE_PAGE, 
-	GET_PAGE, 
-	GET_PAGES 
-} from  '@/graphql/pages';
+import api from '@/api';
+import {
+	CREATE_PAGE,
+	DELETE_PAGE,
+	UPDATE_PAGE,
+	GET_PAGE,
+	GET_PAGES
+} from '@/graphql/pages';
 import { Page } from '@/types/page';
 
 export const createPage = (data: Partial<Page> & Pick<Page, 'name'>) => {

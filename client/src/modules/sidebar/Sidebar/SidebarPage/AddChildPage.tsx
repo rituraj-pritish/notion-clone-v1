@@ -1,43 +1,44 @@
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useMutation } from 'react-query';
 
-import { IconButton } from  '@/atoms';
+import { IconButton } from '@/atoms';
 import { Page } from 'types/page';
-import { createPage, getPages } from  '@/api/endpoints';
+import { createPage, getPages } from '@/api/endpoints';
 import queryClient from '@/core/queryClient';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
 
 interface Props extends Page {
-	expandChildren: VoidFunction
+	expandChildren: VoidFunction;
 }
 
-const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {	
+const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
 	const { mutateAsync } = useMutation(
-		() => createPage({
-			name: 'Untitled',
-			hierarchy: {
-				root: hierarchy.root ? hierarchy.root : id,
-				parent: id,
-				children: []
-			}
-		}),
+		() =>
+			createPage({
+				name: 'Untitled',
+				hierarchy: {
+					root: hierarchy.root ? hierarchy.root : id,
+					parent: id,
+					children: []
+				}
+			}),
 		{
 			onSuccess: (page) => {
-				onPageUpdate(id, hierarchy, { hierarchy: { ...hierarchy, children: [page.id] } });
+				onPageUpdate(id, hierarchy, {
+					hierarchy: { ...hierarchy, children: [page.id] }
+				});
 				queryClient.setQueryData<Page[] | undefined>(
 					[id, 'children'],
-					prevData => {
-						if(!prevData) {
+					(prevData) => {
+						if (!prevData) {
 							let returnData: Page[] = [];
-							queryClient.fetchQuery<Page[]>(
-								[id, 'children'], 
-								() => getPages(page.id)
-							)
+							queryClient
+								.fetchQuery<Page[]>([id, 'children'], () => getPages(page.id))
 								.then((res) => {
 									returnData = res;
 									expandChildren();
 								});
-							return [...returnData, page]; 
+							return [...returnData, page];
 						}
 						return [...prevData, page];
 					}
@@ -53,7 +54,7 @@ const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
 			onClick={() => mutateAsync()}
 			bordered
 		>
-			<AiOutlinePlus/>
+			<AiOutlinePlus />
 		</IconButton>
 	);
 };

@@ -6,20 +6,20 @@ import queryClient from '@/core/queryClient';
 export default (
 	id: Page['id'],
 	hierarchy: Page['hierarchy'],
-	updates: Partial<Page>,
+	updates: Partial<Page>
 ) => {
 	const updateRecord = (array: Page[] | undefined) => {
-		if(!array || array.length === 0) return [];
+		if (!array || array.length === 0) return [];
 		const idx = array.findIndex(({ id: pId }) => pId === id);
 
-		if(!array[idx]) return array;
+		if (!array[idx]) return array;
 
 		array[idx] = {
 			...array[idx],
 			...updates
 		};
 
-		if(updates.deletedAt) { 
+		if (updates.deletedAt) {
 			return array.filter(({ id: pId }) => id !== pId);
 		}
 
@@ -27,16 +27,14 @@ export default (
 	};
 
 	queryClient.setQueryData<GetWorkspaceResult>(
-		queryKeys.ROOT_PAGES, 
-		prevData => {
+		queryKeys.ROOT_PAGES,
+		(prevData) => {
 			const privatePages = updateRecord(prevData?.private);
 			let favoritePages = updateRecord(prevData?.favorites);
 
-			if('favorite' in updates) {
-				if(updates.favorite === true) {
-					favoritePages.push(
-						privatePages.find(({ id: pId }) => id === pId)!
-					);
+			if ('favorite' in updates) {
+				if (updates.favorite === true) {
+					favoritePages.push(privatePages.find(({ id: pId }) => id === pId)!);
 				} else {
 					favoritePages = favoritePages.filter(({ id: fId }) => fId !== id);
 				}
@@ -51,8 +49,8 @@ export default (
 	);
 	queryClient.setQueryData<Page[] | undefined>(
 		[hierarchy.parent, 'children'],
-		prevData => {
-			if(!prevData) return undefined;
+		(prevData) => {
+			if (!prevData) return undefined;
 			return updateRecord(prevData);
 		}
 	);

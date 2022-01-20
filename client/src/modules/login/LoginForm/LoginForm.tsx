@@ -13,9 +13,7 @@ const LoginForm = () => {
 	const [password, setPassword] = useState('123456');
 	const router = useRouter();
 
-	const {
-		mutateAsync
-	} = useMutation(
+	const { mutateAsync } = useMutation(
 		() => api<SignInResponse, SignInInput>(SIGN_IN, { email, password }),
 		{
 			onSuccess: () => {
@@ -23,7 +21,7 @@ const LoginForm = () => {
 			}
 		}
 	);
-	
+
 	return (
 		<RootWrapper>
 			<Space direction='vertical' size={16}>
@@ -31,7 +29,7 @@ const LoginForm = () => {
 					type='primary'
 					size='medium'
 					value={email}
-					onChange={e => setEmail(e.target.value)}
+					onChange={(e) => setEmail(e.target.value)}
 					style={{ width: '100%' }}
 					placeholder='Enter email'
 				/>
@@ -39,7 +37,7 @@ const LoginForm = () => {
 					type='primary'
 					size='medium'
 					value={password}
-					onChange={e => setPassword(e.target.value)}
+					onChange={(e) => setPassword(e.target.value)}
 					style={{ width: '100%' }}
 					placeholder='Enter password'
 					inputType='password'

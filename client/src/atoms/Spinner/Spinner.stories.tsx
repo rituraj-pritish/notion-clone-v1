@@ -9,8 +9,7 @@ export default {
 export const spinner: ComponentStory<typeof Spinner> = () => {
 	return (
 		<>
-			<Spinner size='small'/>
+			<Spinner size='small' />
 		</>
 	);
 };
-

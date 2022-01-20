@@ -7,20 +7,18 @@ import queryClient from '@/core/queryClient';
 
 export const Providers = ({ children }: { children: React.ReactChild }) => {
 	return (
-		<QueryClientProvider client={queryClient}>
-			{children}
-		</QueryClientProvider>
+		<QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
 	);
 };
 
 function MyApp({ Component, pageProps }: AppProps) {
 	useEffect(() => {
-		ReactModal.setAppElement('#__next');	
+		ReactModal.setAppElement('#__next');
 	}, []);
 
 	return (
 		<Providers>
-			<Component {...pageProps}/>
+			<Component {...pageProps} />
 		</Providers>
 	);
 }

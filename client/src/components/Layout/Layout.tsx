@@ -6,9 +6,9 @@ import { RootWrapper } from './Layout.styles';
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<RootWrapper>
-			<Sidebar/>
+			<Sidebar />
 			<div>
-				<Navbar/>
+				<Navbar />
 				{children}
 			</div>
 		</RootWrapper>

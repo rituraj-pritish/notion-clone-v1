@@ -5,23 +5,25 @@ import theme, { colors } from '@/theme';
 import { Props, Size, Variant } from './Button';
 
 const getVariantStyles = (variant: Variant) => {
-	if(variant === 'primary') return css`
-		background: ${colors.primary};
-		color: ${colors.white};
-		border-color: ${darken(0.1, colors.primary)};
+	if (variant === 'primary')
+		return css`
+			background: ${colors.primary};
+			color: ${colors.white};
+			border-color: ${darken(0.1, colors.primary)};
 
-		&:hover {
-			background: ${darken(0.05, colors.primary)};
-		}
-	`;
+			&:hover {
+				background: ${darken(0.05, colors.primary)};
+			}
+		`;
 
-	if(variant === 'tertiary') return css`
-		color: #878682;
-		
-		&:hover {
-			background: ${colors.buttonHover};;
-		}
-	`;
+	if (variant === 'tertiary')
+		return css`
+			color: #878682;
+
+			&:hover {
+				background: ${colors.buttonHover};
+			}
+		`;
 
 	return css`
 		background: transparent;
@@ -29,13 +31,13 @@ const getVariantStyles = (variant: Variant) => {
 		border-color: #dfdfde;
 
 		&:hover {
-			background: ${colors.buttonHover};;
+			background: ${colors.buttonHover};
 		}
 	`;
 };
 
 const getSizeStyles = (size: Size) => {
-	if(size === 'small') {
+	if (size === 'small') {
 		return css`
 			font-size: 14px;
 			padding: 4px 8px;
@@ -56,17 +58,19 @@ export const StyledButton = styled.button<Props>`
 	cursor: pointer;
 	font-weight: 400;
 	font-weight: ${({ bold }) => bold && 500};
-  ${({ variant }) => getVariantStyles(variant!)};
-	${({ ghost }) => ghost && css`
-		background: transparent;
-		border-color: transparent;
-	`};
-  ${({ size }) => getSizeStyles(size!)};
+	${({ variant }) => getVariantStyles(variant!)};
+	${({ ghost }) =>
+		ghost &&
+		css`
+			background: transparent;
+			border-color: transparent;
+		`};
+	${({ size }) => getSizeStyles(size!)};
 `;
 
 interface IconProps {
-	left?: boolean,
-	isEmoji: boolean
+	left?: boolean;
+	isEmoji: boolean;
 }
 
 export const Icon = styled.span<IconProps>`
@@ -76,8 +80,10 @@ export const Icon = styled.span<IconProps>`
 	margin-right: ${({ left }) => left && '6px'};
 	margin-left: ${({ left }) => !left && '6px'};
 
-	${({ isEmoji }) => isEmoji && css`
-		font-size: 20px;
-		max-height: 20px;
-	`};
+	${({ isEmoji }) =>
+		isEmoji &&
+		css`
+			font-size: 20px;
+			max-height: 20px;
+		`};
 `;

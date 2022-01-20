@@ -6,7 +6,7 @@ import { PickerWrapper } from './EmojiPicker.styles';
 const EmojiPicker = (props: PickerProps) => {
 	return (
 		<PickerWrapper>
-			<Picker {...props}/>
+			<Picker {...props} />
 		</PickerWrapper>
 	);
 };

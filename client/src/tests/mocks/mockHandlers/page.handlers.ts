@@ -22,7 +22,7 @@ export default [
 	// mutations
 	graphql.mutation('CreatePage', (req, res, ctx) => {
 		const variables = req.variables.createPageInput;
-		
+
 		return res(
 			ctx.data({
 				createPage: {
@@ -46,7 +46,10 @@ export default [
 	graphql.mutation('DeletePage', (req, res, ctx) => {
 		return res(
 			ctx.data({
-				deletePage: { ...PRIVATE_PAGES[0], deletedAt: new Date().toISOString() }
+				deletePage: {
+					...PRIVATE_PAGES[0],
+					deletedAt: new Date().toISOString()
+				}
 			})
 		);
 	})

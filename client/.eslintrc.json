@@ -3,7 +3,9 @@
     "next/core-web-vitals",
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
   ],
   "globals": {
     "JSX": true
@@ -13,37 +15,29 @@
   },
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "indent": [
-        "warn",
-        "tab"
-    ],
-    "linebreak-style": [
-        "warn",
-        "unix"
-    ],
-    "quotes": [
-        "warn",
-        "single"
-    ],
-    "semi": [
-        "warn",
-        "always"
-    ],
+    "indent": ["warn", "tab"],
+    "linebreak-style": ["warn", "unix"],
+    "quotes": ["warn", "single"],
+    "semi": ["warn", "always"],
     "object-curly-spacing": ["warn", "always"],
     "no-multiple-empty-lines": ["error", { "max": 1 }],
     "import/no-anonymous-default-export": "off",
-    "react/jsx-max-props-per-line": ["error", {
-      "maximum": {
-        "single": 2,
-        "multi": 1
+    "react/jsx-max-props-per-line": [
+      "error",
+      {
+        "maximum": {
+          "single": 2,
+          "multi": 1
+        }
       }
-    }],
+    ],
     "react/jsx-first-prop-new-line": "error",
     "react/jsx-closing-bracket-location": ["error", "tag-aligned"],
     "react/jsx-closing-tag-location": "error",
     "react/jsx-props-no-multi-spaces": "error",
     "react/display-name": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "prettier/prettier": "off"
   }
 }

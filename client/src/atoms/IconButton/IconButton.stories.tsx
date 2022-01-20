@@ -12,20 +12,19 @@ export const iconButton: ComponentStory<typeof IconButton> = () => {
 	return (
 		<>
 			<IconButton>
-				<WiTime3/>
+				<WiTime3 />
 			</IconButton>
 			<IconButton size='small'>
-				<WiTime3/>
+				<WiTime3 />
 			</IconButton>
 			<IconButton size='small'>
-				<BsThreeDots/>
+				<BsThreeDots />
 			</IconButton>
 			<IconButton size='small'>🤑</IconButton>
 			<IconButton>
-				<BsThreeDots/>
+				<BsThreeDots />
 			</IconButton>
 			<IconButton tooltip='Emoji'>🤑</IconButton>
 		</>
 	);
 };
-

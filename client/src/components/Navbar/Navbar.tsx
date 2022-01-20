@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { FiChevronsRight } from 'react-icons/fi';
 import { AiOutlineMenu } from 'react-icons/ai';
 
-import { IconButton } from  '@/atoms';
-import useSidebarCollapsed from  '@/hooks/useSidebar';
+import { IconButton } from '@/atoms';
+import useSidebarCollapsed from '@/hooks/useSidebar';
 import { RootWrapper } from './Navbar.styles';
 
 const Navbar = () => {
@@ -16,10 +16,10 @@ const Navbar = () => {
 				style={{ width: 'fit-content', padding: '0 8px' }}
 				onMouseEnter={() => setIsHovering(true)}
 				onMouseLeave={() => setIsHovering(false)}
-			>	
+			>
 				{isCollapsed && (
 					<IconButton onClick={toggleCollapsed}>
-						{isHovering ? <FiChevronsRight/> : <AiOutlineMenu/>}
+						{isHovering ? <FiChevronsRight /> : <AiOutlineMenu />}
 					</IconButton>
 				)}
 			</div>

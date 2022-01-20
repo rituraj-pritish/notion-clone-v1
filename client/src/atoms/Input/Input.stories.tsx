@@ -7,7 +7,5 @@ export default {
 } as ComponentMeta<typeof Input>;
 
 export const input: ComponentStory<typeof Input> = () => {
-	return (
-		<Input/>
-	);
+	return <Input type='primary' size='medium' />;
 };
