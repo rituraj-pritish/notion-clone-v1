@@ -4,11 +4,11 @@ import { BsTriangleFill } from 'react-icons/bs'
 import { useQuery } from 'react-query'
 
 import api from '@/api'
-import { Flex, IconButton, Space } from '@/atoms'
+import { Flex, IconButton, Space, Text } from '@/atoms'
 import { GET_PAGES } from '@/graphql/pages/queries'
 import useSidebar from '@/hooks/useSidebar'
 import ChangeIcon from '@/shared/ChangeIcon'
-import { Page } from 'types/page'
+import { Page } from '@/types/page'
 
 import SidebarItem from '../SidebarItem'
 import AddChildPage from './AddChildPage'
@@ -19,6 +19,9 @@ interface Props extends Page {
 	depth?: number
 	isInsideFavoritesGroup: boolean
 }
+
+const OPTIONS_WIDTH = 117
+const PADDING_AND_TOGGLE_ICON_WIDTH = 26
 
 const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 	const { id, icon, name, hierarchy }: Page = page
@@ -98,7 +101,13 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 							<PageName
 								style={{
 									width: isHovering
-										? `${width - (depth ? depth * 26 + 116 : 116)}px`
+										? `${
+												width -
+												(depth
+													? depth * PADDING_AND_TOGGLE_ICON_WIDTH +
+													  OPTIONS_WIDTH
+													: OPTIONS_WIDTH)
+										  }px`
 										: undefined,
 									color: isActive ? 'black' : undefined
 								}}
@@ -124,7 +133,9 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 			{showNestedElements && (
 				<div>
 					{children.length === 0 ? (
-						<Flex pl={depth ? depth * 26 + 24 : 24}>No pages inside</Flex>
+						<Text pl={depth ? depth * PADDING_AND_TOGGLE_ICON_WIDTH + 40 : 40}>
+							No pages inside
+						</Text>
 					) : (
 						children.map((page) => (
 							<SidebarPage

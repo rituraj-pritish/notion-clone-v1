@@ -8,6 +8,7 @@ import Modal from './Modal'
 import Popover from './Popover'
 import Space from './Space'
 import Spinner from './Spinner'
+import Text from './Text'
 import Tooltip from './Tooltip'
 
 export {
@@ -21,5 +22,6 @@ export {
 	Popover,
 	Space,
 	Spinner,
+	Text,
 	Tooltip
 }

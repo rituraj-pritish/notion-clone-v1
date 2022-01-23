@@ -120,6 +120,7 @@ export const NewPage = styled.div`
 	align-items: center;
 	padding: 8px 16px;
 	border-top: 1px solid #e6e5e0;
+	font-weight: 600;
 
 	svg {
 		font-size: 26px;

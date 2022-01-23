@@ -2,9 +2,8 @@ import { GetServerSidePropsContext } from 'next'
 import Head from 'next/head'
 import React from 'react'
 
-import api from '@/api'
+import { getPage } from '@/api/endpoints'
 import { Layout } from '@/components'
-import { GET_PAGE } from '@/graphql/pages/queries'
 import { Page as PageType } from '@/types/page'
 
 const Page = ({ icon, name }: PageType) => {
@@ -26,7 +25,10 @@ export default Page
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 	const pageId = ctx.params?.pageId
-	const page = await api(GET_PAGE, { id: pageId })
+	let page
+	if (typeof pageId === 'string') {
+		page = await getPage(pageId)
+	}
 	const token = ctx.req.cookies.auth_token
 
 	if (!token) {

@@ -7,7 +7,7 @@ export const GroupName = styled.div`
 	border-radius: ${theme.borderRadius};
 	padding: 2px 4px;
 	font-size: 11.5px;
-	font-weight: 500;
+	font-weight: 600;
 	margin-left: 10px;
 	margin-bottom: 4px;
 	width: fit-content;

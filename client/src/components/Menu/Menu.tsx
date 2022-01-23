@@ -25,7 +25,7 @@ const Menu = ({ children, tooltip, ...props }: Props) => {
 				</Popover.Trigger>
 			)}
 			<Popover.Content>
-				<Flex flexDirection='column' py={2}>
+				<Flex flexDirection='column' py='6px'>
 					{children}
 				</Flex>
 			</Popover.Content>

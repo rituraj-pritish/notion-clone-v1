@@ -14,7 +14,7 @@ const SidebarHeader = () => {
 	const { mutateAsync } = useMutation(() => api(LOGOUT))
 
 	return (
-		<Popover>
+		<Popover placement='bottom'>
 			<Trigger>
 				<div>
 					<SidebarHeaderTrigger />
@@ -22,7 +22,7 @@ const SidebarHeader = () => {
 			</Trigger>
 			<Content>
 				<Button
-					size='medium'
+					size='small'
 					variant='secondary'
 					onClick={() => mutateAsync().then(() => router.replace('/login'))}
 				>

@@ -52,6 +52,8 @@ const Popover = React.forwardRef(
 			close: () => setIsVisible(false)
 		}))
 
+		if (!Array.isArray(children)) return null
+
 		const trigger = children.find(({ type }) => type === PopoverTrigger)
 		const content = children.find(({ type }) => type === PopoverContent)
 		const title = children.find(({ type }) => type === PopoverTitle)
