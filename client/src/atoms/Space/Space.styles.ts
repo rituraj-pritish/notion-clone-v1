@@ -46,4 +46,15 @@ export const RootWrapper = styled.div<Props>`
 			`
 		}};
 	}
+
+	${({ children, size, direction }) => {
+		if (children) return
+		if (direction === 'horizontal')
+			return css`
+				width: ${size}px;
+			`
+		return css`
+			height: ${size}px;
+		`
+	}};
 `

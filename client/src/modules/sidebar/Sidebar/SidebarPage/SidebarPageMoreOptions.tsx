@@ -8,7 +8,7 @@ import { Modal } from '@/atoms'
 import { Menu, MenuItem } from '@/components'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
 import RenamePage from '@/shared/RenamePage'
-import { Page } from 'types/page'
+import { Page } from '@/types/page'
 
 interface Props extends Page {
 	isInsideFavoritesGroup?: boolean
@@ -73,13 +73,14 @@ const SidebarPageMoreOptions = (props: Props) => {
 			</Menu>
 			<Modal
 				onRequestClose={() => setIsModalVisible(false)}
-				useAsPopover
 				visible={isModalVisible}
-				style={{
+				styles={{
 					overflow: 'visible'
 				}}
 			>
-				<RenamePage onEnter={() => setIsModalVisible(false)} {...props} />
+				<Modal.ModalPopover>
+					<RenamePage onEnter={() => setIsModalVisible(false)} {...props} />
+				</Modal.ModalPopover>
 			</Modal>
 		</>
 	)

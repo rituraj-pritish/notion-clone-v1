@@ -1,116 +1,151 @@
-import React, { useEffect, useState } from 'react';
-import ReactModal, { Props as ModalProps } from 'react-modal';
-import { CSSProperties } from 'styled-components';
+import React, { useEffect, useState } from 'react'
+import ReactModal, { Props as ModalProps, Styles } from 'react-modal'
 
-import useMousePosition from '@/hooks/useMousePosition';
-import theme from '@/theme';
+import useMousePosition from '@/hooks/useMousePosition'
+import theme from '@/theme'
 
-interface Props extends Omit<ModalProps, 'isOpen' | 'style'> {
-	onOpen?: () => void;
-	onClose?: () => void;
-	showOverlay?: boolean;
-	useAsPopover?: boolean;
-	style?: CSSProperties;
+import useModal, { ModalContext } from './useModal'
+
+type ChildrenProp = { children: React.ReactElement }
+
+export interface Props extends Omit<ModalProps, 'isOpen' | 'style'> {
+	onOpen?: () => void
+	onClose?: () => void
+	visible?: boolean
+	showOverlay?: boolean
+	styles?: React.CSSProperties
 }
 
-interface WithoutTriggerProps extends Props {
-	trigger?: never;
-	visible: boolean;
+const ModalTrigger = ({ children }: ChildrenProp) => {
+	const { openModal } = useModal()
+	return React.cloneElement(children, {
+		onClick: openModal
+	})
 }
 
-interface TriggerProps extends Props {
-	trigger: React.ReactElement<any>;
-	visible?: never;
-}
-
-type GetStyleOptions = Pick<Props, 'showOverlay' | 'useAsPopover'>;
-
-const getStyles = (
-	{ showOverlay, useAsPopover }: GetStyleOptions,
-	customStyles: CSSProperties = {}
-) => {
-	let overlay: CSSProperties = {
+const baseStyles: Styles = {
+	overlay: {
 		background: 'rgba(0, 0, 0, 0.4)'
-	};
-
-	const content: CSSProperties = {
+	},
+	content: {
 		border: 'none',
 		borderRadius: theme.borderRadius,
 		padding: 0
-	};
-
-	if (!showOverlay || useAsPopover) {
-		overlay = {
-			background: 'transparent'
-		};
-
-		content.boxShadow = theme.boxShadow;
-		content.width = 'fit-content';
-		content.height = 'fit-content';
 	}
+}
+const noOverlayStyles: Styles = {
+	...baseStyles,
+	overlay: {
+		background: 'transparent'
+	},
+	content: {
+		...baseStyles.content,
+		boxShadow: theme.boxShadow
+	}
+}
+const popoverStyles: Styles = {
+	...noOverlayStyles,
+	content: {
+		...noOverlayStyles.content,
+		width: 'fit-content',
+		height: 'fit-content'
+	}
+}
+const getStyles = (
+	{
+		showOverlay,
+		useAsPopover
+	}: {
+		showOverlay?: boolean
+		useAsPopover?: boolean
+	},
+	override: React.CSSProperties | undefined
+) => {
+	let styles = baseStyles
+	if (useAsPopover === true) styles = popoverStyles
+	if (showOverlay === false) styles = noOverlayStyles
+	if (override) {
+		styles = { ...styles, content: { ...styles.content, ...override } }
+	}
+	return styles
+}
 
-	return {
-		overlay,
-		content: {
-			...content,
-			...customStyles
-		}
-	};
-};
+const ModalContent = ({ children }: ChildrenProp) => {
+	const { isVisible, closeModal, modalProps } = useModal()
+	return (
+		<ReactModal
+			isOpen={isVisible}
+			shouldCloseOnEsc
+			shouldCloseOnOverlayClick
+			onRequestClose={closeModal}
+			style={getStyles(
+				{
+					showOverlay: modalProps.showOverlay
+				},
+				modalProps.styles
+			)}
+			{...modalProps}
+		>
+			{children}
+		</ReactModal>
+	)
+}
 
-const Modal = ({
-	children,
-	trigger,
-	visible,
-	onOpen,
-	onClose,
-	showOverlay = true,
-	useAsPopover = false,
-	style = {},
-	...props
-}: TriggerProps | WithoutTriggerProps) => {
-	const mousePosition = useMousePosition();
-	const [modalPosition, setModalPosition] = useState({});
-	const [isVisible, setIsVisible] = useState(visible || false);
+const ModalPopover = ({ children }: ChildrenProp) => {
+	const { isVisible, closeModal, modalProps } = useModal()
+	const mousePosition = useMousePosition()
+	const [modalPosition, setModalPosition] = useState({})
 
-	useEffect(() => {
-		if (typeof visible === 'boolean') setIsVisible(visible);
-	}, [visible]);
+	const styles = React.useMemo(
+		() =>
+			getStyles(
+				{
+					useAsPopover: true
+				},
+				{ ...modalProps.styles, ...modalPosition }
+			),
+		[modalPosition]
+	)
 
 	return (
-		<div onClick={(e) => e.stopPropagation()}>
-			{trigger &&
-				React.cloneElement(trigger, {
-					onClick: (e: Event) => {
-						if (typeof trigger.props.onClick === 'function')
-							trigger.props.onClick(e);
-						setIsVisible((state) => !state);
-					}
-				})}
-			<ReactModal
-				isOpen={isVisible}
-				shouldCloseOnEsc
-				shouldCloseOnOverlayClick
-				onRequestClose={() => setIsVisible(false)}
-				onAfterClose={onClose}
-				onAfterOpen={() => {
-					if (useAsPopover) {
-						setModalPosition({ top: mousePosition.y, left: mousePosition.x });
-					}
-					if (onOpen) onOpen();
-				}}
-				style={{
-					...getStyles(
-						{ useAsPopover, showOverlay },
-						{ ...style, ...modalPosition }
-					)
-				}}
-				{...props}
-			>
-				{children}
-			</ReactModal>
-		</div>
-	);
-};
+		<ReactModal
+			isOpen={isVisible}
+			shouldCloseOnEsc
+			shouldCloseOnOverlayClick
+			onRequestClose={closeModal}
+			onAfterOpen={() => {
+				setModalPosition({ top: mousePosition.y, left: mousePosition.x })
+				if (modalProps.onOpen) modalProps.onOpen()
+			}}
+			{...modalProps}
+			style={styles}
+		>
+			{children}
+		</ReactModal>
+	)
+}
 
-export default Modal;
+const Modal = ({ children, visible, ...otherProps }: Props) => {
+	const [isVisible, setIsVisible] = useState(() =>
+		typeof visible === 'boolean' ? visible : false
+	)
+
+	useEffect(() => {
+		if (typeof visible === 'boolean') setIsVisible(visible)
+	}, [visible])
+
+	const value = {
+		isVisible,
+		openModal: () => setIsVisible(true),
+		closeModal: () => setIsVisible(false),
+		modalProps: otherProps
+	}
+
+	return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
+}
+
+Modal.ModalTrigger = ModalTrigger
+Modal.ModalContent = ModalContent
+Modal.ModalPopover = ModalPopover
+
+export default Modal

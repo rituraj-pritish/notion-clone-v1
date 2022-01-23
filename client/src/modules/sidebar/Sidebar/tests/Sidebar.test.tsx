@@ -1,4 +1,3 @@
-import userEvent from '@testing-library/user-event'
 import { graphql } from 'msw'
 
 import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock'
@@ -57,20 +56,6 @@ describe('Sidebar', () => {
 		expect(screen.queryByText('FAVORITES')).not.toBeInTheDocument()
 		expect(screen.getAllByText('P Page 1').length).toEqual(1)
 	}, 10000)
-
-	it('should rename page', async () => {
-		await renderPage()
-
-		await waitFor(() => screen.findByText('PRIVATE'))
-		clickMenuItem('P Page 1', 'Rename')
-
-		await waitFor(() => screen.findByPlaceholderText('P Page 1'))
-		userEvent.type(screen.getByPlaceholderText('P Page 1'), 'Renamed Page 1')
-		userEvent.keyboard('{Enter}')
-
-		await waitFor(() => screen.findByText('Renamed Page 1'))
-		expect(screen.queryByText('P Page 1')).not.toBeInTheDocument()
-	})
 
 	it('should update pages on delete', async () => {
 		server.use(

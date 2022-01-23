@@ -1,9 +1,9 @@
-import { server } from './src/tests/mocks/server.ts';
-import queryClient from './src/core/queryClient';
+import queryClient from './src/core/queryClient'
+import { server } from './src/tests/mocks/server.ts'
 
-beforeAll(() => server.listen());
+beforeAll(() => server.listen())
 afterEach(() => {
-	queryClient.clear();
-	server.resetHandlers();
-});
-afterAll(() => server.close());
+	queryClient.clear()
+	server.resetHandlers()
+})
+afterAll(() => server.close())

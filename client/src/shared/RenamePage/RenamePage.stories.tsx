@@ -16,8 +16,10 @@ export const renamePage: ComponentStory<typeof RenamePage> = () => {
 	return (
 		<div>
 			<RenamePage {...PAGE} onEnter={() => null} />
-			<Modal useAsPopover visible>
-				<RenamePage {...PAGE} onEnter={() => null} />
+			<Modal visible>
+				<Modal.ModalPopover>
+					<RenamePage {...PAGE} onEnter={() => null} />
+				</Modal.ModalPopover>
 			</Modal>
 		</div>
 	)
