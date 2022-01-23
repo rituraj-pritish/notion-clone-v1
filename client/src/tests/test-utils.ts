@@ -1,10 +1,10 @@
 import { render, RenderOptions } from '@testing-library/react';
 import { getPage } from 'next-page-tester';
 import '@testing-library/jest-dom';
+import { Options } from 'next-page-tester/dist/commonTypes';
 import React from 'react';
 
 import { Providers } from '../pages/_app';
-import { Options } from 'next-page-tester/dist/commonTypes';
 
 jest.mock('next/image', () => ({
 	__esModule: true,
@@ -32,6 +32,8 @@ const customRender = (
 	});
 };
 
+// eslint-disable-next-line
 export * from '@testing-library/react';
 export { customGetPage as getPage };
+// eslint-disable-next-line
 export { customRender as render };

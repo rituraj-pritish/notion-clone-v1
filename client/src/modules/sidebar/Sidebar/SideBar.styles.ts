@@ -1,6 +1,7 @@
 import { darken } from 'polished';
-import styled, { css } from 'styled-components';
 import { ResizableBox } from 'react-resizable';
+import styled, { css } from 'styled-components';
+
 import theme from '@/theme';
 
 const greyHoverBg = '#efefef';

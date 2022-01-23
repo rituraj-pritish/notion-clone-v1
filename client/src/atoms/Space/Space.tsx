@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from 'react';
+
 import { RootWrapper } from './Space.styles';
 
 export type Direction = 'vertical' | 'horizontal';

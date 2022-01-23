@@ -1,3 +1,8 @@
+import userEvent from '@testing-library/user-event';
+import { graphql } from 'msw';
+
+import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock';
+import { server } from '@/tests/mocks/server';
 import {
 	getPage,
 	screen,
@@ -6,10 +11,6 @@ import {
 	waitForElementToBeRemoved,
 	within
 } from '@/tests/test-utils';
-import userEvent from '@testing-library/user-event';
-import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock';
-import { server } from '@/tests/mocks/server';
-import { graphql } from 'msw';
 
 const clickMenuItem = (text: string, option: string, groupName = 'PRIVATE') => {
 	const el = within(screen.getByTestId(`page-group-${groupName}`));
@@ -19,12 +20,16 @@ const clickMenuItem = (text: string, option: string, groupName = 'PRIVATE') => {
 	fireEvent.click(el.getByText(option));
 };
 
+const renderPage = async () => {
+	const { render } = await getPage({
+		route: `/${PRIVATE_PAGES[0].id}`
+	});
+	render();
+};
+
 describe('Sidebar', () => {
 	it('should render and update favorite pages', async () => {
-		const { render } = await getPage({
-			route: `/${PRIVATE_PAGES[0].id}`
-		});
-		render();
+		await renderPage();
 
 		await waitFor(() => screen.findByText('PRIVATE'));
 		expect(screen.queryByText('FAVORITES')).not.toBeInTheDocument();
@@ -54,10 +59,7 @@ describe('Sidebar', () => {
 	}, 10000);
 
 	it('should rename page', async () => {
-		const { render } = await getPage({
-			route: `/${PRIVATE_PAGES[0].id}`
-		});
-		render();
+		await renderPage();
 
 		await waitFor(() => screen.findByText('PRIVATE'));
 		clickMenuItem('P Page 1', 'Rename');
@@ -91,10 +93,7 @@ describe('Sidebar', () => {
 			})
 		);
 
-		const { render } = await getPage({
-			route: `/${PRIVATE_PAGES[0].id}`
-		});
-		render();
+		await renderPage();
 
 		await waitFor(() => screen.findByText('PRIVATE'));
 		expect(screen.getAllByText('P Page 1').length).toEqual(2);
@@ -107,10 +106,7 @@ describe('Sidebar', () => {
 	});
 
 	it('should add new page in private pages', async () => {
-		const { render } = await getPage({
-			route: `/${PRIVATE_PAGES[0].id}`
-		});
-		render();
+		await renderPage();
 
 		fireEvent.click(screen.getByText('New page'));
 		await waitFor(() => screen.findByTestId('sidebar-page-Untitled'));

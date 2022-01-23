@@ -1,7 +1,9 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import { Modal } from '@/atoms';
-import RenamePage from './index';
 import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock';
+
+import RenamePage from './index';
 
 export default {
 	title: 'Page/Rename Page',

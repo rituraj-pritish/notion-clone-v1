@@ -1,6 +1,7 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { WiTime3 } from 'react-icons/wi';
 import { BsThreeDots } from 'react-icons/bs';
+import { WiTime3 } from 'react-icons/wi';
+
 import IconButton from './index';
 
 export default {

@@ -1,8 +1,9 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import { QueryClientProvider } from 'react-query';
 import React, { useEffect } from 'react';
 import ReactModal from 'react-modal';
+import { QueryClientProvider } from 'react-query';
+
 import queryClient from '@/core/queryClient';
 
 export const Providers = ({ children }: { children: React.ReactChild }) => {

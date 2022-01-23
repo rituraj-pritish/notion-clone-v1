@@ -1,4 +1,5 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
+
 import { Flex } from '..';
 import Modal from './index';
 

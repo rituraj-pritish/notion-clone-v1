@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { FiFileText } from 'react-icons/fi';
-import { AiOutlineFile } from 'react-icons/ai';
 import { BaseEmoji, emojiIndex } from 'emoji-mart';
-import { VscSmiley } from 'react-icons/vsc';
 import _random from 'lodash/random';
+import React, { useEffect, useState } from 'react';
+import { AiOutlineFile } from 'react-icons/ai';
+import { FiFileText } from 'react-icons/fi';
+import { VscSmiley } from 'react-icons/vsc';
 import { useMutation } from 'react-query';
 
+import { updatePage } from '@/api/endpoints';
 import { Button, Flex, IconButton, Popover } from '@/atoms';
 import { EmojiPicker } from '@/components';
-import { updatePage } from '@/api/endpoints';
-import { Page } from '@/types/page';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
+import { Page } from '@/types/page';
 
 const getRandomEmoji = () => {
 	const emojis = Object.values(emojiIndex.emojis);

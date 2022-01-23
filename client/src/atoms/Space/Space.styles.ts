@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+
 import { Props } from './Space';
 
 export const RootWrapper = styled.div<Props>`

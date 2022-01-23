@@ -1,8 +1,15 @@
-import { BsPlus } from 'react-icons/bs';
 import _throttle from 'lodash/throttle';
-import { ResizeCallbackData } from 'react-resizable';
-import { useMutation, useQueryClient } from 'react-query';
 import { SyntheticEvent, useEffect, useState } from 'react';
+import { BsPlus } from 'react-icons/bs';
+import { useMutation, useQueryClient } from 'react-query';
+import { ResizeCallbackData } from 'react-resizable';
+
+import api from '@/api';
+import { GetWorkspaceResult } from '@/api/endpoints/workspace';
+import queryKeys from '@/constants/queryKeys';
+import { CREATE_PAGE } from '@/graphql/pages';
+import useSidebar from '@/hooks/useSidebar';
+import { Page } from 'types/page';
 
 import {
 	NewPage,
@@ -12,14 +19,8 @@ import {
 	Trigger
 } from './SideBar.styles';
 import SidebarHeader from './SidebarHeader';
-import useSidebar from '@/hooks/useSidebar';
 import SidebarItem from './SidebarItem';
 import SidebarPages from './SidebarPages';
-import { CREATE_PAGE } from '@/graphql/pages';
-import api from '@/api';
-import { Page } from 'types/page';
-import { GetWorkspaceResult } from '@/api/endpoints/workspace';
-import queryKeys from '@/constants/queryKeys';
 
 const NewPageFooter = () => {
 	const queryClient = useQueryClient();

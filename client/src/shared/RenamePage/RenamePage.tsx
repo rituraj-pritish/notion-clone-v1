@@ -1,13 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMutation } from 'react-query';
-import { useRef, useState } from 'react';
 
-import { Flex, Input, Space } from '@/atoms';
-import ChangeIcon from '@/shared/ChangeIcon';
 import { updatePage } from '@/api/endpoints';
-import useKeyPress from '@/hooks/useKeyPress';
-import { Page } from '@/types/page';
+import { Flex, Input, Space } from '@/atoms';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
+import useKeyPress from '@/hooks/useKeyPress';
+import ChangeIcon from '@/shared/ChangeIcon';
+import { Page } from '@/types/page';
 
 interface Props extends Page {
 	onEnter: VoidFunction;

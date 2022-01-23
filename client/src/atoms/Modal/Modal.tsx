@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import ReactModal, { Props as ModalProps } from 'react-modal';
 import { CSSProperties } from 'styled-components';
 
-import theme from '@/theme';
 import useMousePosition from '@/hooks/useMousePosition';
+import theme from '@/theme';
 
 interface Props extends Omit<ModalProps, 'isOpen' | 'style'> {
 	onOpen?: () => void;

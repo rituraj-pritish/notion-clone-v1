@@ -1,11 +1,11 @@
 import { AiOutlinePlus } from 'react-icons/ai';
 import { useMutation } from 'react-query';
 
-import { IconButton } from '@/atoms';
-import { Page } from 'types/page';
 import { createPage, getPages } from '@/api/endpoints';
+import { IconButton } from '@/atoms';
 import queryClient from '@/core/queryClient';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
+import { Page } from 'types/page';
 
 interface Props extends Page {
 	expandChildren: VoidFunction;

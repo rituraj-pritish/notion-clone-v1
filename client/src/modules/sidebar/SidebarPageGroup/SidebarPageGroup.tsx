@@ -1,6 +1,8 @@
-import { Flex, Tooltip } from '@/atoms';
 import { useState } from 'react';
+
+import { Flex, Tooltip } from '@/atoms';
 import { Page } from 'types/page';
+
 import SidebarPage from '../Sidebar/SidebarPage';
 import { GroupName } from './SidebarPageGroup.styles';
 

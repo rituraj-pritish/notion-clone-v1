@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 
 import theme, { colors } from '@/theme';
+
 import { Props } from './Input';
 
 const getStyles = ({ size }: Props) => {

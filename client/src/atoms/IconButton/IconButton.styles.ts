@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components';
+
 import theme, { colors } from '@/theme';
+
 import { Props, Size } from './IconButton';
 
 interface StyleProps {

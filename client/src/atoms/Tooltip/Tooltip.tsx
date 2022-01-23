@@ -1,5 +1,5 @@
-import React from 'react';
 import Tippy, { TippyProps } from '@tippyjs/react/headless';
+import React from 'react';
 
 import { RootOverlay, SubText } from './Tooltip.styles';
 

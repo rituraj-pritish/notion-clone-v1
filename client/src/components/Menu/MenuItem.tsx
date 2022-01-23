@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from 'react';
+
 import { MenuItemWrapper } from './Menu.styles';
 
 interface Props extends HTMLAttributes<HTMLDivElement> {

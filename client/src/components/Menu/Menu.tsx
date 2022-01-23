@@ -1,5 +1,5 @@
-import { IoEllipsisHorizontal } from 'react-icons/io5';
 import React from 'react';
+import { IoEllipsisHorizontal } from 'react-icons/io5';
 
 import { Flex, IconButton, Popover } from '@/atoms';
 import { PopoverProps, PopoverRenderComponent } from 'atoms/Popover/Popover';

@@ -1,5 +1,6 @@
 import { ComponentMeta, ComponentStory } from '@storybook/react';
 import { BsImageFill } from 'react-icons/bs';
+
 import Button from './index';
 
 export default {

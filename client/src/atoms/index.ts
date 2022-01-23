@@ -4,11 +4,11 @@ import Flex from './Flex';
 import IconButton from './IconButton';
 import Input from './Input';
 import Link from './Link';
+import Modal from './Modal';
 import Popover from './Popover';
 import Space from './Space';
 import Spinner from './Spinner';
 import Tooltip from './Tooltip';
-import Modal from './Modal';
 
 export {
 	Button,

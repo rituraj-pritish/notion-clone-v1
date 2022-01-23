@@ -1,5 +1,5 @@
-import React from 'react';
 import { PickerProps, Picker } from 'emoji-mart';
+import React from 'react';
 
 import { PickerWrapper } from './EmojiPicker.styles';
 

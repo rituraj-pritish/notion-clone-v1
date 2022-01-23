@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useMutation } from 'react-query';
-import { IoTrashOutline } from 'react-icons/io5';
 import { BsPencilSquare, BsStar } from 'react-icons/bs';
+import { IoTrashOutline } from 'react-icons/io5';
+import { useMutation } from 'react-query';
 
 import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints';
-import { Page } from 'types/page';
-import { Menu, MenuItem } from '@/components';
 import { Modal } from '@/atoms';
-import RenamePage from '@/shared/RenamePage';
+import { Menu, MenuItem } from '@/components';
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
+import RenamePage from '@/shared/RenamePage';
+import { Page } from 'types/page';
 
 interface Props extends Page {
 	isInsideFavoritesGroup?: boolean;

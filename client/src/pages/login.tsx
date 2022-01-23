@@ -1,6 +1,7 @@
-import LoginForm from '@/modules/login/LoginForm';
-import { Center } from '@/atoms';
 import { GetServerSidePropsContext } from 'next';
+
+import { Center } from '@/atoms';
+import LoginForm from '@/modules/login/LoginForm';
 
 const Login = () => {
 	return (

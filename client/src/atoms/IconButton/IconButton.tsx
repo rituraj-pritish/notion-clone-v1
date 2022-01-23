@@ -1,6 +1,7 @@
 import React, { ButtonHTMLAttributes } from 'react';
 
 import { Tooltip } from '@/atoms';
+
 import { StyledButton } from './IconButton.styles';
 
 export type Size = 'small' | 'medium';

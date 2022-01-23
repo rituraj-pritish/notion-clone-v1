@@ -4,8 +4,8 @@ import type {
 	NextPage
 } from 'next';
 
-import { NoAuthNavbar } from '@/components';
 import { getWorkspace } from '@/api/endpoints/workspace';
+import { NoAuthNavbar } from '@/components';
 
 const Home: NextPage = () => {
 	return (

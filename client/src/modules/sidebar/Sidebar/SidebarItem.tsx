@@ -1,5 +1,7 @@
-import useSidebar from '@/hooks/useSidebar';
 import React, { HTMLAttributes } from 'react';
+
+import useSidebar from '@/hooks/useSidebar';
+
 import { SidebarItemWrapper } from './SideBar.styles';
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {

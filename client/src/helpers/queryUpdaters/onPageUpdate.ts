@@ -1,7 +1,7 @@
-import queryKeys from '@/constants/queryKeys';
 import { GetWorkspaceResult } from '@/api/endpoints/workspace';
-import { Page } from '@/types/page';
+import queryKeys from '@/constants/queryKeys';
 import queryClient from '@/core/queryClient';
+import { Page } from '@/types/page';
 
 export default (
 	id: Page['id'],

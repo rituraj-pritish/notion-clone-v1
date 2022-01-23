@@ -4,8 +4,9 @@ import { useRouter } from 'next/router';
 // eslint-disable-next-line
 // @ts-ignore svg compile issue
 import Logo from '@/assets/logo.svg';
-import { RootWrapper } from './NoAuthNavbar.styles';
 import { Button, Link, Space } from '@/atoms';
+
+import { RootWrapper } from './NoAuthNavbar.styles';
 
 const NoAuthNavbar = () => {
 	const router = useRouter();

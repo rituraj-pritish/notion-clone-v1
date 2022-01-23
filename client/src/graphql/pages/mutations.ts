@@ -1,4 +1,5 @@
 import { gql } from 'graphql-request';
+
 import { PAGE_FRAGMENT } from '.';
 
 export const CREATE_PAGE = gql`

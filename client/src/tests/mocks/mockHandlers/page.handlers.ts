@@ -1,4 +1,5 @@
 import { graphql } from 'msw';
+
 import { NESTED_PAGES, PRIVATE_PAGES } from '../mockData/pages.mock';
 
 export default [

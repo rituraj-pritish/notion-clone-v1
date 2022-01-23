@@ -1,18 +1,19 @@
 import { useRouter } from 'next/router';
-import { BsTriangleFill } from 'react-icons/bs';
 import { useEffect, useState } from 'react';
+import { BsTriangleFill } from 'react-icons/bs';
 import { useQuery } from 'react-query';
 
+import api from '@/api';
 import { Flex, IconButton, Space } from '@/atoms';
-import { Left, PageName } from './SidebarPage.styles';
+import { GET_PAGES } from '@/graphql/pages/queries';
+import useSidebar from '@/hooks/useSidebar';
+import ChangeIcon from '@/shared/ChangeIcon';
+import { Page } from 'types/page';
+
 import SidebarItem from '../SidebarItem';
 import AddChildPage from './AddChildPage';
-import api from '@/api';
-import { GET_PAGES } from '@/graphql/pages/queries';
-import { Page } from 'types/page';
+import { Left, PageName } from './SidebarPage.styles';
 import SidebarPageMoreOptions from './SidebarPageMoreOptions';
-import ChangeIcon from '@/shared/ChangeIcon';
-import useSidebar from '@/hooks/useSidebar';
 
 interface Props extends Page {
 	depth?: number;

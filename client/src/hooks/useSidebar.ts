@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
 import { createState, useState } from '@hookstate/core';
+import React, { useEffect } from 'react';
 
 const WIDTH_KEY = 'sidebar-width';
 

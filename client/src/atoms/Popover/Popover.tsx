@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import Tippy, { TippyProps } from '@tippyjs/react/headless';
+import React, { useState, useImperativeHandle } from 'react';
+
 import { Content, RootWrapper, Title } from './Popover.styles';
-import { useImperativeHandle } from 'react';
 
 type Callback = () => void;
 

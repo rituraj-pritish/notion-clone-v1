@@ -2,6 +2,7 @@ import React, { ButtonHTMLAttributes } from 'react';
 import { IconType } from 'react-icons';
 
 import { Tooltip } from '@/atoms';
+
 import { Icon, StyledButton } from './Button.styles';
 
 export type Variant = 'primary' | 'secondary' | 'tertiary';
