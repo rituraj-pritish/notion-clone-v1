@@ -1,31 +1,31 @@
-import { Key, useEffect, useState } from 'react';
+import { Key, useEffect, useState } from 'react'
 
 const useKeyPress = (targetKey: Key) => {
-	const [keyPressed, setKeyPressed] = useState<boolean>(false);
+	const [keyPressed, setKeyPressed] = useState<boolean>(false)
 
 	function downHandler({ key }: KeyboardEvent) {
 		if (key === targetKey) {
-			setKeyPressed(true);
+			setKeyPressed(true)
 		}
 	}
 
 	const upHandler = ({ key }: KeyboardEvent) => {
 		if (key === targetKey) {
-			setKeyPressed(false);
+			setKeyPressed(false)
 		}
-	};
+	}
 
 	useEffect(() => {
-		window.addEventListener('keydown', downHandler);
-		window.addEventListener('keyup', upHandler);
+		window.addEventListener('keydown', downHandler)
+		window.addEventListener('keyup', upHandler)
 
 		return () => {
-			window.removeEventListener('keydown', downHandler);
-			window.removeEventListener('keyup', upHandler);
-		};
+			window.removeEventListener('keydown', downHandler)
+			window.removeEventListener('keyup', upHandler)
+		}
 		// eslint-disable-next-line
-	}, []);
-	return keyPressed;
-};
+	}, [])
+	return keyPressed
+}
 
-export default useKeyPress;
+export default useKeyPress

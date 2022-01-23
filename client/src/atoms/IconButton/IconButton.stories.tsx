@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { BsThreeDots } from 'react-icons/bs';
-import { WiTime3 } from 'react-icons/wi';
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { BsThreeDots } from 'react-icons/bs'
+import { WiTime3 } from 'react-icons/wi'
 
-import IconButton from './index';
+import IconButton from './index'
 
 export default {
 	title: 'Atoms/iconButton',
 	component: IconButton
-} as ComponentMeta<typeof IconButton>;
+} as ComponentMeta<typeof IconButton>
 
 export const iconButton: ComponentStory<typeof IconButton> = () => {
 	return (
@@ -27,5 +27,5 @@ export const iconButton: ComponentStory<typeof IconButton> = () => {
 			</IconButton>
 			<IconButton tooltip='Emoji'>🤑</IconButton>
 		</>
-	);
-};
+	)
+}

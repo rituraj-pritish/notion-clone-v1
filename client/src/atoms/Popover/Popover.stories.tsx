@@ -1,13 +1,13 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
+import { ComponentMeta, ComponentStory } from '@storybook/react'
 
-import { Button } from '@/atoms';
+import { Button } from '@/atoms'
 
-import Popover from './index';
+import Popover from './index'
 
 export default {
 	title: 'Atoms/popover',
 	component: Popover
-} as ComponentMeta<typeof Popover>;
+} as ComponentMeta<typeof Popover>
 
 export const popover: ComponentStory<typeof Popover> = () => {
 	return (
@@ -25,5 +25,5 @@ export const popover: ComponentStory<typeof Popover> = () => {
 				</>
 			</Popover>
 		</>
-	);
-};
+	)
+}

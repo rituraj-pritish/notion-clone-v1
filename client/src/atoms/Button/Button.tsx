@@ -1,25 +1,24 @@
-import React, { ButtonHTMLAttributes } from 'react';
-import { IconType } from 'react-icons';
+import React, { ButtonHTMLAttributes } from 'react'
+import { IconType } from 'react-icons'
 
-import { Tooltip } from '@/atoms';
+import { Icon, StyledButton } from './Button.styles'
+import { Tooltip } from '@/atoms'
 
-import { Icon, StyledButton } from './Button.styles';
-
-export type Variant = 'primary' | 'secondary' | 'tertiary';
-export type Size = 'small' | 'medium' | 'large';
+export type Variant = 'primary' | 'secondary' | 'tertiary'
+export type Size = 'small' | 'medium' | 'large'
 
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-	children: React.ReactNode;
-	variant: Variant;
-	size: Size;
-	leftIcon?: IconType | string;
-	rightIcon?: IconType | string;
-	tooltip?: string | React.ReactElement;
-	ghost?: boolean;
-	bold?: boolean;
+	children: React.ReactNode
+	variant: Variant
+	size: Size
+	leftIcon?: IconType | string
+	rightIcon?: IconType | string
+	tooltip?: string | React.ReactElement
+	ghost?: boolean
+	bold?: boolean
 }
 
-const ICON_SIZE = 16;
+const ICON_SIZE = 16
 
 const Button = React.forwardRef(
 	(
@@ -65,12 +64,12 @@ const Button = React.forwardRef(
 					</Icon>
 				)}
 			</StyledButton>
-		);
+		)
 
-		if (tooltip) return <Tooltip overlay={tooltip}>{button}</Tooltip>;
+		if (tooltip) return <Tooltip overlay={tooltip}>{button}</Tooltip>
 
-		return button;
+		return button
 	}
-);
+)
 
-export default Button;
+export default Button

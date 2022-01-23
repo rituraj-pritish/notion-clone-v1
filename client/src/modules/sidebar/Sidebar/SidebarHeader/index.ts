@@ -1,3 +1,3 @@
-import SidebarHeader from './SidebarHeader';
+import SidebarHeader from './SidebarHeader'
 
-export default SidebarHeader;
+export default SidebarHeader

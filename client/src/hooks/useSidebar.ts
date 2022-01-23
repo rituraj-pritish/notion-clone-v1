@@ -1,43 +1,43 @@
-import { createState, useState } from '@hookstate/core';
-import React, { useEffect } from 'react';
+import { createState, useState } from '@hookstate/core'
+import React, { useEffect } from 'react'
 
-const WIDTH_KEY = 'sidebar-width';
+const WIDTH_KEY = 'sidebar-width'
 
 interface State {
-	isCollapsed: boolean;
-	width: number;
+	isCollapsed: boolean
+	width: number
 }
 
 const INITIAL_STATE = {
 	isCollapsed: false,
 	width: 200
-};
+}
 
-const COLLAPSED_STATE = createState<State>(INITIAL_STATE);
+const COLLAPSED_STATE = createState<State>(INITIAL_STATE)
 
 export default () => {
-	const sidebarState = useState(COLLAPSED_STATE);
+	const sidebarState = useState(COLLAPSED_STATE)
 
 	useEffect(() => {
-		const width = localStorage.getItem(WIDTH_KEY);
-		if (width) setWidth(Number(width));
+		const width = localStorage.getItem(WIDTH_KEY)
+		if (width) setWidth(Number(width))
 		// eslint-disable-next-line
-	}, []);
+	}, [])
 
 	const toggleCollapsed = () =>
 		sidebarState.set((state) => ({
 			...state,
 			isCollapsed: !state.isCollapsed
-		}));
+		}))
 
 	const setWidth = (newWidth: number) => {
-		localStorage.setItem(WIDTH_KEY, newWidth.toString());
+		localStorage.setItem(WIDTH_KEY, newWidth.toString())
 
 		sidebarState.set((state) => ({
 			...state,
 			width: newWidth
-		}));
-	};
+		}))
+	}
 
 	return React.useMemo(
 		() => ({
@@ -47,5 +47,5 @@ export default () => {
 			// eslint-disable-next-line
 		}),
 		[sidebarState]
-	);
-};
+	)
+}

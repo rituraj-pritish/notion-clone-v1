@@ -1,3 +1,3 @@
-import RenamePage from './RenamePage';
+import RenamePage from './RenamePage'
 
-export default RenamePage;
+export default RenamePage

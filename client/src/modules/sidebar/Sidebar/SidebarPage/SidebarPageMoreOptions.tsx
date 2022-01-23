@@ -1,23 +1,23 @@
-import { useState } from 'react';
-import { BsPencilSquare, BsStar } from 'react-icons/bs';
-import { IoTrashOutline } from 'react-icons/io5';
-import { useMutation } from 'react-query';
+import { useState } from 'react'
+import { BsPencilSquare, BsStar } from 'react-icons/bs'
+import { IoTrashOutline } from 'react-icons/io5'
+import { useMutation } from 'react-query'
 
-import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints';
-import { Modal } from '@/atoms';
-import { Menu, MenuItem } from '@/components';
-import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
-import RenamePage from '@/shared/RenamePage';
-import { Page } from 'types/page';
+import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints'
+import { Modal } from '@/atoms'
+import { Menu, MenuItem } from '@/components'
+import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
+import RenamePage from '@/shared/RenamePage'
+import { Page } from 'types/page'
 
 interface Props extends Page {
-	isInsideFavoritesGroup?: boolean;
+	isInsideFavoritesGroup?: boolean
 }
 
 const SidebarPageMoreOptions = (props: Props) => {
-	const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+	const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-	const { id, hierarchy, favorite, isInsideFavoritesGroup } = props;
+	const { id, hierarchy, favorite, isInsideFavoritesGroup } = props
 
 	const { mutateAsync: deletePage } = useMutation(
 		() => deletePageEndpoint(id),
@@ -25,7 +25,7 @@ const SidebarPageMoreOptions = (props: Props) => {
 			onSuccess: ({ deletedAt }) =>
 				onPageUpdate(id, hierarchy, { deletedAt: deletedAt })
 		}
-	);
+	)
 
 	const { mutateAsync: toggleFavorite } = useMutation(
 		() =>
@@ -36,11 +36,11 @@ const SidebarPageMoreOptions = (props: Props) => {
 		{
 			onSuccess: () => onPageUpdate(id, hierarchy, { favorite: !favorite })
 		}
-	);
+	)
 
 	const onDelete = async () => {
-		await deletePage();
-	};
+		await deletePage()
+	}
 
 	return (
 		<>
@@ -58,8 +58,8 @@ const SidebarPageMoreOptions = (props: Props) => {
 						)}
 						<MenuItem
 							onClick={() => {
-								close();
-								setIsModalVisible(true);
+								close()
+								setIsModalVisible(true)
 							}}
 							icon={<BsPencilSquare />}
 						>
@@ -82,7 +82,7 @@ const SidebarPageMoreOptions = (props: Props) => {
 				<RenamePage onEnter={() => setIsModalVisible(false)} {...props} />
 			</Modal>
 		</>
-	);
-};
+	)
+}
 
-export default SidebarPageMoreOptions;
+export default SidebarPageMoreOptions

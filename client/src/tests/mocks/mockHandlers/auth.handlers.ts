@@ -1,4 +1,4 @@
-import { graphql } from 'msw';
+import { graphql } from 'msw'
 
 export default [
 	graphql.query('Signin', (req, res, ctx) => {
@@ -9,6 +9,6 @@ export default [
 				}
 			}),
 			ctx.cookie('auth_token', 'auth_token')
-		);
+		)
 	})
-];
+]

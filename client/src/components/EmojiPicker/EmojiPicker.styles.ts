@@ -1,7 +1,7 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import 'emoji-mart/css/emoji-mart.css';
-import theme from '@/theme';
+import 'emoji-mart/css/emoji-mart.css'
+import theme from '@/theme'
 
 export const PickerWrapper = styled.div`
 	.emoji-mart-preview {
@@ -47,4 +47,4 @@ export const PickerWrapper = styled.div`
 			border-radius: 4px !important;
 		}
 	}
-`;
+`

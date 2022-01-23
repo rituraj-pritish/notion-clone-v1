@@ -1,3 +1,3 @@
-import ChangeIcon from './ChangeIcon';
+import ChangeIcon from './ChangeIcon'
 
-export default ChangeIcon;
+export default ChangeIcon

@@ -1,24 +1,24 @@
-import { useState } from 'react';
+import { useState } from 'react'
 
-import { Flex, Tooltip } from '@/atoms';
-import { Page } from 'types/page';
+import { Flex, Tooltip } from '@/atoms'
+import { Page } from 'types/page'
 
-import SidebarPage from '../Sidebar/SidebarPage';
-import { GroupName } from './SidebarPageGroup.styles';
+import SidebarPage from '../Sidebar/SidebarPage'
+import { GroupName } from './SidebarPageGroup.styles'
 
 interface Props {
-	name: 'PRIVATE' | 'FAVORITES' | 'SHARED';
-	pages: Page[];
+	name: 'PRIVATE' | 'FAVORITES' | 'SHARED'
+	pages: Page[]
 }
 
-const { SubText } = Tooltip;
+const { SubText } = Tooltip
 
 const SidebarPageGroup = ({ name, pages = [] }: Props) => {
-	const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+	const [isCollapsed, setIsCollapsed] = useState<boolean>(false)
 
-	const toggleCollapsed = () => setIsCollapsed((state) => !state);
+	const toggleCollapsed = () => setIsCollapsed((state) => !state)
 
-	if (pages.length === 0) return null;
+	if (pages.length === 0) return null
 
 	return (
 		<Flex
@@ -49,7 +49,7 @@ const SidebarPageGroup = ({ name, pages = [] }: Props) => {
 				</div>
 			)}
 		</Flex>
-	);
-};
+	)
+}
 
-export default SidebarPageGroup;
+export default SidebarPageGroup

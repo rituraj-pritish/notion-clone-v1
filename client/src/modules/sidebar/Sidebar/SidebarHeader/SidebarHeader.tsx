@@ -1,15 +1,15 @@
-import { useRouter } from 'next/router';
-import { useMutation } from 'react-query';
+import { useRouter } from 'next/router'
+import { useMutation } from 'react-query'
 
-import api from '@/api';
-import { Button, Popover } from '@/atoms';
-import { LOGOUT } from '@/graphql/users';
+import api from '@/api'
+import { Button, Popover } from '@/atoms'
+import { LOGOUT } from '@/graphql/users'
 
-import SidebarHeaderTrigger from './SidebarHeaderTrigger';
+import SidebarHeaderTrigger from './SidebarHeaderTrigger'
 
 const SidebarHeader = () => {
-	const router = useRouter();
-	const { mutateAsync } = useMutation(() => api(LOGOUT));
+	const router = useRouter()
+	const { mutateAsync } = useMutation(() => api(LOGOUT))
 
 	return (
 		<Popover
@@ -27,7 +27,7 @@ const SidebarHeader = () => {
 				Logout
 			</Button>
 		</Popover>
-	);
-};
+	)
+}
 
-export default SidebarHeader;
+export default SidebarHeader

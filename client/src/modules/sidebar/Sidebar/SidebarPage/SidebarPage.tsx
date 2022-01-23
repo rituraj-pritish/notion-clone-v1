@@ -1,65 +1,64 @@
-import { useRouter } from 'next/router';
-import { useEffect, useState } from 'react';
-import { BsTriangleFill } from 'react-icons/bs';
-import { useQuery } from 'react-query';
+import { useRouter } from 'next/router'
+import { useEffect, useState } from 'react'
+import { BsTriangleFill } from 'react-icons/bs'
+import { useQuery } from 'react-query'
 
-import api from '@/api';
-import { Flex, IconButton, Space } from '@/atoms';
-import { GET_PAGES } from '@/graphql/pages/queries';
-import useSidebar from '@/hooks/useSidebar';
-import ChangeIcon from '@/shared/ChangeIcon';
-import { Page } from 'types/page';
+import api from '@/api'
+import { Flex, IconButton, Space } from '@/atoms'
+import { GET_PAGES } from '@/graphql/pages/queries'
+import useSidebar from '@/hooks/useSidebar'
+import ChangeIcon from '@/shared/ChangeIcon'
+import { Page } from 'types/page'
 
-import SidebarItem from '../SidebarItem';
-import AddChildPage from './AddChildPage';
-import { Left, PageName } from './SidebarPage.styles';
-import SidebarPageMoreOptions from './SidebarPageMoreOptions';
+import SidebarItem from '../SidebarItem'
+import AddChildPage from './AddChildPage'
+import { Left, PageName } from './SidebarPage.styles'
+import SidebarPageMoreOptions from './SidebarPageMoreOptions'
 
 interface Props extends Page {
-	depth?: number;
-	isInsideFavoritesGroup: boolean;
+	depth?: number
+	isInsideFavoritesGroup: boolean
 }
 
 const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
-	const { id, icon, name, hierarchy }: Page = page;
+	const { id, icon, name, hierarchy }: Page = page
 
 	const { refetch, data } = useQuery<Page[]>(
 		[id, 'children'],
 		() => api(GET_PAGES, { ids: hierarchy.children.join(',') }),
 		{ enabled: false }
-	);
+	)
 
 	useEffect(() => {
-		setChildren(data!);
-	}, [data]);
+		setChildren(data!)
+	}, [data])
 
-	const router = useRouter();
-	const { width } = useSidebar();
-	const { pageId } = router.query;
+	const router = useRouter()
+	const { width } = useSidebar()
+	const { pageId } = router.query
 
-	const [children, setChildren] = useState<Page[] | null>(null);
-	const [isHovering, setIsHovering] = useState<boolean>(false);
-	const [isCollapsed, setIsCollapsed] = useState<boolean>(true);
+	const [children, setChildren] = useState<Page[] | null>(null)
+	const [isHovering, setIsHovering] = useState<boolean>(false)
+	const [isCollapsed, setIsCollapsed] = useState<boolean>(true)
 
-	const toggleCollapsed = () => setIsCollapsed((state) => !state);
+	const toggleCollapsed = () => setIsCollapsed((state) => !state)
 
 	useEffect(() => {
 		if (!isCollapsed && !children) {
 			if (hierarchy.children.length === 0) {
-				setChildren([]);
-				return;
+				setChildren([])
+				return
 			}
 			refetch().then((res) => {
-				if (res.data) setChildren(res.data);
-			});
+				if (res.data) setChildren(res.data)
+			})
 		}
 		// eslint-disable-next-line
-	}, [isCollapsed]);
+	}, [isCollapsed])
 
-	const isActive = id === pageId;
+	const isActive = id === pageId
 
-	const showNestedElements =
-		children && !isCollapsed && Array.isArray(children);
+	const showNestedElements = children && !isCollapsed && Array.isArray(children)
 
 	return (
 		<>
@@ -139,7 +138,7 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 				</div>
 			)}
 		</>
-	);
-};
+	)
+}
 
-export default SidebarPage;
+export default SidebarPage

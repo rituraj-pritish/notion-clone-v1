@@ -1,15 +1,15 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
-import theme, { colors } from '@/theme';
+import theme, { colors } from '@/theme'
 
-import { Props } from './Input';
+import { Props } from './Input'
 
 const getStyles = ({ size }: Props) => {
 	if (size === 'medium') {
 		return css`
 			padding: 8px;
 			font-size: 16px;
-		`;
+		`
 	}
 
 	if (size === 'small') {
@@ -17,9 +17,9 @@ const getStyles = ({ size }: Props) => {
 			font-size: 14px;
 			padding: 4px 10px;
 			height: 28px;
-		`;
+		`
 	}
-};
+}
 
 export const StyledInput = styled.input<Props>`
 	border-radius: ${theme.borderRadius};
@@ -40,4 +40,4 @@ export const StyledInput = styled.input<Props>`
 				outline: 1px solid ${colors.primary};
 			}
 		`};
-`;
+`

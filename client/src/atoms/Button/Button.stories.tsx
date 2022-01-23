@@ -1,12 +1,12 @@
-import { ComponentMeta, ComponentStory } from '@storybook/react';
-import { BsImageFill } from 'react-icons/bs';
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { BsImageFill } from 'react-icons/bs'
 
-import Button from './index';
+import Button from './index'
 
 export default {
 	title: 'Atoms/button',
 	component: Button
-} as ComponentMeta<typeof Button>;
+} as ComponentMeta<typeof Button>
 
 export const button: ComponentStory<typeof Button> = () => {
 	return (
@@ -51,5 +51,5 @@ export const button: ComponentStory<typeof Button> = () => {
 				With Tooltip
 			</Button>
 		</>
-	);
-};
+	)
+}

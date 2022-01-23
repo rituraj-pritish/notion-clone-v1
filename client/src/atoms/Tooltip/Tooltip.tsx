@@ -1,11 +1,11 @@
-import Tippy, { TippyProps } from '@tippyjs/react/headless';
-import React from 'react';
+import Tippy, { TippyProps } from '@tippyjs/react/headless'
+import React from 'react'
 
-import { RootOverlay, SubText } from './Tooltip.styles';
+import { RootOverlay, SubText } from './Tooltip.styles'
 
 interface Props extends Omit<TippyProps, 'children'> {
-	children: React.ReactElement;
-	overlay: string | React.ReactElement<any>;
+	children: React.ReactElement
+	overlay: string | React.ReactElement<any>
 }
 
 const Tooltip = ({ children, overlay, className, ...props }: Props) => {
@@ -19,9 +19,9 @@ const Tooltip = ({ children, overlay, className, ...props }: Props) => {
 				{children}
 			</Tippy>
 		</div>
-	);
-};
+	)
+}
 
-Tooltip.SubText = SubText;
+Tooltip.SubText = SubText
 
-export default Tooltip;
+export default Tooltip

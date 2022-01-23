@@ -1,8 +1,8 @@
-import NextLink, { LinkProps } from 'next/link';
-import React from 'react';
+import NextLink, { LinkProps } from 'next/link'
+import React from 'react'
 
 export interface Props extends LinkProps {
-	children: React.ReactNode;
+	children: React.ReactNode
 }
 
 const Link = ({ children, href, ...props }: Props) => {
@@ -10,7 +10,7 @@ const Link = ({ children, href, ...props }: Props) => {
 		<NextLink href={href}>
 			<a {...props}>{children}</a>
 		</NextLink>
-	);
-};
+	)
+}
 
-export default Link;
+export default Link

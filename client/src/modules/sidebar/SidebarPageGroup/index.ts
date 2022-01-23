@@ -1,3 +1,3 @@
-import SidebarPageGroup from './SidebarPageGroup';
+import SidebarPageGroup from './SidebarPageGroup'
 
-export default SidebarPageGroup;
+export default SidebarPageGroup

@@ -1,11 +1,11 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
-import theme, { colors } from '@/theme';
+import theme, { colors } from '@/theme'
 
-import { Props, Size } from './IconButton';
+import { Props, Size } from './IconButton'
 
 interface StyleProps {
-	isEmoji: boolean;
+	isEmoji: boolean
 }
 
 const getSizeStyles = (size: Size, isEmoji: boolean) => {
@@ -19,7 +19,7 @@ const getSizeStyles = (size: Size, isEmoji: boolean) => {
 			css`
 				font-size: 18px;
 			`};
-		`;
+		`
 	}
 
 	if (size === 'medium') {
@@ -32,9 +32,9 @@ const getSizeStyles = (size: Size, isEmoji: boolean) => {
 			css`
 				font-size: 20px;
 			`}
-		`;
+		`
 	}
-};
+}
 
 export const StyledButton = styled.button<Props & StyleProps>`
 	border: none;
@@ -51,4 +51,4 @@ export const StyledButton = styled.button<Props & StyleProps>`
 	&:hover {
 		background: ${colors.buttonHover};
 	}
-`;
+`

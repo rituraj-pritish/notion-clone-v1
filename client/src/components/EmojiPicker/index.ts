@@ -1,3 +1,3 @@
-import EmojiPicker from './EmojiPicker';
+import EmojiPicker from './EmojiPicker'
 
-export default EmojiPicker;
+export default EmojiPicker

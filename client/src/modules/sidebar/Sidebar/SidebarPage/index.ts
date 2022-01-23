@@ -1,3 +1,3 @@
-import SidebarPage from './SidebarPage';
+import SidebarPage from './SidebarPage'
 
-export default SidebarPage;
+export default SidebarPage

@@ -1,6 +1,6 @@
-import { gql } from 'graphql-request';
+import { gql } from 'graphql-request'
 
-import { PAGE_FRAGMENT } from '.';
+import { PAGE_FRAGMENT } from '.'
 
 export const CREATE_PAGE = gql`
 	${PAGE_FRAGMENT}
@@ -9,7 +9,7 @@ export const CREATE_PAGE = gql`
 			...pageFragment
 		}
 	}
-`;
+`
 
 export const UPDATE_PAGE = gql`
 	${PAGE_FRAGMENT}
@@ -18,7 +18,7 @@ export const UPDATE_PAGE = gql`
 			...pageFragment
 		}
 	}
-`;
+`
 
 export const DELETE_PAGE = gql`
 	${PAGE_FRAGMENT}
@@ -27,4 +27,4 @@ export const DELETE_PAGE = gql`
 			...pageFragment
 		}
 	}
-`;
+`

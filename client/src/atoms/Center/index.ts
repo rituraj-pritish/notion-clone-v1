@@ -1,8 +1,8 @@
-import { HTMLAttributes } from 'react';
-import styled from 'styled-components';
-import { layout, space, SpaceProps, LayoutProps } from 'styled-system';
+import { HTMLAttributes } from 'react'
+import styled from 'styled-components'
+import { layout, space, SpaceProps, LayoutProps } from 'styled-system'
 
-type Props = LayoutProps & SpaceProps & HTMLAttributes<HTMLDivElement>;
+type Props = LayoutProps & SpaceProps & HTMLAttributes<HTMLDivElement>
 
 const Center = styled.div<Props>`
 	display: flex;
@@ -10,6 +10,6 @@ const Center = styled.div<Props>`
 	justify-content: center;
 
 	${space} ${layout}
-`;
+`
 
-export default Center;
+export default Center

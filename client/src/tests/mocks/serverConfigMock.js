@@ -1,2 +1,2 @@
 // eslint-disable-next-line
-export default () => {};
+export default () => {}

@@ -1,3 +1,3 @@
-import NoAuthNavbar from './NoAuthNavbar';
+import NoAuthNavbar from './NoAuthNavbar'
 
-export default NoAuthNavbar;
+export default NoAuthNavbar

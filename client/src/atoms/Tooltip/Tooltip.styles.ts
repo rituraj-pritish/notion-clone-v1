@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import theme from '@/theme';
+import theme from '@/theme'
 
 export const RootOverlay = styled.div`
 	background: black;
@@ -9,11 +9,11 @@ export const RootOverlay = styled.div`
 	padding: 6px 8px;
 	font-size: 12px;
 	border-radius: ${theme.borderRadius};
-`;
+`
 
 export const SubText = styled.div`
 	font-size: 12px;
 	color: #adadad;
 	font-weight: 400;
 	margin-top: 4px;
-`;
+`

@@ -1,6 +1,6 @@
-import { gql } from 'graphql-request';
+import { gql } from 'graphql-request'
 
-import { PAGE_FRAGMENT } from '../pages';
+import { PAGE_FRAGMENT } from '../pages'
 
 export const GET_WORKSPACE = gql`
 	${PAGE_FRAGMENT}
@@ -14,4 +14,4 @@ export const GET_WORKSPACE = gql`
 			}
 		}
 	}
-`;
+`

@@ -1,27 +1,27 @@
-import { BaseEmoji, emojiIndex } from 'emoji-mart';
-import _random from 'lodash/random';
-import React, { useEffect, useState } from 'react';
-import { AiOutlineFile } from 'react-icons/ai';
-import { FiFileText } from 'react-icons/fi';
-import { VscSmiley } from 'react-icons/vsc';
-import { useMutation } from 'react-query';
+import { BaseEmoji, emojiIndex } from 'emoji-mart'
+import _random from 'lodash/random'
+import React, { useEffect, useState } from 'react'
+import { AiOutlineFile } from 'react-icons/ai'
+import { FiFileText } from 'react-icons/fi'
+import { VscSmiley } from 'react-icons/vsc'
+import { useMutation } from 'react-query'
 
-import { updatePage } from '@/api/endpoints';
-import { Button, Flex, IconButton, Popover } from '@/atoms';
-import { EmojiPicker } from '@/components';
-import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
-import { Page } from '@/types/page';
+import { updatePage } from '@/api/endpoints'
+import { Button, Flex, IconButton, Popover } from '@/atoms'
+import { EmojiPicker } from '@/components'
+import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
+import { Page } from '@/types/page'
 
 const getRandomEmoji = () => {
-	const emojis = Object.values(emojiIndex.emojis);
+	const emojis = Object.values(emojiIndex.emojis)
 	//@ts-expect-error type mismatch
-	return emojis[_random(0, emojis.length - 1)].native;
-};
+	return emojis[_random(0, emojis.length - 1)].native
+}
 
 interface Props extends Page {
-	iconSize?: 'small' | 'medium';
-	haveChildren?: boolean;
-	bordered?: boolean;
+	iconSize?: 'small' | 'medium'
+	haveChildren?: boolean
+	bordered?: boolean
 }
 
 const ChangeIcon = ({
@@ -32,11 +32,11 @@ const ChangeIcon = ({
 	haveChildren,
 	bordered
 }: Props) => {
-	const [emoji, setEmoji] = useState(icon);
+	const [emoji, setEmoji] = useState(icon)
 
 	useEffect(() => {
-		setEmoji(icon);
-	}, [icon]);
+		setEmoji(icon)
+	}, [icon])
 
 	const { mutateAsync } = useMutation(
 		(newIcon: string | undefined) =>
@@ -46,31 +46,31 @@ const ChangeIcon = ({
 			}),
 		{
 			onSuccess: ({ icon }) => {
-				onPageUpdate(id, hierarchy, { icon });
+				onPageUpdate(id, hierarchy, { icon })
 			}
 		}
-	);
+	)
 
 	const onRandomClick = async (close: VoidFunction) => {
 		try {
-			const randomEmoji = getRandomEmoji();
-			await mutateAsync(randomEmoji);
-			setEmoji(randomEmoji);
-			close();
+			const randomEmoji = getRandomEmoji()
+			await mutateAsync(randomEmoji)
+			setEmoji(randomEmoji)
+			close()
 		} catch (error) {
-			console.log('e', error);
+			console.log('e', error)
 		}
-	};
+	}
 
 	const onRemoveClick = async (close: VoidFunction) => {
 		try {
-			await mutateAsync(undefined);
-			setEmoji('');
-			close();
+			await mutateAsync(undefined)
+			setEmoji('')
+			close()
 		} catch (error) {
-			console.log('e', error);
+			console.log('e', error)
 		}
-	};
+	}
 
 	const title = React.useCallback(
 		(_, close: VoidFunction) => (
@@ -95,12 +95,12 @@ const ChangeIcon = ({
 			</Flex>
 		),
 		[]
-	);
+	)
 
 	const renderIcon = () => {
-		if (emoji) return emoji;
-		return haveChildren ? <FiFileText /> : <AiOutlineFile />;
-	};
+		if (emoji) return emoji
+		return haveChildren ? <FiFileText /> : <AiOutlineFile />
+	}
 
 	return (
 		<Popover
@@ -116,9 +116,9 @@ const ChangeIcon = ({
 				<EmojiPicker
 					emojiTooltip
 					onSelect={async ({ native }: BaseEmoji) => {
-						await mutateAsync(native);
-						setEmoji(native);
-						close();
+						await mutateAsync(native)
+						setEmoji(native)
+						close()
 					}}
 					i18n={{
 						search: 'Filter...'
@@ -127,7 +127,7 @@ const ChangeIcon = ({
 				/>
 			)}
 		</Popover>
-	);
-};
+	)
+}
 
-export default ChangeIcon;
+export default ChangeIcon

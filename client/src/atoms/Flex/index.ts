@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 import {
 	flexbox,
 	FlexboxProps,
@@ -6,11 +6,11 @@ import {
 	LayoutProps,
 	space,
 	SpaceProps
-} from 'styled-system';
+} from 'styled-system'
 
 const Flex = styled.div<FlexboxProps & SpaceProps & LayoutProps>`
 	display: flex;
 	${flexbox} ${space} ${layout}
-`;
+`
 
-export default Flex;
+export default Flex

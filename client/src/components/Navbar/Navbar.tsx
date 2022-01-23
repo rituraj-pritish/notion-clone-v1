@@ -1,15 +1,15 @@
-import { useState } from 'react';
-import { AiOutlineMenu } from 'react-icons/ai';
-import { FiChevronsRight } from 'react-icons/fi';
+import { useState } from 'react'
+import { AiOutlineMenu } from 'react-icons/ai'
+import { FiChevronsRight } from 'react-icons/fi'
 
-import { IconButton } from '@/atoms';
-import useSidebarCollapsed from '@/hooks/useSidebar';
+import { IconButton } from '@/atoms'
+import useSidebarCollapsed from '@/hooks/useSidebar'
 
-import { RootWrapper } from './Navbar.styles';
+import { RootWrapper } from './Navbar.styles'
 
 const Navbar = () => {
-	const { isCollapsed, toggleCollapsed } = useSidebarCollapsed();
-	const [isHovering, setIsHovering] = useState<boolean>(false);
+	const { isCollapsed, toggleCollapsed } = useSidebarCollapsed()
+	const [isHovering, setIsHovering] = useState<boolean>(false)
 
 	return (
 		<RootWrapper>
@@ -25,7 +25,7 @@ const Navbar = () => {
 				)}
 			</div>
 		</RootWrapper>
-	);
-};
+	)
+}
 
-export default Navbar;
+export default Navbar

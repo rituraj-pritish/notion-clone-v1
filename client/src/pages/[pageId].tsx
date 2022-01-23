@@ -1,11 +1,11 @@
-import { GetServerSidePropsContext } from 'next';
-import Head from 'next/head';
-import React from 'react';
+import { GetServerSidePropsContext } from 'next'
+import Head from 'next/head'
+import React from 'react'
 
-import api from '@/api';
-import { Layout } from '@/components';
-import { GET_PAGE } from '@/graphql/pages/queries';
-import { Page as PageType } from '@/types/page';
+import api from '@/api'
+import { Layout } from '@/components'
+import { GET_PAGE } from '@/graphql/pages/queries'
+import { Page as PageType } from '@/types/page'
 
 const Page = ({ icon, name }: PageType) => {
 	return (
@@ -19,15 +19,15 @@ const Page = ({ icon, name }: PageType) => {
 			</Head>
 			<Layout>Page</Layout>
 		</div>
-	);
-};
+	)
+}
 
-export default Page;
+export default Page
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-	const pageId = ctx.params?.pageId;
-	const page = await api(GET_PAGE, { id: pageId });
-	const token = ctx.req.cookies.auth_token;
+	const pageId = ctx.params?.pageId
+	const page = await api(GET_PAGE, { id: pageId })
+	const token = ctx.req.cookies.auth_token
 
 	if (!token) {
 		return {
@@ -35,10 +35,10 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 				destination: '/',
 				permanent: true
 			}
-		};
+		}
 	}
 
 	return {
 		props: page
-	};
+	}
 }

@@ -1,6 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
-import { Props } from './Space';
+import { Props } from './Space'
 
 export const RootWrapper = styled.div<Props>`
 	display: flex;
@@ -8,19 +8,19 @@ export const RootWrapper = styled.div<Props>`
 	align-items: ${({ align }) => {
 		switch (align) {
 			case 'center':
-				return 'center';
+				return 'center'
 			case 'start':
-				return 'flex-start';
+				return 'flex-start'
 			case 'end':
-				return 'flex-end';
+				return 'flex-end'
 			default:
-				return 'center';
+				return 'center'
 		}
 	}};
 
 	& > * {
 		${({ size, direction }) => {
-			const gap = typeof size === 'string' ? size : `${size}px`;
+			const gap = typeof size === 'string' ? size : `${size}px`
 
 			if (direction === 'horizontal')
 				return css`
@@ -32,7 +32,7 @@ export const RootWrapper = styled.div<Props>`
 					&:first-child {
 						margin-left: 0;
 					}
-				`;
+				`
 
 			return css`
 				margin: calc(${gap} / 2) 0;
@@ -43,7 +43,7 @@ export const RootWrapper = styled.div<Props>`
 				&:first-child {
 					margin-top: 0;
 				}
-			`;
+			`
 		}};
 	}
-`;
+`

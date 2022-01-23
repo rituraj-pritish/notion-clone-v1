@@ -1,8 +1,8 @@
-import React from 'react';
+import React from 'react'
 
-import { Navbar, Sidebar } from '@/components';
+import { Navbar, Sidebar } from '@/components'
 
-import { RootWrapper } from './Layout.styles';
+import { RootWrapper } from './Layout.styles'
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 				{children}
 			</div>
 		</RootWrapper>
-	);
-};
+	)
+}
 
-export default Layout;
+export default Layout

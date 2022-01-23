@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
 export const MenuItemWrapper = styled.div`
 	color: black;
@@ -20,4 +20,4 @@ export const MenuItemWrapper = styled.div`
 			color: black;
 		}
 	}
-`;
+`

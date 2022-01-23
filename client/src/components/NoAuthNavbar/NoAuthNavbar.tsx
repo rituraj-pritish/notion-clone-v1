@@ -1,15 +1,15 @@
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 // eslint-disable-next-line
 // @ts-ignore svg compile issue
-import Logo from '@/assets/logo.svg';
-import { Button, Link, Space } from '@/atoms';
+import Logo from '@/assets/logo.svg'
+import { Button, Link, Space } from '@/atoms'
 
-import { RootWrapper } from './NoAuthNavbar.styles';
+import { RootWrapper } from './NoAuthNavbar.styles'
 
 const NoAuthNavbar = () => {
-	const router = useRouter();
+	const router = useRouter()
 	return (
 		<RootWrapper>
 			<Link href='/'>
@@ -30,7 +30,7 @@ const NoAuthNavbar = () => {
 				</Button>
 			</Space>
 		</RootWrapper>
-	);
-};
+	)
+}
 
-export default NoAuthNavbar;
+export default NoAuthNavbar

@@ -1,14 +1,14 @@
-import { AiOutlinePlus } from 'react-icons/ai';
-import { useMutation } from 'react-query';
+import { AiOutlinePlus } from 'react-icons/ai'
+import { useMutation } from 'react-query'
 
-import { createPage, getPages } from '@/api/endpoints';
-import { IconButton } from '@/atoms';
-import queryClient from '@/core/queryClient';
-import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate';
-import { Page } from 'types/page';
+import { createPage, getPages } from '@/api/endpoints'
+import { IconButton } from '@/atoms'
+import queryClient from '@/core/queryClient'
+import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
+import { Page } from 'types/page'
 
 interface Props extends Page {
-	expandChildren: VoidFunction;
+	expandChildren: VoidFunction
 }
 
 const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
@@ -26,26 +26,26 @@ const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
 			onSuccess: (page) => {
 				onPageUpdate(id, hierarchy, {
 					hierarchy: { ...hierarchy, children: [page.id] }
-				});
+				})
 				queryClient.setQueryData<Page[] | undefined>(
 					[id, 'children'],
 					(prevData) => {
 						if (!prevData) {
-							let returnData: Page[] = [];
+							let returnData: Page[] = []
 							queryClient
 								.fetchQuery<Page[]>([id, 'children'], () => getPages(page.id))
 								.then((res) => {
-									returnData = res;
-									expandChildren();
-								});
-							return [...returnData, page];
+									returnData = res
+									expandChildren()
+								})
+							return [...returnData, page]
 						}
-						return [...prevData, page];
+						return [...prevData, page]
 					}
-				);
+				)
 			}
 		}
-	);
+	)
 
 	return (
 		<IconButton
@@ -56,7 +56,7 @@ const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
 		>
 			<AiOutlinePlus />
 		</IconButton>
-	);
-};
+	)
+}
 
-export default AddChildPage;
+export default AddChildPage

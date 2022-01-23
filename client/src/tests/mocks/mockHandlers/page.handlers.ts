@@ -1,6 +1,6 @@
-import { graphql } from 'msw';
+import { graphql } from 'msw'
 
-import { NESTED_PAGES, PRIVATE_PAGES } from '../mockData/pages.mock';
+import { NESTED_PAGES, PRIVATE_PAGES } from '../mockData/pages.mock'
 
 export default [
 	// queries
@@ -9,7 +9,7 @@ export default [
 			ctx.data({
 				getPage: PRIVATE_PAGES[0]
 			})
-		);
+		)
 	}),
 
 	graphql.query('GetPages', (req, res, ctx) => {
@@ -17,12 +17,12 @@ export default [
 			ctx.data({
 				getPages: NESTED_PAGES
 			})
-		);
+		)
 	}),
 
 	// mutations
 	graphql.mutation('CreatePage', (req, res, ctx) => {
-		const variables = req.variables.createPageInput;
+		const variables = req.variables.createPageInput
 
 		return res(
 			ctx.data({
@@ -31,17 +31,17 @@ export default [
 					...variables
 				}
 			})
-		);
+		)
 	}),
 
 	graphql.mutation('UpdatePage', (req, res, ctx) => {
-		const variables = req.variables.updatePageInput;
+		const variables = req.variables.updatePageInput
 
 		return res(
 			ctx.data({
 				updatePage: { ...PRIVATE_PAGES[0], ...variables }
 			})
-		);
+		)
 	}),
 
 	graphql.mutation('DeletePage', (req, res, ctx) => {
@@ -52,6 +52,6 @@ export default [
 					deletedAt: new Date().toISOString()
 				}
 			})
-		);
+		)
 	})
-];
+]

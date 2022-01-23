@@ -1,16 +1,16 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes } from 'react'
 
-import { Tooltip } from '@/atoms';
+import { Tooltip } from '@/atoms'
 
-import { StyledButton } from './IconButton.styles';
+import { StyledButton } from './IconButton.styles'
 
-export type Size = 'small' | 'medium';
+export type Size = 'small' | 'medium'
 
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
-	children: React.ReactNode;
-	size?: Size;
-	tooltip?: string | React.ReactElement;
-	bordered?: boolean;
+	children: React.ReactNode
+	size?: Size
+	tooltip?: string | React.ReactElement
+	bordered?: boolean
 }
 
 const IconButton = React.forwardRef(
@@ -31,25 +31,25 @@ const IconButton = React.forwardRef(
 				isEmoji={typeof children === 'string'}
 				bordered={bordered}
 				onClick={(e) => {
-					e.stopPropagation();
-					if (onClick) onClick(e);
+					e.stopPropagation()
+					if (onClick) onClick(e)
 				}}
 				ref={ref}
 				{...otherProps}
 			>
 				{children}
 			</StyledButton>
-		);
+		)
 
 		if (tooltip)
 			return (
 				<Tooltip overlay={tooltip} placement='bottom'>
 					{iconButton}
 				</Tooltip>
-			);
+			)
 
-		return iconButton;
+		return iconButton
 	}
-);
+)
 
-export default IconButton;
+export default IconButton

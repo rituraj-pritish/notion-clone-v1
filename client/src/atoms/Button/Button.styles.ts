@@ -1,9 +1,9 @@
-import { darken } from 'polished';
-import styled, { css } from 'styled-components';
+import { darken } from 'polished'
+import styled, { css } from 'styled-components'
 
-import theme, { colors } from '@/theme';
+import theme, { colors } from '@/theme'
 
-import { Props, Size, Variant } from './Button';
+import { Props, Size, Variant } from './Button'
 
 const getVariantStyles = (variant: Variant) => {
 	if (variant === 'primary')
@@ -15,7 +15,7 @@ const getVariantStyles = (variant: Variant) => {
 			&:hover {
 				background: ${darken(0.05, colors.primary)};
 			}
-		`;
+		`
 
 	if (variant === 'tertiary')
 		return css`
@@ -24,7 +24,7 @@ const getVariantStyles = (variant: Variant) => {
 			&:hover {
 				background: ${colors.buttonHover};
 			}
-		`;
+		`
 
 	return css`
 		background: transparent;
@@ -34,19 +34,19 @@ const getVariantStyles = (variant: Variant) => {
 		&:hover {
 			background: ${colors.buttonHover};
 		}
-	`;
-};
+	`
+}
 
 const getSizeStyles = (size: Size) => {
 	if (size === 'small') {
 		return css`
 			font-size: 14px;
 			padding: 4px 8px;
-		`;
+		`
 	}
 
-	return css``;
-};
+	return css``
+}
 
 export const StyledButton = styled.button<Props>`
 	border: 1px solid transparent;
@@ -67,11 +67,11 @@ export const StyledButton = styled.button<Props>`
 			border-color: transparent;
 		`};
 	${({ size }) => getSizeStyles(size!)};
-`;
+`
 
 interface IconProps {
-	left?: boolean;
-	isEmoji: boolean;
+	left?: boolean
+	isEmoji: boolean
 }
 
 export const Icon = styled.span<IconProps>`
@@ -87,4 +87,4 @@ export const Icon = styled.span<IconProps>`
 			font-size: 20px;
 			max-height: 20px;
 		`};
-`;
+`

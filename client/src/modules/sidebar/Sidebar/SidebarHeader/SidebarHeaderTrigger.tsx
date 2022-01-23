@@ -1,16 +1,16 @@
-import { BiChevronDown, BiChevronUp } from 'react-icons/bi';
-import { FiChevronsLeft } from 'react-icons/fi';
+import { BiChevronDown, BiChevronUp } from 'react-icons/bi'
+import { FiChevronsLeft } from 'react-icons/fi'
 
-import { Flex, IconButton } from '@/atoms';
-import useSidebar from '@/hooks/useSidebar';
+import { Flex, IconButton } from '@/atoms'
+import useSidebar from '@/hooks/useSidebar'
 
-import { SidebarHeaderWrapper } from '../SideBar.styles';
-import SidebarItem from '../SidebarItem';
+import { SidebarHeaderWrapper } from '../SideBar.styles'
+import SidebarItem from '../SidebarItem'
 
 const SidebarHeaderTrigger = () => {
-	const { isCollapsed, toggleCollapsed } = useSidebar();
-	const user = { name: 'Shubham' };
-	if (!user) return null;
+	const { isCollapsed, toggleCollapsed } = useSidebar()
+	const user = { name: 'Shubham' }
+	if (!user) return null
 
 	return (
 		<SidebarItem style={{ marginBottom: '5rem' }}>
@@ -34,7 +34,7 @@ const SidebarHeaderTrigger = () => {
 				)}
 			</SidebarHeaderWrapper>
 		</SidebarItem>
-	);
-};
+	)
+}
 
-export default SidebarHeaderTrigger;
+export default SidebarHeaderTrigger

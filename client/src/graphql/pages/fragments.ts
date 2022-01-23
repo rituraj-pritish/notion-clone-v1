@@ -1,4 +1,4 @@
-import { gql } from 'graphql-request';
+import { gql } from 'graphql-request'
 
 export const PAGE_FRAGMENT = gql`
 	fragment pageFragment on Page {
@@ -15,4 +15,4 @@ export const PAGE_FRAGMENT = gql`
 		createdAt
 		updatedAt
 	}
-`;
+`

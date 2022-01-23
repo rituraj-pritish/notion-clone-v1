@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import theme from '@/theme';
+import theme from '@/theme'
 
 export const GroupName = styled.div`
 	color: #aaa9a4;
@@ -17,4 +17,4 @@ export const GroupName = styled.div`
 		color: #a19f9a;
 		background: #e8e7e3;
 	}
-`;
+`

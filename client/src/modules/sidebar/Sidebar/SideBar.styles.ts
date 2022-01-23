@@ -1,17 +1,17 @@
-import { darken } from 'polished';
-import { ResizableBox } from 'react-resizable';
-import styled, { css } from 'styled-components';
+import { darken } from 'polished'
+import { ResizableBox } from 'react-resizable'
+import styled, { css } from 'styled-components'
 
-import theme from '@/theme';
+import theme from '@/theme'
 
-const greyHoverBg = '#efefef';
-const hoverBg = darken(0.05, '#F7F6F3');
-const color = '#8A8883';
+const greyHoverBg = '#efefef'
+const hoverBg = darken(0.05, '#F7F6F3')
+const color = '#8A8883'
 
 interface RootWrapperProps {
-	isCollapsed?: boolean;
-	width: number;
-	isHovering?: boolean;
+	isCollapsed?: boolean
+	width: number
+	isHovering?: boolean
 }
 
 export const RootWrapper = styled(ResizableBox)<RootWrapperProps>`
@@ -19,7 +19,7 @@ export const RootWrapper = styled(ResizableBox)<RootWrapperProps>`
 	background: #f7f6f3;
 	position: relative;
 	transition: width 0.3s ease-in-out;
-`;
+`
 
 export const Content = styled.div<RootWrapperProps>`
 	height: 100%;
@@ -39,7 +39,7 @@ export const Content = styled.div<RootWrapperProps>`
 			top: 50%;
 			transform: ${`translate(${isHovering ? 0 : '-100%'}, -50%)`};
 		`};
-`;
+`
 
 export const Trigger = styled.div`
 	content: '';
@@ -50,7 +50,7 @@ export const Trigger = styled.div`
 	width: 50px;
 	top: 56px;
 	transform: translateX(100%);
-`;
+`
 
 export const Handle = styled.div`
 	position: absolute;
@@ -64,7 +64,7 @@ export const Handle = styled.div`
 	&:hover {
 		background: #deddd9;
 	}
-`;
+`
 
 export const SidebarHeaderWrapper = styled.div`
 	padding: 12px 16px;
@@ -81,11 +81,11 @@ export const SidebarHeaderWrapper = styled.div`
 			background: ${darken(0.05, hoverBg)};
 		}
 	}
-`;
+`
 
 interface SidebarItemProps {
-	isCollapsed: boolean;
-	isActive?: boolean;
+	isCollapsed: boolean
+	isActive?: boolean
 }
 
 export const SidebarItemWrapper = styled.div<SidebarItemProps>`
@@ -113,7 +113,7 @@ export const SidebarItemWrapper = styled.div<SidebarItemProps>`
 			background: ${isCollapsed ? greyHoverBg : hoverBg};
 			font-weight: 500;
 		`};
-`;
+`
 
 export const NewPage = styled.div`
 	display: flex;
@@ -125,4 +125,4 @@ export const NewPage = styled.div`
 		font-size: 26px;
 		margin-right: 12px;
 	}
-`;
+`

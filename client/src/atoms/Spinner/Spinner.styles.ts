@@ -1,20 +1,20 @@
-import styled, { css } from 'styled-components';
+import styled, { css } from 'styled-components'
 
 interface SpinnerProps {
-	size: 'small' | 'medium' | 'large';
+	size: 'small' | 'medium' | 'large'
 }
 
 const getSize = (size: 'small' | 'medium' | 'large') => {
-	let dimension = 12;
+	let dimension = 12
 
-	if (size === 'medium') dimension = 20;
-	if (size === 'large') dimension = 30;
+	if (size === 'medium') dimension = 20
+	if (size === 'large') dimension = 30
 
 	return css`
 		width: ${dimension + 'px'};
 		height: ${dimension + 'px'};
-	`;
-};
+	`
+}
 
 export const StyledSpinner = styled.div<SpinnerProps>`
 	${({ size }) => getSize(size)};
@@ -34,4 +34,4 @@ export const StyledSpinner = styled.div<SpinnerProps>`
 			transform: rotate(360deg);
 		}
 	}
-`;
+`

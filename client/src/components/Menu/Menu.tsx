@@ -1,14 +1,14 @@
-import React from 'react';
-import { IoEllipsisHorizontal } from 'react-icons/io5';
+import React from 'react'
+import { IoEllipsisHorizontal } from 'react-icons/io5'
 
-import { Flex, IconButton, Popover } from '@/atoms';
-import { PopoverProps, PopoverRenderComponent } from 'atoms/Popover/Popover';
+import { Flex, IconButton, Popover } from '@/atoms'
+import { PopoverProps, PopoverRenderComponent } from 'atoms/Popover/Popover'
 
 interface Props extends Omit<PopoverProps, 'trigger' | 'ref' | 'children'> {
-	trigger?: React.ReactElement;
-	tooltip?: string | React.ReactElement;
-	ref?: React.Ref<React.ElementRef<typeof Popover>>;
-	children: React.ReactElement[] | PopoverRenderComponent;
+	trigger?: React.ReactElement
+	tooltip?: string | React.ReactElement
+	ref?: React.Ref<React.ElementRef<typeof Popover>>
+	children: React.ReactElement[] | PopoverRenderComponent
 }
 
 const Menu = ({ trigger, tooltip, children, ...props }: Props) => {
@@ -18,15 +18,15 @@ const Menu = ({ trigger, tooltip, children, ...props }: Props) => {
 				<Flex flexDirection='column' py={2} width={260}>
 					{children(...params)}
 				</Flex>
-			);
+			)
 		}
 
 		return (
 			<Flex flexDirection='column' py={2} width={260}>
 				{children}
 			</Flex>
-		);
-	};
+		)
+	}
 	return (
 		<Popover
 			trigger={
@@ -42,7 +42,7 @@ const Menu = ({ trigger, tooltip, children, ...props }: Props) => {
 				? (...params) => render(params)
 				: render()}
 		</Popover>
-	);
-};
+	)
+}
 
-export default Menu;
+export default Menu

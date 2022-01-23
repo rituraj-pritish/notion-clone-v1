@@ -1,15 +1,15 @@
-import _throttle from 'lodash/throttle';
-import { SyntheticEvent, useEffect, useState } from 'react';
-import { BsPlus } from 'react-icons/bs';
-import { useMutation, useQueryClient } from 'react-query';
-import { ResizeCallbackData } from 'react-resizable';
+import _throttle from 'lodash/throttle'
+import { SyntheticEvent, useEffect, useState } from 'react'
+import { BsPlus } from 'react-icons/bs'
+import { useMutation, useQueryClient } from 'react-query'
+import { ResizeCallbackData } from 'react-resizable'
 
-import api from '@/api';
-import { GetWorkspaceResult } from '@/api/endpoints/workspace';
-import queryKeys from '@/constants/queryKeys';
-import { CREATE_PAGE } from '@/graphql/pages';
-import useSidebar from '@/hooks/useSidebar';
-import { Page } from 'types/page';
+import api from '@/api'
+import { GetWorkspaceResult } from '@/api/endpoints/workspace'
+import queryKeys from '@/constants/queryKeys'
+import { CREATE_PAGE } from '@/graphql/pages'
+import useSidebar from '@/hooks/useSidebar'
+import { Page } from 'types/page'
 
 import {
 	NewPage,
@@ -17,13 +17,13 @@ import {
 	Handle,
 	Content,
 	Trigger
-} from './SideBar.styles';
-import SidebarHeader from './SidebarHeader';
-import SidebarItem from './SidebarItem';
-import SidebarPages from './SidebarPages';
+} from './SideBar.styles'
+import SidebarHeader from './SidebarHeader'
+import SidebarItem from './SidebarItem'
+import SidebarPages from './SidebarPages'
 
 const NewPageFooter = () => {
-	const queryClient = useQueryClient();
+	const queryClient = useQueryClient()
 
 	const { mutateAsync } = useMutation(
 		() =>
@@ -45,10 +45,10 @@ const NewPageFooter = () => {
 						...prevData,
 						private: prevData!.private.concat(newPage)
 					})
-				);
+				)
 			}
 		}
-	);
+	)
 
 	return (
 		<SidebarItem>
@@ -57,20 +57,20 @@ const NewPageFooter = () => {
 				New page
 			</NewPage>
 		</SidebarItem>
-	);
-};
+	)
+}
 
 const Sidebar = () => {
-	const [isHovering, setIsHovering] = useState<boolean>(false);
-	const { isCollapsed, setWidth, width } = useSidebar();
+	const [isHovering, setIsHovering] = useState<boolean>(false)
+	const { isCollapsed, setWidth, width } = useSidebar()
 
 	useEffect(() => {
-		if (isCollapsed) setIsHovering(true);
-	}, [isCollapsed]);
+		if (isCollapsed) setIsHovering(true)
+	}, [isCollapsed])
 
 	const fun = (_: SyntheticEvent, { size }: ResizeCallbackData) => {
-		setWidth(size.width);
-	};
+		setWidth(size.width)
+	}
 
 	return (
 		<RootWrapper
@@ -97,7 +97,7 @@ const Sidebar = () => {
 				{!isHovering && <Trigger onMouseEnter={() => setIsHovering(true)} />}
 			</>
 		</RootWrapper>
-	);
-};
+	)
+}
 
-export default Sidebar;
+export default Sidebar

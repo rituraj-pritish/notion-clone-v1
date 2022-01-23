@@ -1,6 +1,6 @@
-import { graphql } from 'msw';
+import { graphql } from 'msw'
 
-import { PRIVATE_PAGES } from '../mockData/pages.mock';
+import { PRIVATE_PAGES } from '../mockData/pages.mock'
 
 export default [
 	graphql.query('GetWorkspace', (req, res, ctx) => {
@@ -12,6 +12,6 @@ export default [
 					shared: []
 				}
 			})
-		);
+		)
 	})
-];
+]

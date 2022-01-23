@@ -1,6 +1,6 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
 
-import theme from '@/theme';
+import theme from '@/theme'
 
 export const RootWrapper = styled.div`
 	display: flex;
@@ -9,4 +9,4 @@ export const RootWrapper = styled.div`
 	height: 80px;
 	max-width: ${theme.maxWidth};
 	padding: 0 16px;
-`;
+`

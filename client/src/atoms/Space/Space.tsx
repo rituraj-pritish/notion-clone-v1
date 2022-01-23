@@ -1,14 +1,14 @@
-import React, { HTMLAttributes } from 'react';
+import React, { HTMLAttributes } from 'react'
 
-import { RootWrapper } from './Space.styles';
+import { RootWrapper } from './Space.styles'
 
-export type Direction = 'vertical' | 'horizontal';
+export type Direction = 'vertical' | 'horizontal'
 
 export interface Props extends HTMLAttributes<HTMLDivElement> {
-	children: React.ReactNode;
-	direction?: Direction;
-	size?: string | number;
-	align?: 'start' | 'center' | 'end';
+	children?: React.ReactNode
+	direction?: Direction
+	size?: string | number
+	align?: 'start' | 'center' | 'end'
 }
 
 const Space = ({
@@ -22,7 +22,7 @@ const Space = ({
 		<RootWrapper size={size} direction={direction} align={align} {...props}>
 			{children}
 		</RootWrapper>
-	);
-};
+	)
+}
 
-export default Space;
+export default Space
