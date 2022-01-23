@@ -1,6 +1,6 @@
 import { BaseEmoji, emojiIndex } from 'emoji-mart'
 import _random from 'lodash/random'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import { FiFileText } from 'react-icons/fi'
 import { VscSmiley } from 'react-icons/vsc'
@@ -24,6 +24,8 @@ interface Props extends Page {
 	bordered?: boolean
 }
 
+const { Title, Trigger, Content } = Popover
+
 const ChangeIcon = ({
 	icon,
 	id,
@@ -33,6 +35,7 @@ const ChangeIcon = ({
 	bordered
 }: Props) => {
 	const [emoji, setEmoji] = useState(icon)
+	const popoverRef = useRef<React.ElementRef<typeof Popover>>(null)
 
 	useEffect(() => {
 		setEmoji(icon)
@@ -51,50 +54,42 @@ const ChangeIcon = ({
 		}
 	)
 
-	const onRandomClick = async (close: VoidFunction) => {
+	const onRandomClick = async () => {
 		try {
 			const randomEmoji = getRandomEmoji()
 			await mutateAsync(randomEmoji)
 			setEmoji(randomEmoji)
-			close()
+			popoverRef.current?.close()
 		} catch (error) {
 			console.log('e', error)
 		}
 	}
 
-	const onRemoveClick = async (close: VoidFunction) => {
+	const onRemoveClick = async () => {
 		try {
 			await mutateAsync(undefined)
 			setEmoji('')
-			close()
+			popoverRef.current?.close()
 		} catch (error) {
 			console.log('e', error)
 		}
 	}
 
-	const title = React.useCallback(
-		(_, close: VoidFunction) => (
-			<Flex justifyContent='flex-end' p={1}>
-				<Button
-					size='small'
-					variant='tertiary'
-					ghost
-					leftIcon={VscSmiley}
-					onClick={() => onRandomClick(close)}
-				>
-					Random
-				</Button>
-				<Button
-					size='small'
-					variant='tertiary'
-					ghost
-					onClick={() => onRemoveClick(close)}
-				>
-					Remove
-				</Button>
-			</Flex>
-		),
-		[]
+	const title = (
+		<Flex justifyContent='flex-end' p={1}>
+			<Button
+				size='small'
+				variant='tertiary'
+				ghost
+				leftIcon={VscSmiley}
+				onClick={onRandomClick}
+			>
+				Random
+			</Button>
+			<Button size='small' variant='tertiary' ghost onClick={onRemoveClick}>
+				Remove
+			</Button>
+		</Flex>
 	)
 
 	const renderIcon = () => {
@@ -103,29 +98,27 @@ const ChangeIcon = ({
 	}
 
 	return (
-		<Popover
-			title={title}
-			trigger={
+		<Popover ref={popoverRef} placement='bottom'>
+			<Trigger>
 				<IconButton size={iconSize} tooltip='Change icon' bordered={bordered}>
 					{renderIcon()}
 				</IconButton>
-			}
-			placement='bottom'
-		>
-			{(_, close) => (
+			</Trigger>
+			<Title>{title}</Title>
+			<Content>
 				<EmojiPicker
 					emojiTooltip
 					onSelect={async ({ native }: BaseEmoji) => {
 						await mutateAsync(native)
 						setEmoji(native)
-						close()
+						popoverRef.current?.close()
 					}}
 					i18n={{
 						search: 'Filter...'
 					}}
 					showPreview={false}
 				/>
-			)}
+			</Content>
 		</Popover>
 	)
 }

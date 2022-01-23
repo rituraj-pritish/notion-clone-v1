@@ -20,7 +20,9 @@ module.exports = {
 		// Handle module aliases
 		'^@/api/(.*)$': '<rootDir>/src/api/$1',
 		'^@/api': '<rootDir>/src/api',
+		'^@/atoms/(.*)$': '<rootDir>/src/atoms/$1',
 		'^@/atoms': '<rootDir>/src/atoms',
+		'^@/components/(.*)$': '<rootDir>/src/components/$1',
 		'^@/components': '<rootDir>/src/components',
 		'^@/core/(.*)$': '<rootDir>/src/core/$1',
 		'^@/constants/(.*)$': '<rootDir>/src/constants/$1',

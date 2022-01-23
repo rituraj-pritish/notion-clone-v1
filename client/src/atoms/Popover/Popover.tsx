@@ -1,20 +1,34 @@
 import Tippy, { TippyProps } from '@tippyjs/react/headless'
-import React, { useState, useImperativeHandle } from 'react'
+import React, { useImperativeHandle, useState } from 'react'
 
 import { Content, RootWrapper, Title } from './Popover.styles'
+import usePopover, { PopoverContext } from './usePopover'
 
-type Callback = () => void
+type ChildrenProp = { children: React.ReactElement }
 
-export type PopoverRenderComponent =
-	| React.ReactElement<any>
-	// eslint-disable-next-line
-	| ((visible: boolean, cb: Callback) => React.ReactElement<any> | false)
+const PopoverTrigger = React.forwardRef(({ children }: ChildrenProp, ref) => {
+	const { open, close, isVisible } = usePopover()
+
+	return React.cloneElement(children, {
+		ref,
+		onClick: () => {
+			if (typeof children.props.onClick === 'function') children.props.onClick()
+			if (isVisible) return close()
+			open()
+		}
+	})
+})
+
+const PopoverContent = ({ children }: ChildrenProp) => {
+	return <Content>{children}</Content>
+}
+
+const PopoverTitle = ({ children }: ChildrenProp) => {
+	return <Title>{children}</Title>
+}
 
 export interface PopoverProps extends Omit<TippyProps, 'trigger' | 'children'> {
-	children: PopoverRenderComponent
-	trigger: React.ReactElement<any>
-	title?: PopoverRenderComponent
-	action?: string
+	children: React.ReactElement[]
 }
 
 interface Handle {
@@ -23,59 +37,51 @@ interface Handle {
 
 const Popover = React.forwardRef(
 	(
-		{
-			children,
-			trigger,
-			title,
-			placement = 'auto',
-			className,
-			...props
-		}: PopoverProps,
+		{ children, placement = 'auto', ...props }: PopoverProps,
 		ref?: React.Ref<Handle>
 	) => {
 		const [isVisible, setIsVisible] = useState(false)
+
+		const value = {
+			isVisible,
+			open: () => setIsVisible(true),
+			close: () => setIsVisible(false)
+		}
 
 		useImperativeHandle(ref, () => ({
 			close: () => setIsVisible(false)
 		}))
 
-		const render = (component: typeof children) => {
-			if (!component) return null
-
-			if (typeof component === 'function') {
-				return component(isVisible, () => setIsVisible(false))
-			}
-			return component
-		}
+		const trigger = children.find(({ type }) => type === PopoverTrigger)
+		const content = children.find(({ type }) => type === PopoverContent)
+		const title = children.find(({ type }) => type === PopoverTitle)
 
 		return (
-			<div className={className} onClick={(e) => e.stopPropagation()}>
+			<PopoverContext.Provider value={value}>
 				<Tippy
 					render={(attrs) => (
-						<RootWrapper {...attrs}>
-							<>
-								{title && <Title>{render(title)}</Title>}
-								<Content>{render(children)}</Content>
-							</>
+						<RootWrapper {...attrs} onClick={(e) => e.stopPropagation()}>
+							{title}
+							{content}
 						</RootWrapper>
 					)}
 					visible={isVisible}
-					placement={placement}
 					interactive
 					onClickOutside={() => setIsVisible(false)}
+					placement={placement}
 					{...props}
 				>
-					{React.cloneElement(trigger, {
-						onClick: (e: Event) => {
-							if (typeof trigger.props.onClick === 'function')
-								trigger.props.onClick(e)
-							setIsVisible((state) => !state)
-						}
-					})}
+					{trigger}
 				</Tippy>
-			</div>
+			</PopoverContext.Provider>
 		)
 	}
 )
 
-export default Popover
+const PopoverNamespace = Object.assign(Popover, {
+	Trigger: PopoverTrigger,
+	Content: PopoverContent,
+	Title: PopoverTitle
+})
+
+export default PopoverNamespace

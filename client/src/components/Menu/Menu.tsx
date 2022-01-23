@@ -2,47 +2,38 @@ import React from 'react'
 import { IoEllipsisHorizontal } from 'react-icons/io5'
 
 import { Flex, IconButton, Popover } from '@/atoms'
-import { PopoverProps, PopoverRenderComponent } from 'atoms/Popover/Popover'
+import { PopoverProps } from '@/atoms/Popover/Popover'
+
+import MenuItem from './MenuItem'
 
 interface Props extends Omit<PopoverProps, 'trigger' | 'ref' | 'children'> {
 	trigger?: React.ReactElement
 	tooltip?: string | React.ReactElement
 	ref?: React.Ref<React.ElementRef<typeof Popover>>
-	children: React.ReactElement[] | PopoverRenderComponent
+	children: React.ReactElement[]
 }
 
-const Menu = ({ trigger, tooltip, children, ...props }: Props) => {
-	const render = (params?: [boolean, VoidFunction]) => {
-		if (typeof children === 'function' && params) {
-			return (
-				<Flex flexDirection='column' py={2} width={260}>
-					{children(...params)}
-				</Flex>
-			)
-		}
-
-		return (
-			<Flex flexDirection='column' py={2} width={260}>
-				{children}
-			</Flex>
-		)
-	}
+const Menu = ({ children, tooltip, ...props }: Props) => {
+	const trigger = children.find(({ type }) => type === Popover.Trigger)
 	return (
-		<Popover
-			trigger={
-				trigger || (
+		<Popover {...props}>
+			{trigger || (
+				<Popover.Trigger>
 					<IconButton size='small' tooltip={tooltip} data-testid='menu-trigger'>
 						<IoEllipsisHorizontal />
 					</IconButton>
-				)
-			}
-			{...props}
-		>
-			{typeof children === 'function'
-				? (...params) => render(params)
-				: render()}
+				</Popover.Trigger>
+			)}
+			<Popover.Content>
+				<Flex flexDirection='column' py={2}>
+					{children}
+				</Flex>
+			</Popover.Content>
 		</Popover>
 	)
 }
+
+Menu.Trigger = Popover.Trigger
+Menu.MenuItem = MenuItem
 
 export default Menu

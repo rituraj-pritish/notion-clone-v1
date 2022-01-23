@@ -7,25 +7,28 @@ import { LOGOUT } from '@/graphql/users'
 
 import SidebarHeaderTrigger from './SidebarHeaderTrigger'
 
+const { Trigger, Content } = Popover
+
 const SidebarHeader = () => {
 	const router = useRouter()
 	const { mutateAsync } = useMutation(() => api(LOGOUT))
 
 	return (
-		<Popover
-			trigger={
+		<Popover>
+			<Trigger>
 				<div>
 					<SidebarHeaderTrigger />
 				</div>
-			}
-		>
-			<Button
-				size='medium'
-				variant='secondary'
-				onClick={() => mutateAsync().then(() => router.replace('/login'))}
-			>
-				Logout
-			</Button>
+			</Trigger>
+			<Content>
+				<Button
+					size='medium'
+					variant='secondary'
+					onClick={() => mutateAsync().then(() => router.replace('/login'))}
+				>
+					Logout
+				</Button>
+			</Content>
 		</Popover>
 	)
 }

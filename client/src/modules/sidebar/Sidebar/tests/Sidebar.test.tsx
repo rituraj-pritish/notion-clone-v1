@@ -1,15 +1,9 @@
+import userEvent from '@testing-library/user-event'
 import { graphql } from 'msw'
 
 import { PRIVATE_PAGES } from '@/tests/mocks/mockData/pages.mock'
 import { server } from '@/tests/mocks/server'
-import {
-	getPage,
-	screen,
-	waitFor,
-	fireEvent,
-	waitForElementToBeRemoved,
-	within
-} from '@/tests/test-utils'
+import { getPage, screen, waitFor, fireEvent, within } from '@/tests/test-utils'
 
 const clickMenuItem = (text: string, option: string, groupName = 'PRIVATE') => {
 	const el = within(screen.getByTestId(`page-group-${groupName}`))
@@ -27,6 +21,13 @@ const renderPage = async () => {
 }
 
 describe('Sidebar', () => {
+	it('should add new page in private pages', async () => {
+		await renderPage()
+
+		fireEvent.click(screen.getByText('New page'))
+		await waitFor(() => screen.findByTestId('sidebar-page-Untitled'))
+	})
+
 	it('should render and update favorite pages', async () => {
 		await renderPage()
 
@@ -35,27 +36,39 @@ describe('Sidebar', () => {
 
 		// add to favorites
 		clickMenuItem('P Page 1', 'Add to Favorites')
-		await waitForElementToBeRemoved(
-			() => screen.queryByText('Add to Favorites'),
-			{
-				timeout: 10000
-			}
+		await waitFor(() =>
+			expect(screen.queryByText('Add to Favorites')).not.toBeInTheDocument()
 		)
-		expect(screen.getByText('FAVORITES')).toBeInTheDocument()
+		await waitFor(() =>
+			expect(screen.getByText('FAVORITES')).toBeInTheDocument()
+		)
 		expect(screen.getAllByText('P Page 1').length).toEqual(2)
 
 		// remove from favorites
 		clickMenuItem('P Page 1', 'Remove from Favorites', 'FAVORITES')
 		const el = within(screen.getByTestId('page-group-FAVORITES'))
-		await waitForElementToBeRemoved(
-			() => el.queryByText('Remove from Favorites'),
-			{
-				timeout: 10000
-			}
+		await waitFor(() =>
+			expect(el.queryByText('Remove from Favorites')).not.toBeInTheDocument()
 		)
-		expect(screen.queryByText('FAVORITES')).not.toBeInTheDocument()
+		await waitFor(() =>
+			expect(screen.queryByText('FAVORITES')).not.toBeInTheDocument()
+		)
 		expect(screen.getAllByText('P Page 1').length).toEqual(1)
-	}, 10000)
+	})
+
+	it('should rename page', async () => {
+		await renderPage()
+
+		await waitFor(() => screen.findByText('PRIVATE'))
+		clickMenuItem('P Page 1', 'Rename')
+
+		await waitFor(() => screen.findByPlaceholderText('P Page 1'))
+		userEvent.type(screen.getByPlaceholderText('P Page 1'), 'Renamed Page 1')
+		userEvent.keyboard('{Enter}')
+
+		await waitFor(() => screen.findByText('Renamed Page 1'))
+		expect(screen.queryByText('P Page 1')).not.toBeInTheDocument()
+	})
 
 	it('should update pages on delete', async () => {
 		server.use(
@@ -84,16 +97,9 @@ describe('Sidebar', () => {
 		expect(screen.getAllByText('P Page 1').length).toEqual(2)
 
 		clickMenuItem('P Page 1', 'Delete')
-		await waitForElementToBeRemoved(() => screen.queryByText('Delete'), {
-			timeout: 5000
-		})
+		await waitFor(() =>
+			expect(screen.queryByText('Delete')).not.toBeInTheDocument()
+		)
 		await (() => expect(screen.queryAllByText('P Page 1').length).toEqual(0))
-	})
-
-	it('should add new page in private pages', async () => {
-		await renderPage()
-
-		fireEvent.click(screen.getByText('New page'))
-		await waitFor(() => screen.findByTestId('sidebar-page-Untitled'))
 	})
 })

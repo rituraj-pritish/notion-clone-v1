@@ -9,20 +9,24 @@ export default {
 	component: Popover
 } as ComponentMeta<typeof Popover>
 
+const { Content, Trigger } = Popover
+
 export const popover: ComponentStory<typeof Popover> = () => {
 	return (
 		<>
-			<Popover
-				trigger={
-					<Button variant='secondary' size='small'>
+			<Popover>
+				<Trigger>
+					<Button
+						variant='secondary'
+						size='small'
+						onClick={() => console.log('call')}
+					>
 						Trigger
 					</Button>
-				}
-				title={<div>abcd</div>}
-			>
-				<>
+				</Trigger>
+				<Content>
 					<div>1</div>
-				</>
+				</Content>
 			</Popover>
 		</>
 	)

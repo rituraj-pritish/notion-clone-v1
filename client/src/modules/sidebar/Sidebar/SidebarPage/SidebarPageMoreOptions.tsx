@@ -5,7 +5,7 @@ import { useMutation } from 'react-query'
 
 import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints'
 import { Modal } from '@/atoms'
-import { Menu, MenuItem } from '@/components'
+import { Menu } from '@/components'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
 import RenamePage from '@/shared/RenamePage'
 import { Page } from '@/types/page'
@@ -49,27 +49,24 @@ const SidebarPageMoreOptions = (props: Props) => {
 				placement='auto-end'
 				offset={[8, -4]}
 			>
-				{(_, close) => (
-					<>
-						{!isInsideFavoritesGroup && (
-							<MenuItem icon={<IoTrashOutline size={20} />} onClick={onDelete}>
-								Delete
-							</MenuItem>
-						)}
-						<MenuItem
-							onClick={() => {
-								close()
-								setIsModalVisible(true)
-							}}
-							icon={<BsPencilSquare />}
-						>
-							Rename
-						</MenuItem>
-						<MenuItem icon={<BsStar />} onClick={() => toggleFavorite()}>
-							{favorite ? 'Remove from' : 'Add to'} Favorites
-						</MenuItem>
-					</>
+				{!isInsideFavoritesGroup ? (
+					<Menu.MenuItem icon={<IoTrashOutline size={20} />} onClick={onDelete}>
+						Delete
+					</Menu.MenuItem>
+				) : (
+					<></>
 				)}
+				<Menu.MenuItem
+					onClick={() => {
+						setIsModalVisible(true)
+					}}
+					icon={<BsPencilSquare />}
+				>
+					Rename
+				</Menu.MenuItem>
+				<Menu.MenuItem icon={<BsStar />} onClick={() => toggleFavorite()}>
+					{favorite ? 'Remove from' : 'Add to'} Favorites
+				</Menu.MenuItem>
 			</Menu>
 			<Modal
 				onRequestClose={() => setIsModalVisible(false)}

@@ -17,9 +17,14 @@ export interface Props extends Omit<ModalProps, 'isOpen' | 'style'> {
 }
 
 const ModalTrigger = ({ children }: ChildrenProp) => {
-	const { openModal } = useModal()
+	const { openModal, closeModal, isVisible } = useModal()
+
 	return React.cloneElement(children, {
-		onClick: openModal
+		onClick: () => {
+			if (typeof children.props.onClick === 'function') children.props.onClick()
+			if (isVisible) return closeModal()
+			openModal()
+		}
 	})
 }
 
@@ -141,7 +146,11 @@ const Modal = ({ children, visible, ...otherProps }: Props) => {
 		modalProps: otherProps
 	}
 
-	return <ModalContext.Provider value={value}>{children}</ModalContext.Provider>
+	return (
+		<ModalContext.Provider value={value}>
+			<div onClick={(e) => e.stopPropagation()}>{children}</div>
+		</ModalContext.Provider>
+	)
 }
 
 Modal.ModalTrigger = ModalTrigger

@@ -4,6 +4,7 @@ import theme from '@/theme'
 
 export const Title = styled.div`
 	border-bottom: 0.5px solid ${theme.divider};
+	background: white;
 `
 
 export const Content = styled.div``
