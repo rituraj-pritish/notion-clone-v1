@@ -1,7 +1,9 @@
 import { LayoutProps } from 'framer-motion'
-import React from 'react'
-import styled from 'styled-components'
+import React, { HTMLAttributes } from 'react'
+import styled, { css } from 'styled-components'
 import {
+	color,
+	ColorProps,
 	layout,
 	space,
 	SpaceProps,
@@ -9,16 +11,26 @@ import {
 	TypographyProps
 } from 'styled-system'
 
-type StyledSystemProps = SpaceProps & LayoutProps & TypographyProps
+type StyledSystemProps = HTMLAttributes<HTMLDivElement> &
+	SpaceProps &
+	LayoutProps &
+	TypographyProps &
+	ColorProps
 
 interface Props extends StyledSystemProps {
 	children: string
+	inline?: boolean
 }
 
-const StyledText = styled.span<Props>`
+const StyledText = styled.div<Props>`
 	color: #8a8882;
 	font-weight: 500;
-	${space} ${layout} ${typography}
+	${({ inline }) =>
+		inline &&
+		css`
+			display: inline;
+		`};
+	${space} ${layout} ${typography} ${color}
 `
 
 const Text = ({ children, ...props }: Props) => {

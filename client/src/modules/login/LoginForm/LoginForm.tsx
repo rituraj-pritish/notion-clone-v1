@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { useMutation } from 'react-query'
 
 import api from '@/api/index'
-import { Button, Input, Space } from '@/atoms'
+import { Button, Center, Input, Space, Text } from '@/atoms'
 import { SIGN_IN } from '@/graphql/users'
 import { SignInInput, SignInResponse } from '@/types/users'
 
@@ -12,13 +12,20 @@ import { RootWrapper } from './LoginForm.styles'
 const LoginForm = () => {
 	const [email, setEmail] = useState('ab@gmail.com')
 	const [password, setPassword] = useState('123456')
+	const [error, setError] = useState('')
 	const router = useRouter()
 
 	const { mutateAsync } = useMutation(
 		() => api<SignInResponse, SignInInput>(SIGN_IN, { email, password }),
 		{
+			onMutate: () => {
+				setError('')
+			},
 			onSuccess: () => {
 				router.replace('/')
+			},
+			onError: (errorMsg: string) => {
+				setError(errorMsg)
 			}
 		}
 	)
@@ -52,6 +59,11 @@ const LoginForm = () => {
 					Log in
 				</Button>
 			</Space>
+			{error && (
+				<Center>
+					<Text color='red'>{error}</Text>
+				</Center>
+			)}
 		</RootWrapper>
 	)
 }

@@ -26,10 +26,14 @@ export const deletePage = (id: string) => {
 	})
 }
 
-export const getPage = (id: string) => {
-	return api<Page>(GET_PAGE, {
-		id
-	})
+export const getPage = (id: string, token?: string) => {
+	return api<Page>(
+		GET_PAGE,
+		{
+			id
+		},
+		token
+	)
 }
 
 export const getPages = (commaSeparatedIds: string) => {

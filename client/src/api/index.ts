@@ -21,11 +21,10 @@ export default async <T, V = Record<string, unknown>>(
 			variables,
 			requestHeaders
 		)
-
 		return Object.values(data)[0]
 	} catch (error) {
-		// todo find solution
-		//@ts-expect-error todo
-		return error
+		// @ts-expect-error todo
+		const errorMessage = Object.values(error)[0].errors[0].message
+		throw errorMessage
 	}
 }

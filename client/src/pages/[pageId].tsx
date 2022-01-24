@@ -24,13 +24,7 @@ const Page = ({ icon, name }: PageType) => {
 export default Page
 
 export async function getServerSideProps(ctx: GetServerSidePropsContext) {
-	const pageId = ctx.params?.pageId
-	let page
-	if (typeof pageId === 'string') {
-		page = await getPage(pageId)
-	}
 	const token = ctx.req.cookies.auth_token
-
 	if (!token) {
 		return {
 			redirect: {
@@ -40,7 +34,14 @@ export async function getServerSideProps(ctx: GetServerSidePropsContext) {
 		}
 	}
 
+	const pageId = ctx.params?.pageId
+
+	let page
+	if (typeof pageId === 'string') {
+		page = await getPage(pageId, token)
+	}
+
 	return {
-		props: page
+		props: page ? page : {}
 	}
 }
