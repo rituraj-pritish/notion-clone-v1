@@ -1,93 +1,94 @@
-import 'reflect-metadata';
+import 'reflect-metadata'
 
-import cookieParser from 'cookie-parser';
-import cors from 'cors';
-import dotenv from 'dotenv';
-import { ApolloServer } from 'apollo-server-express';
-import { 
-	ApolloServerPluginDrainHttpServer 
-} from 'apollo-server-core';
-import express from 'express';
-import http from 'http';
-import { buildSchema } from 'type-graphql';
-import jwt, { Secret } from 'jsonwebtoken';
+import cookieParser from 'cookie-parser'
+import cors from 'cors'
+import dotenv from 'dotenv'
+import { ApolloServer } from 'apollo-server-express'
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core'
+import express from 'express'
+import http from 'http'
+import { buildSchema } from 'type-graphql'
+import jwt, { Secret } from 'jsonwebtoken'
 
-import Context from './types/Context';
-import resolvers from './resolvers';
+import Context from './types/Context'
+import resolvers from './resolvers'
 
-dotenv.config();
+dotenv.config()
 
-import './db';
+import './db'
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT
 
 async function startApolloServer() {
 	try {
 		const schema = await buildSchema({
+			//@ts-expect-error todo find solution
 			resolvers,
 			emitSchemaFile: true,
 			validate: false
-		});
-	
-		const app = express();
+		})
 
-		app.use(cookieParser());
+		const app = express()
 
-		const whiteList = [process.env.CLIENT_BASE_URL!];
+		app.use(cookieParser())
 
-		if(process.env.NODE_ENV === 'development') {
-			whiteList.push('https://studio.apollographql.com');
+		const whiteList = [process.env.CLIENT_BASE_URL!]
+
+		if (process.env.NODE_ENV === 'development') {
+			whiteList.push('https://studio.apollographql.com')
 		}
 
-		app.use(cors({
-			origin: whiteList,
-			credentials: true
-		}));
-		const httpServer = http.createServer(app);
-	
+		app.use(
+			cors({
+				origin: whiteList,
+				credentials: true
+			})
+		)
+		const httpServer = http.createServer(app)
+
 		const server = new ApolloServer({
 			introspection: process.env.NODE_ENV === 'development',
 			schema,
-			plugins: [
-				ApolloServerPluginDrainHttpServer({ httpServer })
-			],
+			plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
 			context: async ({ req, res }): Promise<Partial<Context>> => {
-				const token = req.headers.authorization || req.cookies.auth_token;
+				const token = req.headers.authorization || req.cookies.auth_token
 
-				res.header('Access-Control-Allow-Origin', process.env.CLIENT_BASE_URL);
+				res.header('Access-Control-Allow-Origin', process.env.CLIENT_BASE_URL)
 
-				if(!token) return { res };
+				if (!token) return { res }
 
 				try {
-					const secret: Secret = process.env.JWT_SECRET!;
-					const {	user, workspace } = await jwt.verify(token, secret);
+					const secret: Secret = process.env.JWT_SECRET!
+
+					//@ts-expect-error todo find solution
+					const { user, workspace } = await jwt.verify(token, secret)
 
 					return {
 						user,
 						workspace,
 						res
-					};
-
+					}
 				} catch (error) {
 					//todo handle error
 					return {
 						res
-					};
+					}
 				}
 			}
-		});
-	
-		await server.start();
-		server.applyMiddleware({ app });
-		await new Promise<void>(resolve => 
-			httpServer.listen({ port: PORT }, resolve));
-	
+		})
+
+		await server.start()
+		server.applyMiddleware({ app })
+		await new Promise<void>((resolve) =>
+			httpServer.listen({ port: PORT }, resolve)
+		)
+
 		console.log(
 			`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`
-		);
+		)
 	} catch (error) {
-		console.error(error);
+		console.error(error)
 	}
 }
 
-startApolloServer();
+startApolloServer()

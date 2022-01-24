@@ -1,9 +1,9 @@
-import { Response } from 'express';
+import { Response } from 'express'
 
 interface Context {
-  user: string
-  workspace: string
-  res: Response
+	user: string
+	workspace: string
+	res: Response
 }
 
-export default Context;
+export default Context

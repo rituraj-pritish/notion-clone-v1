@@ -1,17 +1,17 @@
-import { AuthenticationError } from 'apollo-server-errors';
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql';
-import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken';
+import { AuthenticationError } from 'apollo-server-errors'
+import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
 
-import { User, UserModel } from '../../models/user.model';
-import { UserInput } from './user.types';
-import Context from '../../types/Context';
-import { WorkspaceModel } from '../../models/workspace.model';
-import { PageModel } from '../../models/page.model';
+import { User, UserModel } from '../../models/user.model'
+import { UserInput } from './user.types'
+import Context from '../../types/Context'
+import { WorkspaceModel } from '../../models/workspace.model'
+import { PageModel } from '../../models/page.model'
 
 const signToken = (user: User) => {
 	return jwt.sign(
-		{ 
+		{
 			user: user.id,
 			name: user.name,
 			email: user.email,
@@ -19,8 +19,8 @@ const signToken = (user: User) => {
 		},
 		process.env.JWT_SECRET!,
 		{ expiresIn: '10days' }
-	);
-};
+	)
+}
 
 @Resolver()
 export class UsersResolver {
@@ -30,68 +30,69 @@ export class UsersResolver {
 		@Arg('password') password: string,
 		@Ctx() ctx: Context
 	): Promise<User> {
-		const user = await UserModel.findOne({ email });
+		const user = await UserModel.findOne({ email })
 
-		if(!user) throw new AuthenticationError('Invalid Credentials');
+		if (!user) throw new AuthenticationError('Invalid Credentials')
 
-		const isPasswordCorrect =  await bcrypt.compare(password.toString(), user.password); 
-		if(!isPasswordCorrect) throw new AuthenticationError('Invalid Credentials');
-		const token = signToken(user);
-		
-		ctx.res.cookie('auth_token', token);
+		const isPasswordCorrect = await bcrypt.compare(
+			password.toString(),
+			user.password
+		)
+		if (!isPasswordCorrect) throw new AuthenticationError('Invalid Credentials')
+		const token = signToken(user)
 
-		return user;
+		ctx.res.cookie('auth_token', token)
+
+		return user
 	}
 
-  @Mutation(() => User) 
+	@Mutation(() => User)
 	async signup(
-		@Arg('newUserInput') {
-			password,
-			email,
-			name
-		}: UserInput,
+		@Arg('newUserInput') { password, email, name }: UserInput,
 		@Ctx() ctx: Context
 	): Promise<User> {
-		const existingUser = await UserModel.findOne({ email });
+		const existingUser = await UserModel.findOne({ email })
 
-		if(existingUser) throw new AuthenticationError('User already exists');
+		if (existingUser) throw new AuthenticationError('User already exists')
 
-		const hashed = await bcrypt.hash(password, 10);
+		const hashed = await bcrypt.hash(password, 10)
 
 		const user = await UserModel.create({
 			email,
 			name,
 			password: hashed
-		});
+		})
 
 		const workspace = await WorkspaceModel.create({
-			users: [{
-				user: user.id,
-				role: 'admin'
-			}]
-		});
+			users: [
+				{
+					user: user.id,
+					role: 'admin'
+				}
+			]
+		})
 
 		await PageModel.create({
 			name: 'Getting Started',
 			workspace: workspace.id
-		});
+		})
 
 		await user.update({
 			workspaces: [workspace.id],
 			currentWorkspace: workspace.id
-		});
-		await user.save();
-		
-		const token = signToken(user);
-		
-		ctx.res.cookie('auth_token', token);
+		})
+		await user.save()
 
-		return user;
+		const token = signToken(user)
+
+		ctx.res.cookie('auth_token', token)
+
+		return user
 	}
 
 	@Query(() => Boolean)
-  async logout(@Ctx() ctx: Context): Promise<boolean> {
-  	ctx.res.clearCookie('auth_token');
-  	return true;
-  }
+	async logout(@Ctx() ctx: Context): Promise<boolean> {
+		ctx.res.clearCookie('auth_token')
+		return true
+	}
 }

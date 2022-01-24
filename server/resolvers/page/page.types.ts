@@ -1,47 +1,47 @@
-import { Field, ID, InputType } from 'type-graphql';
-import { Page } from '../../models/page.model';
+import { Field, ID, InputType } from 'type-graphql'
+import { Page } from '../../models/page.model'
 
 @InputType()
 class HierarchyInput {
 	@Field(() => ID, { nullable: true })
-		parent: string;
+	parent: string
 
 	@Field(() => ID, { nullable: true })
-		root: string;
-	
+	root: string
+
 	@Field(() => [ID], { nullable: true })
-		children: string[];
+	children: string[]
 }
 
 @InputType()
 export class CreatePageInput implements Partial<Page> {
 	@Field()
-		name: string;
+	name: string
 
 	@Field({ nullable: true })
-		icon: string;
+	icon: string
 
 	@Field(() => HierarchyInput, { nullable: true })
-		hierarchy: HierarchyInput;
+	hierarchy: HierarchyInput
 }
 
 @InputType()
 export class UpdatePageInput implements Partial<Page> {
-  @Field(() => ID)
-  	id: string;
+	@Field(() => ID)
+	id: string
 
 	@Field({ nullable: true })
-		name: string;
-    
-  @Field({ nullable: true })
-  	icon: string;
-
-  @Field(() => ID, { nullable: true })
-  	parent: string;
-
-  @Field(() => [ID], { nullable: true })
-  	children: string[];
+	name: string
 
 	@Field({ nullable: true })
-		favorite: boolean;
+	icon: string
+
+	@Field(() => ID, { nullable: true })
+	parent: string
+
+	@Field(() => [ID], { nullable: true })
+	children: string[]
+
+	@Field({ nullable: true })
+	favorite: boolean
 }

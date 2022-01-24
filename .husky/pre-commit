@@ -2,4 +2,4 @@
 . "$(dirname "$0")/_/husky.sh"
 
 
-npm test --prefix ./client && npm run lint:staged --prefix ./client 
+npm test --prefix ./client && npm run lint:staged --prefix ./client
