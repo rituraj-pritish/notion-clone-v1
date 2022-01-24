@@ -127,3 +127,8 @@ export const NewPage = styled.div`
 		margin-right: 12px;
 	}
 `
+
+export const SidebarPagesWrapper = styled.div`
+	height: calc(100% - 166px);
+	overflow-y: auto;
+`

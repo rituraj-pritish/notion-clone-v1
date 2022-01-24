@@ -60,7 +60,6 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 	}, [isCollapsed])
 
 	const isActive = id === pageId
-
 	const showNestedElements = children && !isCollapsed && Array.isArray(children)
 
 	return (

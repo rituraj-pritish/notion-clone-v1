@@ -14,6 +14,6 @@ export const RootOverlay = styled.div`
 export const SubText = styled.div`
 	font-size: 12px;
 	color: #adadad;
-	font-weight: 400;
-	margin-top: 4px;
+	font-weight: 500;
+	margin-top: 2px;
 `

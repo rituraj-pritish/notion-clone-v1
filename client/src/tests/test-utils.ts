@@ -26,7 +26,7 @@ const customRender = (
 	ui: React.ReactElement,
 	options?: Omit<RenderOptions, 'wrapper'>
 ) => {
-	render(ui, {
+	return render(ui, {
 		wrapper: Providers,
 		...options
 	})

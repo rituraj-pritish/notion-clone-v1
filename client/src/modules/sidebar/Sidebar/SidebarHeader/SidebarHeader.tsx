@@ -16,7 +16,7 @@ const SidebarHeader = () => {
 	return (
 		<Popover placement='bottom'>
 			<Trigger>
-				<div>
+				<div style={{ marginBottom: '8rem' }}>
 					<SidebarHeaderTrigger />
 				</div>
 			</Trigger>

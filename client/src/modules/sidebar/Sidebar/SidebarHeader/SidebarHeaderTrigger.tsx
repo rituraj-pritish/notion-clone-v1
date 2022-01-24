@@ -13,7 +13,7 @@ const SidebarHeaderTrigger = () => {
 	if (!user) return null
 
 	return (
-		<SidebarItem style={{ marginBottom: '5rem' }}>
+		<SidebarItem>
 			<SidebarHeaderWrapper>
 				<Flex
 					alignItems='center'
