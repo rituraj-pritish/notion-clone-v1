@@ -1,4 +1,4 @@
-import { Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql'
+import { Authorized, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql'
 import { Page, PageModel } from '../../models/page.model'
 
 import Context from '../../types/Context'
@@ -14,6 +14,7 @@ class WorkspaceReturn {
 
 @Resolver()
 export class WorkspaceResolver {
+	@Authorized()
 	@Query(() => WorkspaceReturn)
 	async getWorkspace(@Ctx() { workspace }: Context): Promise<WorkspaceReturn> {
 		const all = await PageModel.find({

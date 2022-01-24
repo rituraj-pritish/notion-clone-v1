@@ -1,10 +1,11 @@
 import { Page, PageModel } from '../../models/page.model'
-import { Arg, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
 import { CreatePageInput, UpdatePageInput } from './page.types'
 import Context from '../../types/Context'
 
 @Resolver()
 export class PageResolver {
+	@Authorized()
 	@Query(() => [Page])
 	async getPages(@Arg('ids') ids: string): Promise<Page[]> {
 		const commaSeparatedIds = ids.split(',')
@@ -15,12 +16,14 @@ export class PageResolver {
 		return pages
 	}
 
+	@Authorized()
 	@Query(() => Page)
 	async getPage(@Arg('id') id: string): Promise<Page | null> {
 		const page = await PageModel.findById(id)
 		return page
 	}
 
+	@Authorized()
 	@Mutation(() => Page)
 	async createPage(
 		@Arg('createPageInput') { name, icon, hierarchy }: CreatePageInput,
@@ -51,6 +54,7 @@ export class PageResolver {
 		return page
 	}
 
+	@Authorized()
 	@Mutation(() => Page)
 	async updatePage(
 		@Arg('updatePageInput') { id, icon, name, favorite }: UpdatePageInput
@@ -70,6 +74,7 @@ export class PageResolver {
 		return page
 	}
 
+	@Authorized()
 	@Mutation(() => Page)
 	async deletePage(@Arg('id') id: string) {
 		const page = await PageModel.findByIdAndUpdate(

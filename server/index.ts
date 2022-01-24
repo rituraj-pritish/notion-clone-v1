@@ -10,6 +10,7 @@ import http from 'http'
 import { buildSchema } from 'type-graphql'
 import jwt, { Secret } from 'jsonwebtoken'
 
+import authChecker from './middlewares/authChecker'
 import Context from './types/Context'
 import resolvers from './resolvers'
 
@@ -21,13 +22,6 @@ const PORT = process.env.PORT
 
 async function startApolloServer() {
 	try {
-		const schema = await buildSchema({
-			//@ts-expect-error todo find solution
-			resolvers,
-			emitSchemaFile: true,
-			validate: false
-		})
-
 		const app = express()
 
 		app.use(cookieParser())
@@ -45,6 +39,14 @@ async function startApolloServer() {
 			})
 		)
 		const httpServer = http.createServer(app)
+
+		const schema = await buildSchema({
+			//@ts-expect-error todo find solution
+			resolvers,
+			emitSchemaFile: true,
+			authMode: 'null',
+			authChecker
+		})
 
 		const server = new ApolloServer({
 			introspection: process.env.NODE_ENV === 'development',
