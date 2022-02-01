@@ -3,6 +3,10 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Cover {
+  url: String!
+}
+
 input CreatePageInput {
   hierarchy: HierarchyInput
   icon: String
@@ -14,16 +18,27 @@ The javascript `Date` as string. Type represents date and time as the ISO Date s
 """
 scalar DateTime
 
-type Hierarchy {
-  children: [ID!]
-  parent: ID
-  root: ID
+type Emoji {
+  emoji: String!
+  type: String!
+}
+
+type File {
+  type: String!
+  url: String!
 }
 
 input HierarchyInput {
   children: [ID!]
   parent: ID
   root: ID
+}
+
+union IconType = Emoji | File
+
+type LastEdited {
+  time: DateTime!
+  user: User!
 }
 
 type Mutation {
@@ -34,15 +49,30 @@ type Mutation {
 }
 
 type Page {
+  archived: Boolean!
+  cover: Cover!
   createdAt: DateTime!
-  deletedAt: DateTime
   favorite: Boolean!
-  hierarchy: Hierarchy!
-  icon: String
+  icon: IconType!
   id: ID!
-  name: String!
-  updatedAt: DateTime!
-  workspace: ID!
+  lastEdited: LastEdited!
+  parent: Parent!
+  properties: Properties!
+  url: String!
+}
+
+type Parent {
+  id: ID!
+  type: ParentType!
+}
+
+enum ParentType {
+  PAGE
+  WORKSPACE
+}
+
+type Properties {
+  title: String!
 }
 
 type Query {
