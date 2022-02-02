@@ -9,8 +9,9 @@ type Cover {
 
 input CreatePageInput {
   hierarchy: HierarchyInput
-  icon: String
-  name: String!
+  icon: IconInput
+  parent: ParentInput!
+  properties: PropertiesInput
 }
 
 """
@@ -28,18 +29,27 @@ type File {
   url: String!
 }
 
-input HierarchyInput {
+type Hierarchy {
   children: [ID!]
+  index: Float!
   parent: ID
   root: ID
 }
 
-union IconType = Emoji | File
-
-type LastEdited {
-  time: DateTime!
-  user: User!
+input HierarchyInput {
+  children: [ID!]
+  index: Float
+  parent: ID
+  root: ID
 }
+
+input IconInput {
+  emoji: String!
+  type: String!
+  url: String!
+}
+
+union IconType = Emoji | File
 
 type Mutation {
   createPage(createPageInput: CreatePageInput!): Page!
@@ -50,12 +60,13 @@ type Mutation {
 
 type Page {
   archived: Boolean!
-  cover: Cover!
-  createdAt: DateTime!
+  cover: Cover
+  created: UserAndDate!
   favorite: Boolean!
-  icon: IconType!
+  hierarchy: Hierarchy!
+  icon: IconType
   id: ID!
-  lastEdited: LastEdited!
+  lastEdited: UserAndDate!
   parent: Parent!
   properties: Properties!
   url: String!
@@ -66,12 +77,21 @@ type Parent {
   type: ParentType!
 }
 
+input ParentInput {
+  id: String!
+  type: String!
+}
+
 enum ParentType {
   PAGE
   WORKSPACE
 }
 
 type Properties {
+  title: String!
+}
+
+input PropertiesInput {
   title: String!
 }
 
@@ -86,10 +106,8 @@ type Query {
 input UpdatePageInput {
   children: [ID!]
   favorite: Boolean
-  icon: String
   id: ID!
   name: String
-  parent: ID
 }
 
 type User {
@@ -100,6 +118,11 @@ type User {
   name: String!
   updatedAt: DateTime!
   workspaces: [ID!]!
+}
+
+type UserAndDate {
+  time: DateTime!
+  user: User!
 }
 
 input UserInput {

@@ -5,6 +5,7 @@ import { useMutation } from 'react-query'
 import api from '@/api/index'
 import { Button, Center, Input, Space, Text } from '@/atoms'
 import { SIGN_IN } from '@/graphql/users'
+import useWorkspace from '@/hooks/useWorkspace'
 import { SignInInput, SignInResponse } from '@/types/users'
 
 import { RootWrapper } from './LoginForm.styles'
@@ -14,6 +15,7 @@ const LoginForm = () => {
 	const [password, setPassword] = useState('123456')
 	const [error, setError] = useState('')
 	const router = useRouter()
+	const { setWorkspace } = useWorkspace()
 
 	const { mutateAsync } = useMutation(
 		() => api<SignInResponse, SignInInput>(SIGN_IN, { email, password }),
@@ -21,7 +23,8 @@ const LoginForm = () => {
 			onMutate: () => {
 				setError('')
 			},
-			onSuccess: () => {
+			onSuccess: (data: SignInResponse) => {
+				setWorkspace(data.currentWorkspace)
 				router.replace('/')
 			},
 			onError: (errorMsg: string) => {

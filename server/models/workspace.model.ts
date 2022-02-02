@@ -5,14 +5,18 @@ import {
 	prop,
 	Ref
 } from '@typegoose/typegoose'
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType, registerEnumType } from 'type-graphql'
 import autoPopulate from 'mongoose-autopopulate'
 import { User } from './user.model'
 
 enum Role {
-	ADMIN = 'admin',
-	GUEST = 'guest'
+	ADMIN = 'ADMIN',
+	MEMBER = 'MEMBER',
+	GUEST = 'GUEST'
 }
+registerEnumType(Role, {
+	name: 'Role'
+})
 
 @ObjectType()
 class UserWithRole {
@@ -20,13 +24,12 @@ class UserWithRole {
 	@prop({
 		type: mongoose.Types.ObjectId,
 		autopopulate: true,
-		ref: User,
-		required: true
+		ref: User
 	})
 	user: Ref<User>
 
 	@Field()
-	@prop({ enum: Role, required: true })
+	@prop({ enum: Role })
 	role: string
 }
 
@@ -37,8 +40,12 @@ export class Workspace {
 	id: string
 
 	@Field(() => [UserWithRole])
-	@prop({ _id: false, type: [UserWithRole], required: true })
+	@prop({ _id: false, type: [UserWithRole] })
 	users: Ref<UserWithRole>[]
+
+	@Field()
+	@prop({ type: String })
+	name: string
 }
 
 export const WorkspaceModel = getModelForClass(Workspace)

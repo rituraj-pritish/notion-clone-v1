@@ -1,5 +1,12 @@
+import { Schema } from 'mongoose'
 import { Field, ID, InputType } from 'type-graphql'
 import { Page } from '../../models/page.model'
+
+@InputType()
+class PropertiesInput {
+	@Field()
+	title: string
+}
 
 @InputType()
 class HierarchyInput {
@@ -11,15 +18,42 @@ class HierarchyInput {
 
 	@Field(() => [ID], { nullable: true })
 	children: string[]
+
+	@Field({ nullable: true })
+	index: number
+}
+
+@InputType()
+class ParentInput {
+	@Field()
+	type: string
+
+	@Field()
+	id: string
+}
+
+@InputType()
+class IconInput {
+	@Field()
+	type: string
+
+	@Field()
+	url: string
+
+	@Field()
+	emoji: string
 }
 
 @InputType()
 export class CreatePageInput implements Partial<Page> {
-	@Field()
-	name: string
+	@Field(() => PropertiesInput, { nullable: true })
+	properties: PropertiesInput
 
-	@Field({ nullable: true })
-	icon: string
+	@Field(() => IconInput, { nullable: true })
+	icon: Schema.Types.Mixed
+
+	@Field(() => ParentInput)
+	parent: ParentInput
 
 	@Field(() => HierarchyInput, { nullable: true })
 	hierarchy: HierarchyInput
@@ -32,12 +66,6 @@ export class UpdatePageInput implements Partial<Page> {
 
 	@Field({ nullable: true })
 	name: string
-
-	@Field({ nullable: true })
-	icon: string
-
-	@Field(() => ID, { nullable: true })
-	parent: string
 
 	@Field(() => [ID], { nullable: true })
 	children: string[]

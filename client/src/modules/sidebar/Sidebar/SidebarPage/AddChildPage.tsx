@@ -15,7 +15,9 @@ const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
 	const { mutateAsync } = useMutation(
 		() =>
 			createPage({
-				name: 'Untitled',
+				properties: {
+					title: 'Untitled'
+				},
 				hierarchy: {
 					root: hierarchy.root ? hierarchy.root : id,
 					parent: id,

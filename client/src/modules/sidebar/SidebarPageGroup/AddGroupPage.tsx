@@ -8,17 +8,21 @@ import { IconButton, Tooltip } from '@/atoms'
 import queryKeys from '@/constants/queryKeys'
 import queryClient from '@/core/queryClient'
 import usePageGroups from '@/hooks/usePageGroups'
+import useWorkspace from '@/hooks/useWorkspace'
 
 const { SubText } = Tooltip
 
 const AddGroupPage = () => {
 	const { expandGroup } = usePageGroups()
+	const { workspace } = useWorkspace()
 	const router = useRouter()
-
+	console.log('wo', workspace);
 	const { mutateAsync } = useMutation(
 		() =>
 			createPage({
-				name: 'Untitled',
+				properties: {
+					title: 'Untitled'
+				},
 				hierarchy: {
 					root: null,
 					parent: null,

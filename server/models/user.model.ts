@@ -26,11 +26,11 @@ export class User {
 	currentWorkspace: string
 
 	@Field()
-	@prop({ required: true, default: Date.now })
+	@prop({ required: true, default: new Date().toISOString() })
 	createdAt: Date
 
 	@Field()
-	@prop({ required: true, default: Date.now })
+	@prop({ required: true, default: new Date().toISOString() })
 	updatedAt: Date
 }
 

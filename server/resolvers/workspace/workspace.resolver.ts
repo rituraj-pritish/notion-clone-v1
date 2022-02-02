@@ -19,14 +19,13 @@ export class WorkspaceResolver {
 	async getWorkspace(@Ctx() { workspace }: Context): Promise<WorkspaceReturn> {
 		const all = await PageModel.find({
 			$and: [
-				{ workspace },
-				{ 'hierarchy.root': null },
-				{ deletedAt: undefined }
+				{ 'parent.id': workspace },
+				{ archived: false }
 			]
 		})
 
 		const favorites = await PageModel.find({
-			$and: [{ workspace }, { favorite: true }, { deletedAt: undefined }]
+			$and: [{ 'parent.id': workspace }, { favorite: true }, { archived: false }]
 		})
 
 		return {

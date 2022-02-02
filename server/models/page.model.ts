@@ -19,9 +19,28 @@ registerEnumType(ParentType, {
 })
 
 @ObjectType()
+class Hierarchy {
+	@Field(() => ID, { nullable: true })
+	@prop({ type: Schema.Types.ObjectId })
+	root: string
+
+	@Field(() => ID, { nullable: true })
+	@prop({ type: Schema.Types.ObjectId })
+	parent: string
+
+	@Field(() => [ID], { defaultValue: [] })
+	@prop({ type: [Schema.Types.ObjectId] })
+	children: string[]
+
+	@Field()
+	@prop({ type: Number })
+	index: number
+}
+
+@ObjectType()
 class Emoji {
 	@Field()
-	@prop({ type: String, default: 'Emoji' })
+	@prop({ type: String, default: 'EMOJI' })
 	type: string
 
 	@Field()
@@ -32,7 +51,7 @@ class Emoji {
 @ObjectType()
 class File {
 	@Field()
-	@prop({ type: String, default: 'File' })
+	@prop({ type: String, default: 'FILE' })
 	type: string
 
 	@Field()
@@ -40,7 +59,7 @@ class File {
 	url: string
 }
 
-const IconType = createUnionType({
+export const IconType = createUnionType({
 	name: 'IconType',
 	types: () => [Emoji, File] as const
 })
@@ -57,13 +76,13 @@ class Parent {
 }
 
 @ObjectType()
-class LastEdited {
+class UserAndDate {
 	@Field(() => User)
 	@prop({ type: Schema.Types.ObjectId, autopopulate: true, ref: User })
 	user: Ref<User>
 
 	@Field(() => Date)
-	@prop({ type: Date })
+	@prop({ type: Date, default: new Date().toISOString() })
 	time: Date
 }
 
@@ -91,21 +110,25 @@ export class Page {
 	@prop({ type: Parent, _id: false })
 	parent: Parent
 
-	@Field(() => LastEdited)
-	@prop({ type: LastEdited, _id: false })
-	lastEdited: LastEdited
-
-	@Field(() => IconType)
+	@Field(() => IconType, { nullable: true })
 	@prop({ type: Schema.Types.Mixed, _id: false })
 	icon: Schema.Types.Mixed
 
-	@Field(() => Cover)
+	@Field(() => Cover, { nullable: true })
 	@prop({ type: Cover, _id: false })
 	cover: Cover
 
 	@Field(() => Properties)
 	@prop({ type: Properties, _id: false })
 	properties: Properties
+
+	@Field(() => Hierarchy)
+	@prop({
+		type: Hierarchy,
+		_id: false,
+		default: { root: null, parent: null, children: [], index: 0 }
+	})
+	hierarchy: Hierarchy
 
 	@Field()
 	@prop({ type: String })
@@ -119,9 +142,13 @@ export class Page {
 	@prop({ type: Boolean, default: false })
 	archived: boolean
 
-	@Field()
-	@prop({ default: Date.now })
-	createdAt: Date
+	@Field(() => UserAndDate)
+	@prop({ type: UserAndDate, _id: false })
+	lastEdited: UserAndDate
+
+	@Field(() => UserAndDate)
+	@prop({ type: UserAndDate, _id: false })
+	created: UserAndDate
 }
 
 export const PageModel = getModelForClass(Page)

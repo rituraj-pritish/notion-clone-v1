@@ -3,16 +3,38 @@ import { gql } from 'graphql-request'
 export const PAGE_FRAGMENT = gql`
 	fragment pageFragment on Page {
 		id
-		name
-		icon
-		favorite
+		properties {
+			title
+		}
 		hierarchy {
+			parent
 			root
 			children
-			parent
 		}
-		deletedAt
-		createdAt
-		updatedAt
+		icon {
+			... on Emoji {
+				type
+				emoji
+			}
+
+			... on File {
+				type
+				url
+			}
+		}
+		favorite
+		archived
+		lastEdited {
+			user {
+				name
+			}
+			time
+		}
+		created {
+			user {
+				name
+			}
+			time
+		}
 	}
 `

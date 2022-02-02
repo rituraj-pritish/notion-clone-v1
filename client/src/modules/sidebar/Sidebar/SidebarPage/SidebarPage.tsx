@@ -24,7 +24,12 @@ const OPTIONS_WIDTH = 117
 const PADDING_AND_TOGGLE_ICON_WIDTH = 26
 
 const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
-	const { id, icon, name, hierarchy }: Page = page
+	const {
+		id,
+		icon,
+		properties: { title },
+		hierarchy
+	}: Page = page
 
 	const { refetch, data } = useQuery<Page[]>(
 		[id, 'children'],
@@ -101,7 +106,7 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 								style={{
 									width: isHovering
 										? `${
-												width -
+											width -
 												(depth
 													? depth * PADDING_AND_TOGGLE_ICON_WIDTH +
 													  OPTIONS_WIDTH
@@ -111,7 +116,7 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 									color: isActive ? 'black' : undefined
 								}}
 							>
-								{name}
+								{title}
 							</PageName>
 						</Space>
 					</Left>

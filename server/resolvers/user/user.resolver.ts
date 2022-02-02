@@ -67,14 +67,19 @@ export class UsersResolver {
 			users: [
 				{
 					user: user.id,
-					role: 'admin'
+					role: 'ADMIN'
 				}
 			]
 		})
 
 		await PageModel.create({
-			name: 'Getting Started',
-			workspace: workspace.id
+			properties: {
+				title: 'Getting Started'
+			},
+			parent: {
+				type: 'WORKSPACE',
+				id: workspace.id
+			}
 		})
 
 		await user.update({

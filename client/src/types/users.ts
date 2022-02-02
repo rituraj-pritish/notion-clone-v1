@@ -6,6 +6,8 @@ export interface User {
 
 export interface SignInResponse extends User {
 	token: string
+	name: string
+	currentWorkspace: string
 }
 
 export interface SignInInput {

@@ -26,18 +26,21 @@ export class PageResolver {
 	@Authorized()
 	@Mutation(() => Page)
 	async createPage(
-		@Arg('createPageInput') { name, icon, hierarchy }: CreatePageInput,
-		@Ctx() { workspace }: Context
+		@Arg('createPageInput') { properties, icon, parent, hierarchy }: CreatePageInput,
+		@Ctx() { workspace, user }: Context
 	): Promise<Page> {
 		const page = await PageModel.create({
-			name,
 			icon,
-			hierarchy: {
-				root: hierarchy?.root || null,
-				parent: hierarchy?.parent || null,
-				children: hierarchy?.children || []
+			properties,
+			parent,
+			created: {
+				user,
+				time: new Date().toISOString()
 			},
-			workspace
+			lastEdited: {
+				user,
+				time: new Date().toISOString()
+			}
 		})
 
 		if (hierarchy?.parent) {
