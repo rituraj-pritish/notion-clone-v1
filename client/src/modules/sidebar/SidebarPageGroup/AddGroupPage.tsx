@@ -16,12 +16,16 @@ const AddGroupPage = () => {
 	const { expandGroup } = usePageGroups()
 	const { workspace } = useWorkspace()
 	const router = useRouter()
-	console.log('wo', workspace);
+
 	const { mutateAsync } = useMutation(
 		() =>
 			createPage({
 				properties: {
 					title: 'Untitled'
+				},
+				parent: {
+					type: 'WORKSPACE',
+					id: workspace
 				},
 				hierarchy: {
 					root: null,

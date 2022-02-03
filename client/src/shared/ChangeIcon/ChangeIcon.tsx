@@ -34,18 +34,27 @@ const ChangeIcon = ({
 	haveChildren,
 	bordered
 }: Props) => {
-	const [emoji, setEmoji] = useState(icon)
+	const [emoji, setEmoji] = useState<string | undefined>(() =>
+		icon && 'emoji' in icon ? icon.emoji : undefined
+	)
 	const popoverRef = useRef<React.ElementRef<typeof Popover>>(null)
 
 	useEffect(() => {
-		setEmoji(icon)
+		if (icon && 'emoji' in icon) {
+			setEmoji(icon.emoji)
+		}
 	}, [icon])
 
 	const { mutateAsync } = useMutation(
-		(newIcon: string | undefined) =>
+		(newIcon?: string | undefined) =>
 			updatePage({
 				id,
 				icon: newIcon
+					? {
+							type: 'EMOJI',
+							emoji: newIcon
+					  }
+					: undefined
 			}),
 		{
 			onSuccess: ({ icon }) => {

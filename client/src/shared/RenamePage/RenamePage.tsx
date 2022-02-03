@@ -13,13 +13,18 @@ interface Props extends Page {
 }
 
 const RenamePage = ({ onEnter, ...props }: Props) => {
-	const { name, id, hierarchy } = props
+	const {
+		properties: { title },
+		id,
+		hierarchy
+	} = props
 
-	const [text, setText] = useState<string>(name)
+	const [text, setText] = useState<string>(title)
 
 	const enterPress = useKeyPress('Enter')
 	const { mutateAsync } = useMutation(updatePage, {
-		onSuccess: () => onPageUpdate(id, hierarchy, { name: text })
+		onSuccess: () =>
+			onPageUpdate(id, hierarchy, { properties: { title: text } })
 	})
 	const inputRef = useRef<HTMLInputElement>(null)
 
@@ -30,13 +35,16 @@ const RenamePage = ({ onEnter, ...props }: Props) => {
 	useEffect(() => {
 		if (enterPress) {
 			onEnter()
-			if (text !== name) {
+			if (text !== title) {
 				mutateAsync({
 					id,
-					name: text
+					properties: {
+						title: text
+					}
 				})
 			}
 		}
+		// eslint-disable-next-line
 	}, [enterPress])
 
 	return (
@@ -48,7 +56,7 @@ const RenamePage = ({ onEnter, ...props }: Props) => {
 						fullWidth
 						size='small'
 						type='secondary'
-						placeholder={name}
+						placeholder={title}
 						onChange={(e) => setText(e.target.value)}
 						ref={inputRef}
 					/>

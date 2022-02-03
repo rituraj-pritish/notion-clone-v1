@@ -8,7 +8,9 @@ import {
 } from '@/graphql/pages'
 import { Page } from '@/types/page'
 
-export const createPage = (data: Partial<Page> & Pick<Page, 'properties'>) => {
+export const createPage = (
+	data: Partial<Page> & Pick<Page, 'properties' | 'parent'>
+) => {
 	return api<Page>(CREATE_PAGE, {
 		createPageInput: data
 	})

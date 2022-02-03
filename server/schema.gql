@@ -104,10 +104,12 @@ type Query {
 }
 
 input UpdatePageInput {
-  children: [ID!]
   favorite: Boolean
+  hierarchy: HierarchyInput
+  icon: IconInput
   id: ID!
-  name: String
+  parent: ParentInput
+  properties: PropertiesInput
 }
 
 type User {

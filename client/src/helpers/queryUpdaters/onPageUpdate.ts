@@ -19,7 +19,7 @@ export default (
 			...updates
 		}
 
-		if (updates.deletedAt) {
+		if (updates.archived) {
 			return array.filter(({ id: pId }) => id !== pId)
 		}
 

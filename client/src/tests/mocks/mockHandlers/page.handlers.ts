@@ -49,7 +49,7 @@ export default [
 			ctx.data({
 				deletePage: {
 					...PRIVATE_PAGES[0],
-					deletedAt: new Date().toISOString()
+					archived: true
 				}
 			})
 		)

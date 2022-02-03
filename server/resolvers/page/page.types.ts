@@ -64,11 +64,17 @@ export class UpdatePageInput implements Partial<Page> {
 	@Field(() => ID)
 	id: string
 
-	@Field({ nullable: true })
-	name: string
+	@Field(() => PropertiesInput, { nullable: true })
+	properties: PropertiesInput
 
-	@Field(() => [ID], { nullable: true })
-	children: string[]
+	@Field(() => IconInput, { nullable: true })
+	icon: Schema.Types.Mixed
+
+	@Field(() => ParentInput, { nullable: true })
+	parent: ParentInput
+
+	@Field(() => HierarchyInput, { nullable: true })
+	hierarchy: HierarchyInput
 
 	@Field({ nullable: true })
 	favorite: boolean

@@ -1,30 +1,34 @@
 import { BsPlus } from 'react-icons/bs'
 import { useMutation, useQueryClient } from 'react-query'
 
-import api from '@/api'
+import { createPage } from '@/api/endpoints'
 import { GetWorkspaceResult } from '@/api/endpoints/workspace'
 import queryKeys from '@/constants/queryKeys'
-import { CREATE_PAGE } from '@/graphql/pages'
 import usePageGroups from '@/hooks/usePageGroups'
-import { Page } from 'types/page'
+import useWorkspace from '@/hooks/useWorkspace'
 
 import { NewPage } from './SideBar.styles'
 import SidebarItem from './SidebarItem'
 
 const NewPageFooter = () => {
 	const queryClient = useQueryClient()
+	const { workspace } = useWorkspace()
 	const { expandGroup } = usePageGroups()
 
 	const { mutateAsync } = useMutation(
 		() =>
-			api<Page>(CREATE_PAGE, {
-				createPageInput: {
-					name: 'Untitled',
-					hierarchy: {
-						root: null,
-						parent: null,
-						children: []
-					}
+			createPage({
+				parent: {
+					type: 'WORKSPACE',
+					id: workspace
+				},
+				properties: {
+					title: 'Untitled'
+				},
+				hierarchy: {
+					root: null,
+					parent: null,
+					children: []
 				}
 			}),
 		{

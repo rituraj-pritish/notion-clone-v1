@@ -5,6 +5,7 @@ import ReactModal from 'react-modal'
 import { QueryClientProvider } from 'react-query'
 
 import queryClient from '@/core/queryClient'
+import useWorkspace from '@/hooks/useWorkspace'
 
 export const Providers = ({ children }: { children: React.ReactChild }) => {
 	return (
@@ -13,6 +14,8 @@ export const Providers = ({ children }: { children: React.ReactChild }) => {
 }
 
 function MyApp({ Component, pageProps }: AppProps) {
+	useWorkspace()
+
 	useEffect(() => {
 		ReactModal.setAppElement('#__next')
 	}, [])

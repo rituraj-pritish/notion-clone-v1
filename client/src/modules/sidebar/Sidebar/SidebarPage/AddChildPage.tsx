@@ -5,6 +5,7 @@ import { createPage, getPages } from '@/api/endpoints'
 import { IconButton } from '@/atoms'
 import queryClient from '@/core/queryClient'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
+import useWorkspace from '@/hooks/useWorkspace'
 import { Page } from 'types/page'
 
 interface Props extends Page {
@@ -12,9 +13,14 @@ interface Props extends Page {
 }
 
 const AddChildPage = ({ id, hierarchy, expandChildren }: Props) => {
+	const { workspace } = useWorkspace()
 	const { mutateAsync } = useMutation(
 		() =>
 			createPage({
+				parent: {
+					type: 'WORKSPACE',
+					id: workspace
+				},
 				properties: {
 					title: 'Untitled'
 				},

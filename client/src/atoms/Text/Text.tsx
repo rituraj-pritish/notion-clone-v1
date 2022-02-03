@@ -18,13 +18,22 @@ type StyledSystemProps = HTMLAttributes<HTMLDivElement> &
 	ColorProps
 
 interface Props extends StyledSystemProps {
-	children: string
+	children: React.ReactText | React.ReactText[]
 	inline?: boolean
+	size: 'small' | 'medium'
 }
 
 const StyledText = styled.div<Props>`
 	color: #8a8882;
 	font-weight: 500;
+	${({ size }) =>
+		size &&
+		css`
+			font-size: ${(() => {
+				if (size === 'medium') return '14.5px'
+				if (size === 'small') return '12px'
+			})()};
+		`};
 	${({ inline }) =>
 		inline &&
 		css`

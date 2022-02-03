@@ -74,7 +74,7 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 				onClick={() => router.push(`/${id}`)}
 				onMouseEnter={() => setIsHovering(true)}
 				onMouseLeave={() => setIsHovering(false)}
-				data-testid={`sidebar-page-${name}`}
+				data-testid={`sidebar-page-${title}`}
 			>
 				<Flex
 					justifyContent='space-between'
@@ -106,7 +106,7 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 								style={{
 									width: isHovering
 										? `${
-											width -
+												width -
 												(depth
 													? depth * PADDING_AND_TOGGLE_ICON_WIDTH +
 													  OPTIONS_WIDTH
@@ -137,7 +137,10 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 			{showNestedElements && (
 				<div>
 					{children.length === 0 ? (
-						<Text pl={depth ? depth * PADDING_AND_TOGGLE_ICON_WIDTH + 40 : 40}>
+						<Text
+							size='medium'
+							pl={depth ? depth * PADDING_AND_TOGGLE_ICON_WIDTH + 40 : 40}
+						>
 							No pages inside
 						</Text>
 					) : (

@@ -1,10 +1,11 @@
+import moment from 'moment-timezone'
 import { useState } from 'react'
 import { BsPencilSquare, BsStar } from 'react-icons/bs'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useMutation } from 'react-query'
 
 import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints'
-import { Modal } from '@/atoms'
+import { Modal, Text } from '@/atoms'
 import { Menu } from '@/components'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
 import RenamePage from '@/shared/RenamePage'
@@ -17,13 +18,16 @@ interface Props extends Page {
 const SidebarPageMoreOptions = (props: Props) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-	const { id, hierarchy, favorite, isInsideFavoritesGroup } = props
+	const { id, hierarchy, favorite, isInsideFavoritesGroup, lastEdited } = props
+	const {
+		user: { name: userName },
+		time
+	} = lastEdited
 
 	const { mutateAsync: deletePage } = useMutation(
 		() => deletePageEndpoint(id),
 		{
-			onSuccess: ({ deletedAt }) =>
-				onPageUpdate(id, hierarchy, { deletedAt: deletedAt })
+			onSuccess: ({ archived }) => onPageUpdate(id, hierarchy, { archived })
 		}
 	)
 
@@ -67,6 +71,8 @@ const SidebarPageMoreOptions = (props: Props) => {
 				<Menu.MenuItem icon={<BsStar />} onClick={() => toggleFavorite()}>
 					{favorite ? 'Remove from' : 'Add to'} Favorites
 				</Menu.MenuItem>
+				<Text size='small'>Last edited by {userName}</Text>
+				<Text size='small'>{moment(time).format('DD/MM/yyyy hh:mm A')}</Text>
 			</Menu>
 			<Modal
 				onRequestClose={() => setIsModalVisible(false)}

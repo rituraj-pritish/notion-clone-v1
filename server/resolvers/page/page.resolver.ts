@@ -27,7 +27,7 @@ export class PageResolver {
 	@Mutation(() => Page)
 	async createPage(
 		@Arg('createPageInput') { properties, icon, parent, hierarchy }: CreatePageInput,
-		@Ctx() { workspace, user }: Context
+		@Ctx() { user }: Context
 	): Promise<Page> {
 		const page = await PageModel.create({
 			icon,
@@ -54,20 +54,25 @@ export class PageResolver {
 			})
 		}
 
-		return page
+		return page.populate(['created.user', 'lastEdited.user'])
 	}
 
 	@Authorized()
 	@Mutation(() => Page)
 	async updatePage(
-		@Arg('updatePageInput') { id, icon, name, favorite }: UpdatePageInput
+		@Arg('updatePageInput') { id, icon, properties, favorite }: UpdatePageInput,
+		@Ctx() { user }: Context
 	): Promise<Page> {
 		const page = await PageModel.findOneAndUpdate(
 			{ _id: id },
 			{
 				icon,
-				name,
-				favorite
+				properties,
+				favorite,
+				lastEdited: {
+					user,
+					time: new Date().toISOString()
+				}
 			},
 			{ new: true }
 		)
@@ -83,7 +88,7 @@ export class PageResolver {
 		const page = await PageModel.findByIdAndUpdate(
 			id,
 			{
-				deletedAt: new Date()
+				archived: true
 			},
 			{ new: true }
 		)
