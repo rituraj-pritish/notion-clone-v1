@@ -5,7 +5,7 @@ import { IoTrashOutline } from 'react-icons/io5'
 import { useMutation } from 'react-query'
 
 import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints'
-import { Modal, Text } from '@/atoms'
+import { Box, Modal, Text, Tooltip } from '@/atoms'
 import { Menu } from '@/components'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
 import RenamePage from '@/shared/RenamePage'
@@ -18,11 +18,14 @@ interface Props extends Page {
 const SidebarPageMoreOptions = (props: Props) => {
 	const [isModalVisible, setIsModalVisible] = useState<boolean>(false)
 
-	const { id, hierarchy, favorite, isInsideFavoritesGroup, lastEdited } = props
 	const {
-		user: { name: userName },
-		time
-	} = lastEdited
+		id,
+		hierarchy,
+		favorite,
+		isInsideFavoritesGroup,
+		lastEdited,
+		created
+	} = props
 
 	const { mutateAsync: deletePage } = useMutation(
 		() => deletePageEndpoint(id),
@@ -71,8 +74,28 @@ const SidebarPageMoreOptions = (props: Props) => {
 				<Menu.MenuItem icon={<BsStar />} onClick={() => toggleFavorite()}>
 					{favorite ? 'Remove from' : 'Add to'} Favorites
 				</Menu.MenuItem>
-				<Text size='small'>Last edited by {userName}</Text>
-				<Text size='small'>{moment(time).format('DD/MM/yyyy hh:mm A')}</Text>
+				<Tooltip
+					placement='right'
+					overlay={
+						<>
+							<div>Last edited by {lastEdited.user.name}</div>
+							<Tooltip.SubText>
+								{moment(lastEdited.time).format('DD/MM/yyyy')}
+							</Tooltip.SubText>
+							<div>Created by {created.user.name}</div>
+							<Tooltip.SubText>
+								{moment(created.time).format('DD/MM/yyyy')}
+							</Tooltip.SubText>
+						</>
+					}
+				>
+					<Box px={3} pt={1}>
+						<Text size='small'>Last edited by {lastEdited.user.name}</Text>
+						<Text size='small'>
+							{moment(lastEdited.time).format('DD/MM/yyyy hh:mm A')}
+						</Text>
+					</Box>
+				</Tooltip>
 			</Menu>
 			<Modal
 				onRequestClose={() => setIsModalVisible(false)}

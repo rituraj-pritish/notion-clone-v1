@@ -1,3 +1,4 @@
+import Box from './Box'
 import Button from './Button'
 import Center from './Center'
 import Flex from './Flex'
@@ -13,6 +14,7 @@ import Tooltip from './Tooltip'
 
 export {
 	Button,
+	Box,
 	Center,
 	Flex,
 	Link,

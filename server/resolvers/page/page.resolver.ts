@@ -1,7 +1,13 @@
 import { Page, PageModel } from '../../models/page.model'
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql'
+import { Arg, Authorized, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql'
 import { CreatePageInput, UpdatePageInput } from './page.types'
 import Context from '../../types/Context'
+import DocumentUpdate from '../../middlewares/documentUpdate'
+import UpdateDetails from '../../types/UpdateDetails'
+
+interface PageWithUpdateDetails extends UpdateDetails {
+	result: Page
+}
 
 @Resolver()
 export class PageResolver {
@@ -10,7 +16,7 @@ export class PageResolver {
 	async getPages(@Arg('ids') ids: string): Promise<Page[]> {
 		const commaSeparatedIds = ids.split(',')
 		const pages = await PageModel.find({
-			$and: [{ _id: { $in: commaSeparatedIds } }, { deletedAt: undefined }]
+			$and: [{ _id: { $in: commaSeparatedIds } }, { archived: false }]
 		})
 
 		return pages
@@ -58,11 +64,12 @@ export class PageResolver {
 	}
 
 	@Authorized()
+	@UseMiddleware(DocumentUpdate)
 	@Mutation(() => Page)
 	async updatePage(
 		@Arg('updatePageInput') { id, icon, properties, favorite }: UpdatePageInput,
 		@Ctx() { user }: Context
-	): Promise<Page> {
+	): Promise<PageWithUpdateDetails> {
 		const page = await PageModel.findOneAndUpdate(
 			{ _id: id },
 			{
@@ -79,7 +86,15 @@ export class PageResolver {
 
 		if (!page) throw new Error('Page not found')
 
-		return page
+		return {
+			updateDetails: {
+				subject: 'PAGE',
+				updateType: 'EDITED',
+				user,
+				url: page.url
+			},
+			result: page
+		}
 	}
 
 	@Authorized()

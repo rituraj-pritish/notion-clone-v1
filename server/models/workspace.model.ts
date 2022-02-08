@@ -45,7 +45,7 @@ export class Workspace {
 
 	@Field()
 	@prop({ type: String })
-	name: string
+	title: string
 }
 
 export const WorkspaceModel = getModelForClass(Workspace)
