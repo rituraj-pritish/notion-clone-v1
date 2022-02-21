@@ -34,6 +34,18 @@ const getSizeStyles = (size: Size, isEmoji: boolean) => {
 			`}
 		`
 	}
+
+	if (size === 'large') {
+		return css`
+			height: 78px;
+			width: 78px;
+			padding: 3px;
+			${isEmoji &&
+			css`
+				font-size: 70px;
+			`}
+		`
+	}
 }
 
 export const StyledButton = styled.button<Props & StyleProps>`

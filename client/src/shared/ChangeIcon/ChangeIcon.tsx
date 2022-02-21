@@ -19,7 +19,7 @@ const getRandomEmoji = () => {
 }
 
 interface Props extends Page {
-	iconSize?: 'small' | 'medium'
+	iconSize?: 'small' | 'medium' | 'large'
 	haveChildren?: boolean
 	bordered?: boolean
 }
@@ -58,7 +58,7 @@ const ChangeIcon = React.forwardRef(({
 							type: 'EMOJI',
 							emoji: newIcon
 					  }
-					: undefined
+					: null
 			}),
 		{
 			onSuccess: ({ icon }) => {

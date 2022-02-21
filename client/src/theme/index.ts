@@ -3,7 +3,8 @@ export const colors = {
 	white: '#FFFFFF',
 	text: '#111111',
 	buttonHover: '#f3f3f3',
-	grey: '#5F5D58'
+	grey: '#5F5D58',
+	focusBg: 'rgba(46, 170, 220, 0.15)'
 }
 
 export default {

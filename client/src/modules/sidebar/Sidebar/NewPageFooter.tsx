@@ -51,6 +51,9 @@ const NewPageFooter = () => {
 		}
 	)
 
+	const newPage = queryClient.getQueryData(queryKeys.ROOT_PAGES)?.private
+		?.find(page => page.id === data?.id)
+
 	return (
 		<SidebarItem>
 			<Modal
@@ -59,7 +62,7 @@ const NewPageFooter = () => {
 			>
 				<Modal.ModalContent>
 					<Box p={2}>
-						<NewPageComponent {...data!} />
+						<NewPageComponent {...newPage!} />
 					</Box>
 				</Modal.ModalContent>
 			</Modal>

@@ -4,7 +4,7 @@ import { Tooltip } from '@/atoms'
 
 import { StyledButton } from './IconButton.styles'
 
-export type Size = 'small' | 'medium'
+export type Size = 'small' | 'medium' | 'large'
 
 export interface Props extends ButtonHTMLAttributes<HTMLButtonElement> {
 	children: React.ReactNode

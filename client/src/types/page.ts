@@ -21,7 +21,7 @@ export interface Page {
 		type: 'WORKSPACE' | 'PAGE'
 		id: string
 	}
-	icon?: File | Emoji
+	icon?: File | Emoji | null
 	hierarchy: {
 		root: string | null
 		parent: string | null
