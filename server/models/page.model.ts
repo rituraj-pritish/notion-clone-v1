@@ -9,6 +9,7 @@ import {
 } from 'type-graphql'
 import { User } from './user.model'
 import autoPopulate from 'mongoose-autopopulate'
+import { convertDocument } from '../middlewares/typegooseMiddleware'
 
 enum ParentType {
 	WORKSPACE = 'WORKSPACE',
@@ -61,7 +62,12 @@ class File {
 
 export const IconType = createUnionType({
 	name: 'IconType',
-	types: () => [Emoji, File] as const
+	types: () => [Emoji, File] as const,
+	resolveType: value => {
+		if('emoji' in value) return Emoji
+		if('url' in value) return File
+		return undefined
+	}
 })
 
 @ObjectType()
@@ -112,7 +118,7 @@ export class Page {
 
 	@Field(() => IconType, { nullable: true })
 	@prop({ type: Schema.Types.Mixed, _id: false })
-	icon: Schema.Types.Mixed
+	icon: File | Emoji
 
 	@Field(() => Cover, { nullable: true })
 	@prop({ type: Cover, _id: false })

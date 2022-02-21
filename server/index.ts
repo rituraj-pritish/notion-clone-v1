@@ -41,7 +41,6 @@ async function startApolloServer() {
 		const httpServer = http.createServer(app)
 
 		const schema = await buildSchema({
-			//@ts-expect-error todo find solution
 			resolvers,
 			emitSchemaFile: true,
 			authMode: 'null',

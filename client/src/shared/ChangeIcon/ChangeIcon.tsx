@@ -1,6 +1,6 @@
 import { BaseEmoji, emojiIndex } from 'emoji-mart'
 import _random from 'lodash/random'
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import { FiFileText } from 'react-icons/fi'
 import { VscSmiley } from 'react-icons/vsc'
@@ -24,16 +24,20 @@ interface Props extends Page {
 	bordered?: boolean
 }
 
+interface Handle {
+	setRandomEmoji: VoidFunction
+}
+
 const { Title, Trigger, Content } = Popover
 
-const ChangeIcon = ({
+const ChangeIcon = React.forwardRef(({
 	icon,
 	id,
 	hierarchy,
 	iconSize = 'small',
 	haveChildren,
 	bordered
-}: Props) => {
+}: Props, ref?: React.Ref<Handle>) => {
 	const [emoji, setEmoji] = useState<string | undefined>(() =>
 		icon && 'emoji' in icon ? icon.emoji : undefined
 	)
@@ -106,6 +110,10 @@ const ChangeIcon = ({
 		return haveChildren ? <FiFileText /> : <AiOutlineFile />
 	}
 
+	useImperativeHandle(ref, () => ({
+		setRandomEmoji: onRandomClick
+	}))
+
 	return (
 		<Popover ref={popoverRef} placement='bottom'>
 			<Trigger>
@@ -130,6 +138,6 @@ const ChangeIcon = ({
 			</Content>
 		</Popover>
 	)
-}
+})
 
 export default ChangeIcon

@@ -37,11 +37,11 @@ class IconInput {
 	@Field()
 	type: string
 
-	@Field()
-	url: string
+	@Field({ nullable: true })
+	url?: string
 
-	@Field()
-	emoji: string
+	@Field({ nullable: true })
+	emoji?: string
 }
 
 @InputType()

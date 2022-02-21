@@ -6,6 +6,6 @@ const resolvers = [
 	PageResolver,
 	UsersResolver,
 	WorkspaceResolver
-]
+] as const
 
 export default resolvers

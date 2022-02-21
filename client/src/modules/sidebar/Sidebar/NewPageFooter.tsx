@@ -1,22 +1,26 @@
+import { useState } from 'react'
 import { BsPlus } from 'react-icons/bs'
 import { useMutation, useQueryClient } from 'react-query'
 
 import { createPage } from '@/api/endpoints'
 import { GetWorkspaceResult } from '@/api/endpoints/workspace'
+import { Box, Modal } from '@/atoms'
 import queryKeys from '@/constants/queryKeys'
 import usePageGroups from '@/hooks/usePageGroups'
 import useWorkspace from '@/hooks/useWorkspace'
 import NewPageComponent from '@/modules/page/NewPage'
+
 import { NewPage } from './SideBar.styles'
 import SidebarItem from './SidebarItem'
-import { Box, Modal } from '@/atoms'
 
 const NewPageFooter = () => {
 	const queryClient = useQueryClient()
 	const { workspace } = useWorkspace()
 	const { expandGroup } = usePageGroups()
 
-	const { mutateAsync } = useMutation(
+	const [isModalVisible, setIsModalVisible] = useState(false)
+
+	const { mutateAsync, data } = useMutation(
 		() =>
 			createPage({
 				parent: {
@@ -42,6 +46,7 @@ const NewPageFooter = () => {
 					})
 				)
 				expandGroup('private')
+				setIsModalVisible(true)
 			}
 		}
 	)
@@ -49,12 +54,12 @@ const NewPageFooter = () => {
 	return (
 		<SidebarItem>
 			<Modal
-				visible
+				visible={isModalVisible}
 				styles={{ width: '970px', left: '50%', transform: 'translateX(-50%)' }}
 			>
 				<Modal.ModalContent>
 					<Box p={2}>
-						<NewPageComponent />
+						<NewPageComponent {...data!} />
 					</Box>
 				</Modal.ModalContent>
 			</Modal>

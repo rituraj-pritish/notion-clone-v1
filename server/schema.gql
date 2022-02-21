@@ -44,9 +44,9 @@ input HierarchyInput {
 }
 
 input IconInput {
-  emoji: String!
+  emoji: String
   type: String!
-  url: String!
+  url: String
 }
 
 union IconType = Emoji | File

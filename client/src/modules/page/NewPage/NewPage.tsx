@@ -1,9 +1,12 @@
-import { Box, Text } from '@/atoms'
 import { useEffect, useRef } from 'react'
+
+import { Box, Text } from '@/atoms'
+import { Page } from '@/types/page'
+
 import { StyledInput } from './NewPage.styles'
 import NewPageHeader from './NewPageHeader'
 
-const NewPage = () => {
+const NewPage = (props: Page) => {
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	useEffect(() => {
@@ -14,7 +17,7 @@ const NewPage = () => {
 
 	return (
 		<div>
-			<NewPageHeader/>
+			<NewPageHeader {...props} />
 			<Box px={140}>
 				<StyledInput
 					type='secondary'
