@@ -1,5 +1,15 @@
-import { Page, PageModel } from '../../models/page.model'
-import { Arg, Authorized, Ctx, Mutation, Query, Resolver, UseMiddleware } from 'type-graphql'
+import { Emoji, File, IconType, Page, PageModel } from '../../models/page.model'
+import {
+	Arg,
+	Authorized,
+	Ctx,
+	Field,
+	Mutation,
+	ObjectType,
+	Query,
+	Resolver,
+	UseMiddleware
+} from 'type-graphql'
 import { CreatePageInput, UpdatePageInput } from './page.types'
 import Context from '../../types/Context'
 import DocumentUpdate from '../../middlewares/documentUpdate'
@@ -7,6 +17,32 @@ import UpdateDetails from '../../types/UpdateDetails'
 
 interface PageWithUpdateDetails extends UpdateDetails {
 	result: Page
+}
+
+interface PageWithAncestry extends Page {
+	ancestry: {
+		id: Page['id']
+		title: string
+		icon: Page['icon']
+	}[]
+}
+
+@ObjectType()
+class Ancestry {
+	@Field()
+	id: string
+
+	@Field()
+	title: string
+
+	@Field(() => IconType, { nullable: true })
+	icon: File | Emoji
+}
+
+@ObjectType()
+class PageWithAncestry extends Page {
+	@Field(() => [Ancestry])
+	ancestry: Ancestry[]
 }
 
 @Resolver()
@@ -23,22 +59,57 @@ export class PageResolver {
 	}
 
 	@Authorized()
-	@Query(() => Page)
-	async getPage(@Arg('id') id: string): Promise<Page | null> {
+	@Query(() => PageWithAncestry)
+	async getPage(@Arg('id') id: string): Promise<PageWithAncestry | null> {
 		const page = await PageModel.findById(id)
-		return page
+
+		let ancestry = [
+			{ id: page?.id, title: page?.properties.title, icon: page?.icon }
+		]
+
+		const getAncestry = async (pageId: string) => {
+			const currentPage = await PageModel.findById(pageId)
+			ancestry = [
+				{
+					id: currentPage?.id,
+					title: currentPage?.properties.title,
+					icon: currentPage?.icon
+				},
+				...ancestry
+			]
+
+			if (
+				currentPage?.id.toString() === page?.hierarchy.root.toString()
+			) {
+				return
+			}
+
+			if (currentPage?.hierarchy?.parent) {
+				await getAncestry(currentPage.hierarchy.parent)
+			}
+		}
+
+		if (page?.hierarchy.parent) {
+			await getAncestry(page.hierarchy.parent)
+		}
+
+		if (!page) return null
+		// @ts-expect-error doc
+		return { ...page._doc, id: page.id, ancestry }
 	}
 
 	@Authorized()
 	@Mutation(() => Page)
 	async createPage(
-		@Arg('createPageInput') { properties, icon, parent, hierarchy }: CreatePageInput,
+		@Arg('createPageInput')
+		{ properties, icon, parent, hierarchy }: CreatePageInput,
 		@Ctx() { user }: Context
 	): Promise<Page> {
 		const page = await PageModel.create({
 			icon,
 			properties,
 			parent,
+			hierarchy,
 			created: {
 				user,
 				time: new Date().toISOString()

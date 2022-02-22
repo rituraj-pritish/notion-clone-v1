@@ -8,24 +8,29 @@ import { Button, Flex, IconButton } from '@/atoms'
 import ChangeIcon from '@/shared/ChangeIcon'
 import { Page } from '@/types/page'
 
-import { SubHeader } from './NewPage.styles'
+import { SubHeader } from './Page.styles'
 
 const NewPageHeader = (props: Page) => {
 	const router = useRouter()
+	const { pageId } = router.query
+
+	const isOnSameRoute = pageId === props.id
 	const iconRef = useRef<React.ElementRef<typeof ChangeIcon>>(null)
 	return (
 		<>
 			<Flex>
-				<Button
-					variant='secondary'
-					size='small'
-					ghost
-					leftIcon={CgExpand}
-					tooltip='Navigate to this page'
-					onClick={() => router.push(`/${props.id}`)}
-				>
-					Open as Page
-				</Button>
+				{!isOnSameRoute && (
+					<Button
+						variant='secondary'
+						size='small'
+						ghost
+						leftIcon={CgExpand}
+						tooltip='Navigate to this page'
+						onClick={() => router.push(`/${props.id}`)}
+					>
+						Open as Page
+					</Button>
+				)}
 				<Flex flexGrow={1} />
 				{/* <Button
 					variant='secondary'
@@ -52,7 +57,9 @@ const NewPageHeader = (props: Page) => {
 					</Button>
 				)}
 			</SubHeader>
-			<div style={{ height: props.icon ? 'fit-content' : 0, padding: '0 140px' }}>
+			<div
+				style={{ height: props.icon ? 'fit-content' : 0, padding: '0 140px' }}
+			>
 				<ChangeIcon {...props} iconSize='large' ref={iconRef} />
 			</div>
 		</>

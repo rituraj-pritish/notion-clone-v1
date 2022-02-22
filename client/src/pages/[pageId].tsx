@@ -3,21 +3,38 @@ import Head from 'next/head'
 import React from 'react'
 
 import { getPage } from '@/api/endpoints'
+import { Box } from '@/atoms'
 import { Layout } from '@/components'
-import { Page as PageType } from '@/types/page'
+import Breadcrumbs from '@/modules/page/Breadcrumbs'
+import PageComponent from '@/modules/page/Page'
+import { Ancestry, Page as PageType } from '@/types/page'
 
-const Page = ({ icon, properties }: PageType) => {
-	const {title} = properties
+interface Props extends PageType {
+	ancestry: Ancestry[]
+}
+
+const Page = (props: Props) => {
+	const { icon, properties } = props
+	const { title } = properties
 	return (
 		<div>
 			<Head>
 				<link
 					rel='icon'
-					href={`data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${icon}</text></svg>`}
+					href={
+						icon && 'emoji' in icon
+							? `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${icon.emoji}</text></svg>`
+							: '/favicon.ico'
+					}
 				/>
 				<title>{title}</title>
 			</Head>
-			<Layout>Page</Layout>
+			<Layout>
+				<Breadcrumbs {...props} />
+				<Box marginX='auto'>
+					<PageComponent {...props} />
+				</Box>
+			</Layout>
 		</div>
 	)
 }

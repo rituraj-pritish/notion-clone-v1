@@ -8,7 +8,7 @@ import { Box, Modal } from '@/atoms'
 import queryKeys from '@/constants/queryKeys'
 import usePageGroups from '@/hooks/usePageGroups'
 import useWorkspace from '@/hooks/useWorkspace'
-import NewPageComponent from '@/modules/page/NewPage'
+import Page from '@/modules/page/Page'
 
 import { NewPage } from './SideBar.styles'
 import SidebarItem from './SidebarItem'
@@ -51,8 +51,9 @@ const NewPageFooter = () => {
 		}
 	)
 
-	const newPage = queryClient.getQueryData(queryKeys.ROOT_PAGES)?.private
-		?.find(page => page.id === data?.id)
+	const newPage = queryClient
+		.getQueryData(queryKeys.ROOT_PAGES)
+		?.private?.find((page) => page.id === data?.id)
 
 	return (
 		<SidebarItem>
@@ -62,7 +63,7 @@ const NewPageFooter = () => {
 			>
 				<Modal.ModalContent>
 					<Box p={2}>
-						<NewPageComponent {...newPage!} />
+						<Page {...newPage!} />
 					</Box>
 				</Modal.ModalContent>
 			</Modal>

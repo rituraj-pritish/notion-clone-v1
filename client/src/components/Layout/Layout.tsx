@@ -1,5 +1,6 @@
 import React from 'react'
 
+import { Box } from '@/atoms'
 import { Navbar, Sidebar } from '@/components'
 
 import { RootWrapper } from './Layout.styles'
@@ -8,10 +9,10 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<RootWrapper>
 			<Sidebar />
-			<div>
+			<Box marginX='auto'>
 				<Navbar />
 				{children}
-			</div>
+			</Box>
 		</RootWrapper>
 	)
 }

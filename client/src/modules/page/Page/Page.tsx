@@ -4,14 +4,14 @@ import { useMutation } from 'react-query'
 import { updatePage } from '@/api/endpoints'
 import { Box, Text } from '@/atoms'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
-import { Page } from '@/types/page'
+import { Page as PageType } from '@/types/page'
 
-import { StyledInput } from './NewPage.styles'
-import NewPageHeader from './NewPageHeader'
+import { StyledInput } from './Page.styles'
+import PageHeader from './PageHeader'
 
-const NewPage = (props: Page) => {
+const Page = (props: PageType) => {
 	const inputRef = useRef<HTMLInputElement>(null)
-	const [title, setTitle] = useState('')
+	const [title, setTitle] = useState(props.properties.title)
 
 	const { mutateAsync } = useMutation(
 		(newTitle: string) =>
@@ -29,14 +29,18 @@ const NewPage = (props: Page) => {
 	)
 
 	useEffect(() => {
-		if (inputRef.current) {
+		setTitle(props.properties.title)
+	}, [props.id])
+
+	useEffect(() => {
+		if (inputRef.current && title === 'Untitled') {
 			inputRef.current.focus()
 		}
 	}, [])
 
 	return (
 		<div>
-			<NewPageHeader {...props} />
+			<PageHeader {...props} />
 			<Box px={140}>
 				<StyledInput
 					type='secondary'
@@ -60,4 +64,4 @@ const NewPage = (props: Page) => {
 	)
 }
 
-export default NewPage
+export default Page

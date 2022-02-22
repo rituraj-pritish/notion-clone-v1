@@ -3,6 +3,12 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type Ancestry {
+  icon: IconType
+  id: String!
+  title: String!
+}
+
 type Cover {
   url: String!
 }
@@ -72,6 +78,21 @@ type Page {
   url: String!
 }
 
+type PageWithAncestry {
+  ancestry: [Ancestry!]!
+  archived: Boolean!
+  cover: Cover
+  created: UserAndDate!
+  favorite: Boolean!
+  hierarchy: Hierarchy!
+  icon: IconType
+  id: ID!
+  lastEdited: UserAndDate!
+  parent: Parent!
+  properties: Properties!
+  url: String!
+}
+
 type Parent {
   id: ID!
   type: ParentType!
@@ -96,7 +117,7 @@ input PropertiesInput {
 }
 
 type Query {
-  getPage(id: String!): Page!
+  getPage(id: String!): PageWithAncestry!
   getPages(ids: String!): [Page!]!
   getWorkspace: WorkspaceReturn!
   logout: Boolean!

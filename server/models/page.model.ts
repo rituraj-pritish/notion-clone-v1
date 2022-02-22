@@ -39,7 +39,7 @@ class Hierarchy {
 }
 
 @ObjectType()
-class Emoji {
+export class Emoji {
 	@Field()
 	@prop({ type: String, default: 'EMOJI' })
 	type: string
@@ -50,7 +50,7 @@ class Emoji {
 }
 
 @ObjectType()
-class File {
+export class File {
 	@Field()
 	@prop({ type: String, default: 'FILE' })
 	type: string

@@ -20,6 +20,7 @@ export class WorkspaceResolver {
 		const all = await PageModel.find({
 			$and: [
 				{ 'parent.id': workspace },
+				{ 'hierarchy.root': null },
 				{ archived: false }
 			]
 		})

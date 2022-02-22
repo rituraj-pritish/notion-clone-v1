@@ -6,19 +6,20 @@ import { Flex, Input, Space } from '@/atoms'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
 import useKeyPress from '@/hooks/useKeyPress'
 import ChangeIcon from '@/shared/ChangeIcon'
-import { Page } from '@/types/page'
+import { Ancestry, Page } from '@/types/page'
 
 interface Props extends Page {
 	onEnter: VoidFunction
 }
 
-const RenamePage = ({ onEnter, ...props }: Props) => {
+const RenamePage = (props: Props | Ancestry) => {
 	const {
-		properties: { title },
 		id,
 		hierarchy
 	} = props
 
+	const title = 'title' in props ? props.title : props.properties.title
+	
 	const [text, setText] = useState<string>(title)
 
 	const enterPress = useKeyPress('Enter')
@@ -34,7 +35,8 @@ const RenamePage = ({ onEnter, ...props }: Props) => {
 
 	useEffect(() => {
 		if (enterPress) {
-			onEnter()
+			if('onEnter' in props && typeof props.onEnter === 'function') props.onEnter()
+
 			if (text !== title) {
 				mutateAsync({
 					id,

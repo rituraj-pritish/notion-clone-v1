@@ -38,3 +38,9 @@ export interface Page {
 		time: string
 	}
 }
+
+export interface Ancestry {
+	id: Page['id']
+	title: Page['properties']['title']
+	icon: Page['icon']
+}

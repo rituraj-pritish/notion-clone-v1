@@ -12,10 +12,57 @@ export const GET_PAGES = gql`
 `
 
 export const GET_PAGE = gql`
-	${PAGE_FRAGMENT}
 	query GetPage($id: String!) {
 		getPage(id: $id) {
-			...pageFragment
+			ancestry {
+				id
+				title
+				icon {
+			... on Emoji {
+				type
+				emoji
+			}
+
+			... on File {
+				type
+				url
+			}
+		}
+			}
+			id
+		properties {
+			title
+		}
+		hierarchy {
+			parent
+			root
+			children
+		}
+		icon {
+			... on Emoji {
+				type
+				emoji
+			}
+
+			... on File {
+				type
+				url
+			}
+		}
+		favorite
+		archived
+		lastEdited {
+			user {
+				name
+			}
+			time
+		}
+		created {
+			user {
+				name
+			}
+			time
+		}
 		}
 	}
 `
