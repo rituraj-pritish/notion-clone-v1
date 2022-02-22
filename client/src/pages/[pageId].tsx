@@ -3,8 +3,8 @@ import Head from 'next/head'
 import React from 'react'
 
 import { getPage } from '@/api/endpoints'
-import { Box } from '@/atoms'
-import { Layout } from '@/components'
+import { Box, Flex } from '@/atoms'
+import { Sidebar, SidebarCollapseButton } from '@/components'
 import Breadcrumbs from '@/modules/page/Breadcrumbs'
 import PageComponent from '@/modules/page/Page'
 import { Ancestry, Page as PageType } from '@/types/page'
@@ -29,12 +29,18 @@ const Page = (props: Props) => {
 				/>
 				<title>{title}</title>
 			</Head>
-			<Layout>
-				<Breadcrumbs {...props} />
-				<Box marginX='auto'>
-					<PageComponent {...props} />
-				</Box>
-			</Layout>
+			<Flex>
+				<Sidebar />
+				<Flex flexGrow={1} flexDirection='column'>
+					<Flex py={1}>
+						<SidebarCollapseButton />
+						<Breadcrumbs {...props} />
+					</Flex>
+					<Box marginX='auto'>
+						<PageComponent {...props} />
+					</Box>
+				</Flex>
+			</Flex>
 		</div>
 	)
 }

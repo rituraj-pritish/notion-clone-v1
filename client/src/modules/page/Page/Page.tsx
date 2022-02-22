@@ -33,10 +33,10 @@ const Page = (props: PageType) => {
 	}, [props.id])
 
 	useEffect(() => {
-		if (inputRef.current && title === 'Untitled') {
+		if (inputRef.current && props.properties.title === 'Untitled') {
 			inputRef.current.focus()
 		}
-	}, [])
+	}, [props.id])
 
 	return (
 		<div>
@@ -52,9 +52,12 @@ const Page = (props: PageType) => {
 						fontSize: '50px',
 						fontWeight: 'bold'
 					}}
-					value={title}
+					value={title === 'Untitled' ? '' : title}
 					onChange={(e) => setTitle(e.target.value)}
-					onBlur={() => mutateAsync(title)}
+					onBlur={() => {
+						if(title === props.properties.title) return
+						mutateAsync(title)
+					}}
 				/>
 				<Text size='medium'>
 					Press Enter to continue with an empty page or select a template

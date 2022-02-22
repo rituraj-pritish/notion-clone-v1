@@ -11,6 +11,7 @@ import SidebarPages from './SidebarPages'
 
 const Sidebar = () => {
 	const [isHovering, setIsHovering] = useState<boolean>(false)
+	const [isTimerRunning, setIsTimerRunning] = useState(false)
 	const {
 		isCollapsed,
 		setWidth,
@@ -19,7 +20,11 @@ const Sidebar = () => {
 	} = useSidebar()
 
 	useEffect(() => {
-		if (isCollapsed) setIsHovering(true)
+		if (isCollapsed) {
+			setIsHovering(true)
+			setIsTimerRunning(true)
+			setTimeout(() => setIsTimerRunning(false), 200)
+		}
 	}, [isCollapsed])
 
 	const fun = (_: SyntheticEvent, { size }: ResizeCallbackData) => {
@@ -43,6 +48,7 @@ const Sidebar = () => {
 					width={width}
 					onMouseEnter={() => setIsHoveringSidebar(true)}
 					onMouseLeave={() => {
+						if(isTimerRunning) return
 						isCollapsed && setIsHovering(false)
 						setIsHoveringSidebar(false)
 					}}

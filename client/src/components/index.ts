@@ -1,8 +1,7 @@
 import Sidebar from '../modules/sidebar/Sidebar'
 import EmojiPicker from './EmojiPicker'
-import Layout from './Layout'
 import Menu from './Menu'
-import Navbar from './Navbar'
 import NoAuthNavbar from './NoAuthNavbar'
+import SidebarCollapseButton from './SidebarCollapseButton'
 
-export { Layout, Navbar, NoAuthNavbar, Sidebar, EmojiPicker, Menu }
+export { SidebarCollapseButton, NoAuthNavbar, Sidebar, EmojiPicker, Menu }

@@ -10,26 +10,35 @@ interface Props extends Page {
 	ancestry: Ancestry[]
 }
 
+const SPACE_SIZE = 4
+
 const Breadcrumbs = (props: Props) => {
 	const router = useRouter()
 	const { ancestry } = props
 
 	return (
 		<Flex alignItems='center'>
+			<Space />
 			{ancestry.map((item: Ancestry, idx: number) => {
 				if (idx === ancestry.length - 1) {
 					return <CurrentPageBreadcrumb {...item} />
 				}
 
-				if(idx === 1 && ancestry.length > 3) {
-					return <><span>...</span><Space/><span>/</span></>
+				if (idx === 1 && ancestry.length > 3) {
+					return (
+						<>
+							<span>...</span>
+							<Space size={SPACE_SIZE} />
+							<span>/</span>
+						</>
+					)
 				}
 
-				if(ancestry.length - idx > 2 && idx !== 0) return null
+				if (ancestry.length - idx > 2 && idx !== 0) return null
 
 				return (
 					<>
-						<Space/>
+						<Space size={SPACE_SIZE} />
 						<Button
 							key={item.id}
 							variant='secondary'
@@ -42,9 +51,9 @@ const Breadcrumbs = (props: Props) => {
 						>
 							{item.title}
 						</Button>
-						<Space/>
+						<Space size={SPACE_SIZE} />
 						<span>/</span>
-						<Space/>
+						<Space size={SPACE_SIZE} />
 					</>
 				)
 			})}

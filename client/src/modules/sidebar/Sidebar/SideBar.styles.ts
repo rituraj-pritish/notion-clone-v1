@@ -36,8 +36,8 @@ export const Content = styled.div<RootWrapperProps>`
 			position: absolute;
 			height: 80%;
 			box-shadow: ${theme.boxShadow};
-			top: 50%;
-			transform: ${`translate(${isHovering ? 0 : '-100%'}, -50%)`};
+			bottom: 50%;
+			transform: ${`translate(${isHovering ? 0 : '-100%'}, 50%)`};
 		`};
 `
 
