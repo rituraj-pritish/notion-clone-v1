@@ -47,11 +47,13 @@ export default (
 			}
 		}
 	)
-	queryClient.setQueryData<Page[] | undefined>(
-		[hierarchy.parent, 'children'],
-		(prevData) => {
-			if (!prevData) return undefined
-			return updateRecord(prevData)
-		}
-	)
+	if (hierarchy?.parent) {
+		queryClient.setQueryData<Page[] | undefined>(
+			[hierarchy.parent, 'children'],
+			(prevData) => {
+				if (!prevData) return undefined
+				return updateRecord(prevData)
+			}
+		)
+	}
 }

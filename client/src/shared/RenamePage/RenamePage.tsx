@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import { useMutation } from 'react-query'
 
@@ -13,19 +14,19 @@ interface Props extends Page {
 }
 
 const RenamePage = (props: Props | Ancestry) => {
-	const {
-		id,
-		hierarchy
-	} = props
-
+	const { id } = props
+	const router = useRouter()
 	const title = 'title' in props ? props.title : props.properties.title
-	
+
 	const [text, setText] = useState<string>(title)
 
 	const enterPress = useKeyPress('Enter')
 	const { mutateAsync } = useMutation(updatePage, {
-		onSuccess: () =>
-			onPageUpdate(id, hierarchy, { properties: { title: text } })
+		onSuccess: () => {
+			// refresh server side props
+			router.replace(router.asPath)
+			onPageUpdate(id, props.hierarchy, { properties: { title: text } })
+		}
 	})
 	const inputRef = useRef<HTMLInputElement>(null)
 
@@ -35,7 +36,8 @@ const RenamePage = (props: Props | Ancestry) => {
 
 	useEffect(() => {
 		if (enterPress) {
-			if('onEnter' in props && typeof props.onEnter === 'function') props.onEnter()
+			if ('onEnter' in props && typeof props.onEnter === 'function')
+				props.onEnter()
 
 			if (text !== title) {
 				mutateAsync({

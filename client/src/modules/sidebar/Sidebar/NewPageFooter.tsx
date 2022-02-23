@@ -4,11 +4,10 @@ import { useMutation, useQueryClient } from 'react-query'
 
 import { createPage } from '@/api/endpoints'
 import { GetWorkspaceResult } from '@/api/endpoints/workspace'
-import { Box, Modal } from '@/atoms'
 import queryKeys from '@/constants/queryKeys'
 import usePageGroups from '@/hooks/usePageGroups'
 import useWorkspace from '@/hooks/useWorkspace'
-import Page from '@/modules/page/Page'
+import PageModal from '@/modules/page/PageModal'
 
 import { NewPage } from './SideBar.styles'
 import SidebarItem from './SidebarItem'
@@ -51,27 +50,16 @@ const NewPageFooter = () => {
 		}
 	)
 
-	const newPage = queryClient
-		.getQueryData(queryKeys.ROOT_PAGES)
-		?.private?.find((page) => page.id === data?.id)
-
 	return (
-		<SidebarItem>
-			<Modal
-				visible={isModalVisible}
-				styles={{ width: '970px', left: '50%', transform: 'translateX(-50%)' }}
-			>
-				<Modal.ModalContent>
-					<Box p={2}>
-						<Page {...newPage!} />
-					</Box>
-				</Modal.ModalContent>
-			</Modal>
-			<NewPage onClick={() => mutateAsync()}>
-				<BsPlus />
-				New page
-			</NewPage>
-		</SidebarItem>
+		<>
+			<PageModal isVisible={isModalVisible} page={data} />
+			<SidebarItem>
+				<NewPage onClick={() => mutateAsync()}>
+					<BsPlus />
+					New page
+				</NewPage>
+			</SidebarItem>
+		</>
 	)
 }
 

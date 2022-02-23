@@ -7,6 +7,7 @@ import { Box, Flex } from '@/atoms'
 import { Sidebar, SidebarCollapseButton } from '@/components'
 import Breadcrumbs from '@/modules/page/Breadcrumbs'
 import PageComponent from '@/modules/page/Page'
+import PageOptions from '@/modules/page/Page/PageOptions'
 import { Ancestry, Page as PageType } from '@/types/page'
 
 interface Props extends PageType {
@@ -16,6 +17,7 @@ interface Props extends PageType {
 const Page = (props: Props) => {
 	const { icon, properties } = props
 	const { title } = properties
+	
 	return (
 		<div>
 			<Head>
@@ -32,9 +34,11 @@ const Page = (props: Props) => {
 			<Flex>
 				<Sidebar />
 				<Flex flexGrow={1} flexDirection='column'>
-					<Flex py={1}>
+					<Flex py={1} paddingRight={2}>
 						<SidebarCollapseButton />
 						<Breadcrumbs {...props} />
+						<Flex flexGrow={1} />
+						<PageOptions />
 					</Flex>
 					<Box marginX='auto'>
 						<PageComponent {...props} />

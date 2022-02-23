@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import { useEffect, useRef, useState } from 'react'
 import { useMutation } from 'react-query'
 
@@ -10,6 +11,7 @@ import { StyledInput } from './Page.styles'
 import PageHeader from './PageHeader'
 
 const Page = (props: PageType) => {
+	const router = useRouter()
 	const inputRef = useRef<HTMLInputElement>(null)
 	const [title, setTitle] = useState(props.properties.title)
 
@@ -23,6 +25,8 @@ const Page = (props: PageType) => {
 			}),
 		{
 			onSuccess: ({ properties }) => {
+				// refresh server side props
+				router.replace(router.asPath)
 				onPageUpdate(props.id, props.hierarchy, { properties })
 			}
 		}
@@ -30,13 +34,13 @@ const Page = (props: PageType) => {
 
 	useEffect(() => {
 		setTitle(props.properties.title)
-	}, [props.id])
+	}, [props.properties.title])
 
 	useEffect(() => {
 		if (inputRef.current && props.properties.title === 'Untitled') {
 			inputRef.current.focus()
 		}
-	}, [props.id])
+	}, [props.id, props.properties.title])
 
 	return (
 		<div>
@@ -55,7 +59,7 @@ const Page = (props: PageType) => {
 					value={title === 'Untitled' ? '' : title}
 					onChange={(e) => setTitle(e.target.value)}
 					onBlur={() => {
-						if(title === props.properties.title) return
+						if (title === props.properties.title) return
 						mutateAsync(title)
 					}}
 				/>

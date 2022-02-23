@@ -1,5 +1,6 @@
 import { BaseEmoji, emojiIndex } from 'emoji-mart'
 import _random from 'lodash/random'
+import { useRouter } from 'next/router'
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 import { AiOutlineFile } from 'react-icons/ai'
 import { FiFileText } from 'react-icons/fi'
@@ -30,114 +31,115 @@ interface Handle {
 
 const { Title, Trigger, Content } = Popover
 
-const ChangeIcon = React.forwardRef(({
-	icon,
-	id,
-	hierarchy,
-	iconSize = 'small',
-	haveChildren,
-	bordered
-}: Props, ref?: React.Ref<Handle>) => {
-	const [emoji, setEmoji] = useState<string | undefined>(() =>
-		icon && 'emoji' in icon ? icon.emoji : undefined
-	)
-	const popoverRef = useRef<React.ElementRef<typeof Popover>>(null)
+const ChangeIcon = React.forwardRef(
+	(
+		{ icon, id, hierarchy, iconSize = 'small', haveChildren, bordered }: Props,
+		ref?: React.Ref<Handle>
+	) => {
+		const [emoji, setEmoji] = useState<string | undefined>(() =>
+			icon && 'emoji' in icon ? icon.emoji : undefined
+		)
+		const router = useRouter()
+		const popoverRef = useRef<React.ElementRef<typeof Popover>>(null)
 
-	useEffect(() => {
-		if (icon && 'emoji' in icon) {
-			setEmoji(icon.emoji)
-		}
-	}, [icon])
+		useEffect(() => {
+			if (icon && 'emoji' in icon) {
+				setEmoji(icon.emoji)
+			}
+		}, [icon])
 
-	const { mutateAsync } = useMutation(
-		(newIcon?: string | undefined) =>
-			updatePage({
-				id,
-				icon: newIcon
-					? {
-							type: 'EMOJI',
-							emoji: newIcon
-					  }
-					: null
-			}),
-		{
-			onSuccess: ({ icon }) => {
-				onPageUpdate(id, hierarchy, { icon })
+		const { mutateAsync } = useMutation(
+			(newIcon?: string | undefined) =>
+				updatePage({
+					id,
+					icon: newIcon
+						? {
+								type: 'EMOJI',
+								emoji: newIcon
+						  }
+						: null
+				}),
+			{
+				onSuccess: ({ icon }) => {
+					// refresh server side props
+					router.replace(router.asPath)
+					onPageUpdate(id, hierarchy, { icon })
+				}
+			}
+		)
+
+		const onRandomClick = async () => {
+			try {
+				const randomEmoji = getRandomEmoji()
+				await mutateAsync(randomEmoji)
+				setEmoji(randomEmoji)
+				popoverRef.current?.close()
+			} catch (error) {
+				console.log('e', error)
 			}
 		}
-	)
 
-	const onRandomClick = async () => {
-		try {
-			const randomEmoji = getRandomEmoji()
-			await mutateAsync(randomEmoji)
-			setEmoji(randomEmoji)
-			popoverRef.current?.close()
-		} catch (error) {
-			console.log('e', error)
+		const onRemoveClick = async () => {
+			try {
+				await mutateAsync(undefined)
+				setEmoji('')
+				popoverRef.current?.close()
+			} catch (error) {
+				console.log('e', error)
+			}
 		}
-	}
 
-	const onRemoveClick = async () => {
-		try {
-			await mutateAsync(undefined)
-			setEmoji('')
-			popoverRef.current?.close()
-		} catch (error) {
-			console.log('e', error)
+		const title = (
+			<Flex justifyContent='flex-end' p={1}>
+				<Button
+					size='small'
+					variant='tertiary'
+					ghost
+					leftIcon={VscSmiley}
+					onClick={onRandomClick}
+				>
+					Random
+				</Button>
+				<Button size='small' variant='tertiary' ghost onClick={onRemoveClick}>
+					Remove
+				</Button>
+			</Flex>
+		)
+
+		const renderIcon = () => {
+			if (emoji) return emoji
+			return haveChildren ? <FiFileText /> : <AiOutlineFile />
 		}
+
+		useImperativeHandle(ref, () => ({
+			setRandomEmoji: onRandomClick
+		}))
+
+		return (
+			<Popover ref={popoverRef} placement='bottom'>
+				<Trigger>
+					<IconButton size={iconSize} tooltip='Change icon' bordered={bordered}>
+						{renderIcon()}
+					</IconButton>
+				</Trigger>
+				<Title>{title}</Title>
+				<Content>
+					<EmojiPicker
+						emojiTooltip
+						onSelect={async ({ native }: BaseEmoji) => {
+							await mutateAsync(native)
+							setEmoji(native)
+							popoverRef.current?.close()
+						}}
+						i18n={{
+							search: 'Filter...'
+						}}
+						showPreview={false}
+					/>
+				</Content>
+			</Popover>
+		)
 	}
-
-	const title = (
-		<Flex justifyContent='flex-end' p={1}>
-			<Button
-				size='small'
-				variant='tertiary'
-				ghost
-				leftIcon={VscSmiley}
-				onClick={onRandomClick}
-			>
-				Random
-			</Button>
-			<Button size='small' variant='tertiary' ghost onClick={onRemoveClick}>
-				Remove
-			</Button>
-		</Flex>
-	)
-
-	const renderIcon = () => {
-		if (emoji) return emoji
-		return haveChildren ? <FiFileText /> : <AiOutlineFile />
-	}
-
-	useImperativeHandle(ref, () => ({
-		setRandomEmoji: onRandomClick
-	}))
-
-	return (
-		<Popover ref={popoverRef} placement='bottom'>
-			<Trigger>
-				<IconButton size={iconSize} tooltip='Change icon' bordered={bordered}>
-					{renderIcon()}
-				</IconButton>
-			</Trigger>
-			<Title>{title}</Title>
-			<Content>
-				<EmojiPicker
-					emojiTooltip
-					onSelect={async ({ native }: BaseEmoji) => {
-						await mutateAsync(native)
-						setEmoji(native)
-						popoverRef.current?.close()
-					}}
-					i18n={{
-						search: 'Filter...'
-					}}
-					showPreview={false}
-				/>
-			</Content>
-		</Popover>
-	)
-})
+)
 
 export default ChangeIcon
