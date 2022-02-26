@@ -5,6 +5,7 @@ import { useMutation } from 'react-query'
 import { updatePage } from '@/api/endpoints'
 import { Box, Text } from '@/atoms'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
+import Block from '@/modules/block/Block'
 import { Page as PageType } from '@/types/page'
 
 import { StyledInput } from './Page.styles'
@@ -66,6 +67,7 @@ const Page = (props: PageType) => {
 				<Text size='medium'>
 					Press Enter to continue with an empty page or select a template
 				</Text>
+				<Block />
 			</Box>
 		</div>
 	)
