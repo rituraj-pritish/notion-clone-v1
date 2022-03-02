@@ -1,7 +1,15 @@
 import React, { useEffect, useRef, useState } from 'react'
-import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
+import ContentEditable from 'react-contenteditable'
 
 import { Modal } from '@/atoms'
+import getNewUuid from '@/helpers/getNewUuid'
+
+import TextOptions from '../TextOptions'
+import {
+	getSelectedNodes,
+	htmlToRichTextPayload,
+	richTextPayloadToHtml
+} from './utils'
 
 const INPUT_HEIGHT = 20
 const TEXT_WIDTH = 6.5
@@ -15,27 +23,68 @@ const contentEditableStyle = {
 	alignItems: 'center'
 }
 
+const richText = [
+	{
+		id: 1,
+		text: 'a',
+		annotations: {}
+	},
+	{
+		id: 2,
+		text: 'b',
+		annotations: {
+			bold: true,
+			italic: true
+		}
+	},
+	{
+		id: 3,
+		text: 'c',
+		annotations: {
+			// bold: true
+		}
+	},
+	{
+		id: 4,
+		text: ' ',
+		annotations: {
+			// bold: true
+		}
+	},
+	{
+		id: 5,
+		text: 'd',
+		annotations: {
+			// bold: true
+		}
+	}
+]
 const Block = () => {
-	const html = useRef('<b>abcd jklj asdf</b>')
+	const html = useRef(richTextPayloadToHtml(richText))
 
+	const [isMetaKeyPressed, setIsMetaKeyPressed] = useState(false)
+	const [render, setRender] = useState(true)
+	const [selectedIds, setSelectedIds] = useState([])
 	const [isVisible, setIsVisible] = useState(false)
 	const [isOptionsVisible, setIsOptionsVisible] = useState(false)
 	const [modalPosition, setModalPosition] = useState({})
+
+	const rerender = () => setRender(!render)
 
 	const inputRef = useRef<HTMLInputElement>(null)
 
 	const getCaretPosition = () => window.getSelection()?.focusOffset || 0
 
-	const handleChange = (e: ContentEditableEvent) => {
-		const value = e.target.value
-		html.current = value
-	}
+	const handleKeyUp = (e) => {
+		if (isMetaKeyPressed) return
+		if (e.metaKey) {
+			setIsMetaKeyPressed(false)
+			return
+		}
+		
+		const input = e.key
 
-	const handleKeyUp = () => {
-		// remove html tags
-		const string = html.current.replace(/(<([^>]+)>)/gi, '')
-
-		if (string[getCaretPosition() - 1] === '/') {
+		if (input === '/') {
 			setIsVisible(true)
 			inputRef.current?.focus()
 			if (inputRef.current) {
@@ -46,7 +95,13 @@ const Block = () => {
 				})
 			}
 		} else {
-			setIsVisible(false)
+			const newRichText = htmlToRichTextPayload(html.current).concat({
+				id: getNewUuid(),
+				text: input,
+				annotations: {}
+			})
+			html.current = richTextPayloadToHtml(newRichText)
+			rerender()
 		}
 	}
 
@@ -60,22 +115,18 @@ const Block = () => {
 	)
 
 	const handleSelection = () => {
-		const range = window.getSelection()?.getRangeAt(0)
-		if (!range) return
-		const isSelected = range.collapsed === false
+		const selection = window.getSelection()
+		if (selection?.isCollapsed) return
 
-		if (!isSelected) return setIsOptionsVisible(false)
+		const selectedNodeIds = getSelectedNodes().map((node) => node.id)
+		setSelectedIds(selectedNodeIds)
 
-		const start = range.startOffset
-		const end = range.endOffset
-		
 		if (inputRef.current) {
 			setModalPosition({
 				top: inputRef.current.offsetTop - INPUT_HEIGHT - 10 + 'px',
-				left: inputRef.current.offsetLeft + start * TEXT_WIDTH + 'px'
+				left: inputRef.current.offsetLeft + 'px'
 			})
 		}
-
 		setIsOptionsVisible(true)
 	}
 
@@ -85,12 +136,16 @@ const Block = () => {
 		}
 	}, [])
 
+	const handleKeyDown = (e) => {
+		setIsMetaKeyPressed(e.metaKey)
+	}
+
 	return (
 		<>
 			<ContentEditable
 				innerRef={inputRef}
-				onChange={handleChange}
 				onKeyUp={handleKeyUp}
+				onKeyDown={handleKeyDown}
 				html={html.current}
 				onMouseDown={() => getCaretPosition()}
 				onMouseUp={() => {
@@ -100,7 +155,12 @@ const Block = () => {
 				style={contentEditableStyle}
 			/>
 
-			<Modal visible={isVisible} styles={modalStyles} showOverlay={false}>
+			<Modal
+				visible={isVisible}
+				styles={modalStyles}
+				showOverlay={false}
+				onRequestClose={() => setIsVisible(false)}
+			>
 				<Modal.ModalContent>
 					<>options</>
 				</Modal.ModalContent>
@@ -113,7 +173,26 @@ const Block = () => {
 				onRequestClose={() => setIsOptionsVisible(false)}
 			>
 				<Modal.ModalContent>
-					<>text options</>
+					<TextOptions
+						onSelect={(type, value) => {
+							const newRichText = htmlToRichTextPayload(html.current).map(
+								(obj) => {
+									if (selectedIds.includes(obj.id.toString())) {
+										return {
+											...obj,
+											annotations: {
+												...obj.annotations,
+												[type]: value
+											}
+										}
+									}
+									return obj
+								}
+							)
+							html.current = richTextPayloadToHtml(newRichText)
+							setIsOptionsVisible(false)
+						}}
+					/>
 				</Modal.ModalContent>
 			</Modal>
 		</>
