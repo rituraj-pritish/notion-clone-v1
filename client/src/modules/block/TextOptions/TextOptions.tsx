@@ -5,15 +5,28 @@ import { Flex } from '@/atoms'
 
 import { Option } from './TextOptions.styles'
 
-const TextOptions = ({ onSelect }) => {
+interface Props {
+	onSelect: (option: string) => void
+	activeOptions: string[]
+}
+
+const ANNOTATIONS = [
+	{ name: 'BOLD', icon: GoBold },
+	{ name: 'ITALIC', icon: GoItalic }
+]
+
+const TextOptions = ({ onSelect, activeOptions }: Props) => {
 	return (
 		<Flex>
-			<Option onClick={() => onSelect('bold', true)} isActive={false}>
-				<GoBold size={18} />
-			</Option>
-			<Option onClick={() => onSelect('italic', true)} isActive={false}>
-				<GoItalic size={18} />
-			</Option>
+			{ANNOTATIONS.map(({ name, icon: Icon }) => (
+				<Option
+					key={name}
+					onClick={() => onSelect(name)}
+					isActive={activeOptions.includes(name)}
+				>
+					<Icon size={18} />
+				</Option>
+			))}
 		</Flex>
 	)
 }
