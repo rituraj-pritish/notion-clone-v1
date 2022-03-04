@@ -1,59 +1,59 @@
-import Draft, { RawDraftContentState } from 'draft-js'
+import {
+	Editor,
+	EditorState,
+	RichUtils,
+	convertToRaw,
+	convertFromRaw
+} from 'draft-js'
 import React, { useEffect, useRef, useState } from 'react'
 
 import { Modal } from '@/atoms'
+import { COLORS, BACKGROUNDS } from '@/constants/colorsAndBackgrounds'
+import getNewUuid from '@/helpers/getNewUuid'
 
 import TextOptions from '../TextOptions'
 
-const txt: RawDraftContentState = {
+const empty = {
 	blocks: [
 		{
+			text: '',
 			key: 'foo',
-			text: 'asdfasdfasdfsdf asd fasdf asdf asdf asdf asdf asdf asdf',
 			type: 'unstyled',
-			depth: 0,
-			inlineStyleRanges: [
-				{
-					offset: 0,
-					length: 15,
-					style: 'BOLD'
-				},
-				{
-					offset: 26,
-					length: 4,
-					style: 'BOLD'
-				},
-				{
-					offset: 42,
-					length: 1,
-					style: 'BOLD'
-				},
-				{
-					offset: 0,
-					length: 15,
-					style: 'ITALIC'
-				},
-				{
-					offset: 36,
-					length: 4,
-					style: 'ITALIC'
-				}
-			],
-			entityRanges: [],
-			data: {}
+			entityRanges: []
 		}
 	],
 	entityMap: {}
 }
 
-const emptyContentState = Draft.convertFromRaw(txt)
+const colorsMap = Object.entries(COLORS).reduce(
+	(acc, [key, value]) => ({
+		...acc,
+		[`color_${key}`]: {
+			color: value
+		}
+	}),
+	{}
+)
+const backgroundsMap = Object.entries(BACKGROUNDS).reduce(
+	(acc, [key, value]) => ({
+		...acc,
+		[`bg_${key}`]: {
+			background: value
+		}
+	}),
+	{}
+)
 
-const Block = () => {
-	const { Editor, EditorState, RichUtils, convertToRaw } = Draft
+const styleMap = {
+	...colorsMap,
+	...backgroundsMap
+}
+
+const Block = ({ rawRichText }) => {
 	const editorRef = useRef<HTMLDivElement>(null)
 
 	const [state, setState] = useState(() =>
-		EditorState.createWithContent(emptyContentState)
+		EditorState.createWithContent(convertFromRaw(rawRichText || empty))
 	)
 	const [modalPosition, setModalPosition] = useState({})
 
@@ -96,7 +96,7 @@ const Block = () => {
 		}),
 		[modalPosition]
 	)
-
+	// console.log('content', convertToRaw(state.getCurrentContent()))
 	return (
 		<>
 			{/* <TextOptions
@@ -129,7 +129,11 @@ const Block = () => {
 				</Modal.ModalContent>
 			</Modal>
 			<div ref={editorRef}>
-				<Editor editorState={state} onChange={setState} />
+				<Editor
+					customStyleMap={styleMap}
+					editorState={state}
+					onChange={setState}
+				/>
 			</div>
 		</>
 	)
