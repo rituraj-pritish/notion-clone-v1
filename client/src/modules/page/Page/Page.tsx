@@ -67,7 +67,7 @@ const Page = (props: PageType) => {
 				<Text size='medium'>
 					Press Enter to continue with an empty page or select a template
 				</Text>
-				<Block />
+				<Block page={props} />
 			</Box>
 		</div>
 	)

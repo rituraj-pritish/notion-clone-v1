@@ -6,10 +6,15 @@ import {
 	convertFromRaw
 } from 'draft-js'
 import React, { useEffect, useRef, useState } from 'react'
+import { useMutation } from 'react-query'
 
+import { createBlock } from '@/api/endpoints'
 import { Modal } from '@/atoms'
 import { COLORS, BACKGROUNDS } from '@/constants/colorsAndBackgrounds'
 import getNewUuid from '@/helpers/getNewUuid'
+import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
+import { Block as BlockType } from '@/types/block'
+import { Page } from '@/types/page'
 
 import TextOptions from '../TextOptions'
 
@@ -49,11 +54,13 @@ const styleMap = {
 	...backgroundsMap
 }
 
-const Block = ({ rawRichText }) => {
+const Block = ({ page }: { page: Page }) => {
 	const editorRef = useRef<HTMLDivElement>(null)
-
 	const [state, setState] = useState(() =>
-		EditorState.createWithContent(convertFromRaw(rawRichText || empty))
+		EditorState.createWithContent(convertFromRaw(empty))
+	)
+	const { mutateAsync } = useMutation<BlockType>((values) =>
+		createBlock(values)
 	)
 	const [modalPosition, setModalPosition] = useState({})
 
@@ -82,6 +89,24 @@ const Block = ({ rawRichText }) => {
 	}
 
 	const isSelected = !state.getSelection().isCollapsed()
+
+	useDebouncedEffect(
+		() => {
+			if (convertToRaw(state.getCurrentContent()).blocks[0].text) {
+				mutateAsync({
+					parent: {
+						type: 'PAGE',
+						id: page.id
+					},
+					index: 0,
+					type: 'TEXT',
+					object: convertToRaw(state.getCurrentContent())
+				})
+			}
+		},
+		[state.getCurrentContent()],
+		500
+	)
 
 	useEffect(() => {
 		if (isSelected) handleSelected()

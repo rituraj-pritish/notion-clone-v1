@@ -1,4 +1,4 @@
-import { getModelForClass, plugin, prop, Ref } from '@typegoose/typegoose'
+import { getModelForClass, plugin, prop } from '@typegoose/typegoose'
 import { Schema } from 'mongoose'
 import {
 	createUnionType,
@@ -7,9 +7,9 @@ import {
 	ObjectType,
 	registerEnumType
 } from 'type-graphql'
-import { User } from './user.model'
 import autoPopulate from 'mongoose-autopopulate'
 import { convertDocument } from '../middlewares/typegooseMiddleware'
+import { UserAndDate } from './commonObjects'
 
 enum ParentType {
 	WORKSPACE = 'WORKSPACE',
@@ -79,17 +79,6 @@ class Parent {
 	@Field(() => ID)
 	@prop({ type: Schema.Types.ObjectId })
 	id: string
-}
-
-@ObjectType()
-class UserAndDate {
-	@Field(() => User)
-	@prop({ type: Schema.Types.ObjectId, autopopulate: true, ref: User })
-	user: Ref<User>
-
-	@Field(() => Date)
-	@prop({ type: Date, default: new Date().toISOString() })
-	time: Date
 }
 
 @ObjectType()
