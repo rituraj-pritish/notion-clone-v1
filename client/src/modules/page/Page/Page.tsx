@@ -10,6 +10,7 @@ import { Page as PageType } from '@/types/page'
 
 import { StyledInput } from './Page.styles'
 import PageHeader from './PageHeader'
+import Blocks from '@/modules/block/Blocks'
 
 const Page = (props: PageType) => {
 	const router = useRouter()
@@ -67,7 +68,7 @@ const Page = (props: PageType) => {
 				<Text size='medium'>
 					Press Enter to continue with an empty page or select a template
 				</Text>
-				<Block page={props} />
+				<Blocks page={props} />
 			</Box>
 		</div>
 	)

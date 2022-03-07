@@ -8,27 +8,15 @@ import {
 import React, { useEffect, useRef, useState } from 'react'
 import { useMutation } from 'react-query'
 
-import { createBlock } from '@/api/endpoints'
+import { createBlock, updateBlock } from '@/api/endpoints'
 import { Modal } from '@/atoms'
 import { COLORS, BACKGROUNDS } from '@/constants/colorsAndBackgrounds'
-import getNewUuid from '@/helpers/getNewUuid'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import { Block as BlockType } from '@/types/block'
 import { Page } from '@/types/page'
 
 import TextOptions from '../TextOptions'
-
-const empty = {
-	blocks: [
-		{
-			text: '',
-			key: 'foo',
-			type: 'unstyled',
-			entityRanges: []
-		}
-	],
-	entityMap: {}
-}
+import { getRawData, isContentSame } from './utils'
 
 const colorsMap = Object.entries(COLORS).reduce(
 	(acc, [key, value]) => ({
@@ -54,14 +42,16 @@ const styleMap = {
 	...backgroundsMap
 }
 
-const Block = ({ page }: { page: Page }) => {
+const Block = ({ page, object, id, index }: { page: Page }) => {
 	const editorRef = useRef<HTMLDivElement>(null)
 	const [state, setState] = useState(() =>
-		EditorState.createWithContent(convertFromRaw(empty))
+		EditorState.createWithContent(convertFromRaw(getRawData(object)))
 	)
-	const { mutateAsync } = useMutation<BlockType>((values) =>
-		createBlock(values)
+	const { mutateAsync: updateBlockMutation } = useMutation<BlockType>(
+		(values) => updateBlock(values)
 	)
+	const { mutateAsync: createBlockMutation, data: createData } =
+		useMutation<BlockType>((values) => createBlock(values))
 	const [modalPosition, setModalPosition] = useState({})
 
 	const handleSelected = () => {
@@ -92,15 +82,34 @@ const Block = ({ page }: { page: Page }) => {
 
 	useDebouncedEffect(
 		() => {
-			if (convertToRaw(state.getCurrentContent()).blocks[0].text) {
-				mutateAsync({
+			if (
+				convertToRaw(state.getCurrentContent()).blocks[0].text &&
+				!id &&
+				!createData
+			) {
+				const rawContent = convertToRaw(state.getCurrentContent()).blocks[0]
+				createBlockMutation({
 					parent: {
 						type: 'PAGE',
 						id: page.id
 					},
-					index: 0,
+					index,
 					type: 'TEXT',
-					object: convertToRaw(state.getCurrentContent())
+					object: {
+						styles: rawContent.inlineStyleRanges,
+						text: rawContent.text
+					}
+				})
+			} else if (id) {
+				const rawContent = convertToRaw(state.getCurrentContent()).blocks[0]
+				if (isContentSame(object, rawContent)) return
+				updateBlockMutation({
+					id,
+					index,
+					object: {
+						styles: rawContent.inlineStyleRanges,
+						text: rawContent.text
+					}
 				})
 			}
 		},
@@ -121,7 +130,7 @@ const Block = ({ page }: { page: Page }) => {
 		}),
 		[modalPosition]
 	)
-	// console.log('content', convertToRaw(state.getCurrentContent()))
+
 	return (
 		<>
 			{/* <TextOptions

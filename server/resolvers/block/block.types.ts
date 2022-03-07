@@ -1,9 +1,7 @@
 import { prop } from '@typegoose/typegoose'
-import { GraphQLObjectType } from 'graphql'
 import { Schema } from 'mongoose'
 import { Field, ID, InputType } from 'type-graphql'
 import { BlockType, BlockParentType } from '../../models/block.model'
-import { GraphQLJSONObject } from 'graphql-type-json'
 
 @InputType()
 class BlockParentInput {
@@ -17,10 +15,36 @@ class BlockParentInput {
 }
 
 @InputType()
+class RichTextStyleInput {
+	@Field()
+	@prop({ type: Number })
+	offset: number
+
+	@Field()
+	@prop({ type: Number })
+	length: number
+
+	@Field()
+	@prop({ type: String })
+	style: string
+}
+
+@InputType()
+class RichTextObjectInput {
+	@Field(() => [RichTextStyleInput])
+	@prop({ type: [RichTextStyleInput] })
+	styles: RichTextStyleInput[]
+
+	@Field()
+	@prop({ type: String })
+	text: string
+}
+
+@InputType()
 export class CreateBlockInput {
-	@Field(() => GraphQLJSONObject)
-	@prop({ type: GraphQLObjectType })
-	object: object
+	@Field(() => RichTextObjectInput)
+	@prop({ type: RichTextObjectInput })
+	object: RichTextObjectInput
 
 	@Field()
 	@prop({ type: Number })
@@ -33,4 +57,18 @@ export class CreateBlockInput {
 	@Field(() => BlockParentInput)
 	@prop({ type: BlockParentInput })
 	parent: BlockParentInput
+}
+
+@InputType()
+export class UpdateBlockInput {
+	@Field(() => ID)
+	id: string
+	
+	@Field(() => RichTextObjectInput)
+	@prop({ type: RichTextObjectInput })
+	object: RichTextObjectInput
+
+	@Field()
+	@prop({ type: Number })
+	index: number
 }

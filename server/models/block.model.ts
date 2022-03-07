@@ -3,8 +3,6 @@ import { Field, ID, ObjectType, registerEnumType } from 'type-graphql'
 import autoPopulate from 'mongoose-autopopulate'
 import { UserAndDate } from './commonObjects'
 import { Schema } from 'mongoose'
-import { GraphQLJSONObject } from 'graphql-type-json'
-import { GraphQLObjectType } from 'graphql'
 
 export enum BlockParentType {
 	PAGE = 'PAGE',
@@ -32,15 +30,41 @@ registerEnumType(BlockType, {
 	name: 'BlockType'
 })
 
+@ObjectType()
+class Style {
+	@Field()
+	@prop({ type: Number })
+	offset: number
+
+	@Field()
+	@prop({ type: Number })
+	length: number
+
+	@Field()
+	@prop({ type: String })
+	style: string
+}
+
+@ObjectType()
+class RichTextObject {
+	@Field(() => [Style])
+	@prop({ type: [Style] })
+	styles: Style[]
+
+	@Field()
+	@prop({ type: String })
+	text: string
+}
+
 @plugin(autoPopulate as any)
 @ObjectType()
 export class Block {
 	@Field(() => ID)
 	id: string
 
-	@Field(() => GraphQLJSONObject)
-	@prop({ type: GraphQLObjectType })
-	object: object
+	@Field(() => RichTextObject)
+	@prop({ type: RichTextObject, _id: false })
+	object: RichTextObject
 
 	@Field()
 	@prop({ type: Number })

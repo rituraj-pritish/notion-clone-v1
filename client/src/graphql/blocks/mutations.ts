@@ -9,7 +9,36 @@ export const CREATE_BLOCK = gql`
         id
       }
       type
-      object
+      object {
+        text
+        styles {
+          offset
+          length
+          style
+        }
+      }
+    }
+  }
+`
+
+export const UPDATE_BLOCK = gql`
+  mutation UpdateBlock($updateBlockInput: UpdateBlockInput!) {
+    updateBlock(updateBlockInput: $updateBlockInput) {
+      id
+      index
+      parent {
+        type
+        id
+      }
+      type
+      object {
+        text
+        styles {
+          offset
+          length
+          style
+        }
+      }
     }
   }
 `

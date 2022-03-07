@@ -1,9 +1,18 @@
 import { User } from './users';
 
+export interface RichTextObject {
+  text: string
+  styles: {
+    offset: number
+    length: number
+    style: string
+  }[]
+}
+
 export interface Block {
   id: string
   index: number
-  object: object
+  object: RichTextObject
   type: 'TEXT'
   parent: {
     type: 'DATABASE' | 'PAGE'
