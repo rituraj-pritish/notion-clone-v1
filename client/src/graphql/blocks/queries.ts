@@ -1,23 +1,12 @@
 import { gql } from 'graphql-request'
 
+import { BLOCK_FRAGMENT } from './fragments'
+
 export const GET_BLOCKS = gql`
+	${BLOCK_FRAGMENT}
 	query GetBlocks($id: String!) {
 		getBlocks(id: $id) {
-			id
-			index
-			parent {
-				type
-				id
-			}
-			type
-			object {
-				text
-				styles {
-					offset
-					length
-					style
-				}
-			}
+			...blockFragment
 		}
 	}
 `

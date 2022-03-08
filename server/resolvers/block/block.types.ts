@@ -48,7 +48,7 @@ export class CreateBlockInput {
 
 	@Field()
 	@prop({ type: Number })
-	index: number
+	order: number
 
 	@Field(() => BlockType)
 	@prop({ enum: BlockType, required: true })
@@ -70,5 +70,5 @@ export class UpdateBlockInput {
 
 	@Field()
 	@prop({ type: Number })
-	index: number
+	order: number
 }

@@ -10,6 +10,12 @@ export class BlockResolver {
 		return await BlockModel.find({ 'parent.id': id })
 	}
 
+	@Mutation(() => Boolean)
+	async deleteBlock(@Arg('id') id: string): Promise<boolean> {
+		await BlockModel.findOneAndDelete({ _id: id })
+		return true
+	}
+
 	@Mutation(() => Block)
 	async updateBlock(
 		@Arg('updateBlockInput') { id, index, object }: UpdateBlockInput,
@@ -53,6 +59,6 @@ export class BlockResolver {
 		})
 		await block.save()
 
-		return block
+		return block.populate(['created.user', 'lastEdited.user'])
 	}
 }

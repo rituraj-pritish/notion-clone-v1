@@ -11,7 +11,7 @@ export interface RichTextObject {
 
 export interface Block {
   id: string
-  index: number
+  order: number
   object: RichTextObject
   type: 'TEXT'
   parent: {

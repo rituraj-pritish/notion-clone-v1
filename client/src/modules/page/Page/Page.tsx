@@ -3,14 +3,13 @@ import { useEffect, useRef, useState } from 'react'
 import { useMutation } from 'react-query'
 
 import { updatePage } from '@/api/endpoints'
-import { Box, Text } from '@/atoms'
+import { Box } from '@/atoms'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
-import Block from '@/modules/block/Block'
+import Blocks from '@/modules/block/Blocks'
 import { Page as PageType } from '@/types/page'
 
 import { StyledInput } from './Page.styles'
 import PageHeader from './PageHeader'
-import Blocks from '@/modules/block/Blocks'
 
 const Page = (props: PageType) => {
 	const router = useRouter()
@@ -65,9 +64,6 @@ const Page = (props: PageType) => {
 						mutateAsync(title)
 					}}
 				/>
-				<Text size='medium'>
-					Press Enter to continue with an empty page or select a template
-				</Text>
 				<Blocks page={props} />
 			</Box>
 		</div>

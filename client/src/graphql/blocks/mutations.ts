@@ -1,44 +1,27 @@
-import { gql } from 'graphql-request';
+import { gql } from 'graphql-request'
+
+import { BLOCK_FRAGMENT } from './fragments'
 
 export const CREATE_BLOCK = gql`
-  mutation CreateBlock($createBlockInput: CreateBlockInput!) {
-    createBlock(createBlockInput: $createBlockInput) {
-      index
-      parent {
-        type
-        id
-      }
-      type
-      object {
-        text
-        styles {
-          offset
-          length
-          style
-        }
-      }
-    }
-  }
+	${BLOCK_FRAGMENT}
+	mutation CreateBlock($createBlockInput: CreateBlockInput!) {
+		createBlock(createBlockInput: $createBlockInput) {
+			...blockFragment
+		}
+	}
 `
 
 export const UPDATE_BLOCK = gql`
-  mutation UpdateBlock($updateBlockInput: UpdateBlockInput!) {
-    updateBlock(updateBlockInput: $updateBlockInput) {
-      id
-      index
-      parent {
-        type
-        id
-      }
-      type
-      object {
-        text
-        styles {
-          offset
-          length
-          style
-        }
-      }
-    }
-  }
+	${BLOCK_FRAGMENT}
+	mutation UpdateBlock($updateBlockInput: UpdateBlockInput!) {
+		updateBlock(updateBlockInput: $updateBlockInput) {
+			...blockFragment
+		}
+	}
+`
+
+export const DELETE_BLOCK = gql`
+	mutation DeleteBlock($id: String!) {
+		deleteBlock(id: $id)
+	}
 `

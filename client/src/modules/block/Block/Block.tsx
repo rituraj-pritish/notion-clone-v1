@@ -8,14 +8,21 @@ import {
 import React, { useEffect, useRef, useState } from 'react'
 import { useMutation } from 'react-query'
 
-import { createBlock, updateBlock } from '@/api/endpoints'
+import {
+	createBlock,
+	CreateBlockInput,
+	updateBlock,
+	UpdateBlockInput
+} from '@/api/endpoints'
 import { Modal } from '@/atoms'
 import { COLORS, BACKGROUNDS } from '@/constants/colorsAndBackgrounds'
+import queryClient from '@/core/queryClient'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
 import { Block as BlockType } from '@/types/block'
 import { Page } from '@/types/page'
 
 import TextOptions from '../TextOptions'
+import BlockWrapper from './BlockWrapper'
 import { getRawData, isContentSame } from './utils'
 
 const colorsMap = Object.entries(COLORS).reduce(
@@ -42,16 +49,36 @@ const styleMap = {
 	...backgroundsMap
 }
 
-const Block = ({ page, object, id, index }: { page: Page }) => {
+interface Props extends BlockType {
+	page: Page
+}
+
+const Block = (props: Props) => {
+	const { page, object, id, order } = props
+	const newIndex = order + 1
+
 	const editorRef = useRef<HTMLDivElement>(null)
 	const [state, setState] = useState(() =>
 		EditorState.createWithContent(convertFromRaw(getRawData(object)))
 	)
-	const { mutateAsync: updateBlockMutation } = useMutation<BlockType>(
-		(values) => updateBlock(values)
-	)
-	const { mutateAsync: createBlockMutation, data: createData } =
-		useMutation<BlockType>((values) => createBlock(values))
+	const { mutateAsync: updateBlockMutation } = useMutation<
+		BlockType,
+		unknown,
+		UpdateBlockInput
+	>((values) => updateBlock(values))
+	const { mutateAsync: createBlockMutation, data: createData } = useMutation<
+		BlockType,
+		unknown,
+		CreateBlockInput
+	>((values) => createBlock(values), {
+		onSuccess: (data) => {
+			queryClient.setQueryData<BlockType[]>([page.id, 'blocks'], (prevData) => [
+				...prevData!,
+				data
+			])
+		}
+	})
+
 	const [modalPosition, setModalPosition] = useState({})
 
 	const handleSelected = () => {
@@ -84,7 +111,7 @@ const Block = ({ page, object, id, index }: { page: Page }) => {
 		() => {
 			if (
 				convertToRaw(state.getCurrentContent()).blocks[0].text &&
-				!id &&
+				newIndex &&
 				!createData
 			) {
 				const rawContent = convertToRaw(state.getCurrentContent()).blocks[0]
@@ -93,7 +120,7 @@ const Block = ({ page, object, id, index }: { page: Page }) => {
 						type: 'PAGE',
 						id: page.id
 					},
-					index,
+					order: newIndex,
 					type: 'TEXT',
 					object: {
 						styles: rawContent.inlineStyleRanges,
@@ -162,13 +189,32 @@ const Block = ({ page, object, id, index }: { page: Page }) => {
 					/>
 				</Modal.ModalContent>
 			</Modal>
-			<div ref={editorRef}>
-				<Editor
-					customStyleMap={styleMap}
-					editorState={state}
-					onChange={setState}
-				/>
-			</div>
+			<BlockWrapper {...props}>
+				<div ref={editorRef} style={{ width: '100%' }}>
+					<Editor
+						customStyleMap={styleMap}
+						editorState={state}
+						onChange={setState}
+						handleReturn={() => {
+							createBlockMutation({
+								parent: {
+									type: 'PAGE',
+									id: page.id
+								},
+								type: 'TEXT',
+								order: newIndex,
+								object: {
+									styles: [],
+									text: ''
+								}
+							})
+							return 'handled'
+						}}
+						// todo use this to handle '/' input
+						// handleBeforeInput={(char) => console.log('char', char)}
+					/>
+				</div>
+			</BlockWrapper>
 		</>
 	)
 }

@@ -1,13 +1,13 @@
-import moment from 'moment-timezone'
 import { useState } from 'react'
 import { BsPencilSquare, BsStar } from 'react-icons/bs'
 import { IoTrashOutline } from 'react-icons/io5'
 import { useMutation } from 'react-query'
 
 import { deletePage as deletePageEndpoint, updatePage } from '@/api/endpoints'
-import { Box, Modal, Text, Tooltip } from '@/atoms'
+import { Modal } from '@/atoms'
 import { Menu } from '@/components'
 import onPageUpdate from '@/helpers/queryUpdaters/onPageUpdate'
+import CreatedAndEditedMenuItem from '@/shared/CreatedAndEditedMenuItem'
 import RenamePage from '@/shared/RenamePage'
 import { Page } from '@/types/page'
 
@@ -74,28 +74,7 @@ const SidebarPageMoreOptions = (props: Props) => {
 				<Menu.MenuItem icon={<BsStar />} onClick={() => toggleFavorite()}>
 					{favorite ? 'Remove from' : 'Add to'} Favorites
 				</Menu.MenuItem>
-				<Tooltip
-					placement='right'
-					overlay={
-						<>
-							<div>Last edited by {lastEdited.user.name}</div>
-							<Tooltip.SubText>
-								{moment(lastEdited.time).format('DD/MM/yyyy')}
-							</Tooltip.SubText>
-							<div>Created by {created.user.name}</div>
-							<Tooltip.SubText>
-								{moment(created.time).format('DD/MM/yyyy')}
-							</Tooltip.SubText>
-						</>
-					}
-				>
-					<Box px={3} pt={1}>
-						<Text size='small'>Last edited by {lastEdited.user.name}</Text>
-						<Text size='small'>
-							{moment(lastEdited.time).format('DD/MM/yyyy hh:mm A')}
-						</Text>
-					</Box>
-				</Tooltip>
+				<CreatedAndEditedMenuItem created={created} lastEdited={lastEdited} />
 			</Menu>
 			<Modal
 				onRequestClose={() => setIsModalVisible(false)}

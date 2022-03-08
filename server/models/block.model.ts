@@ -68,7 +68,7 @@ export class Block {
 
 	@Field()
 	@prop({ type: Number })
-	index: number
+	order: number
 
 	@Field(() => BlockType)
 	@prop({ enum: BlockType, required: true })
