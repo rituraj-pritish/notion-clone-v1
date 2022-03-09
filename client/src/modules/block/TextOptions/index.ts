@@ -1,3 +1,3 @@
-import TextOptions from './TextOptions'
+import TextOptions from './TextOptionsWrapper'
 
 export default TextOptions

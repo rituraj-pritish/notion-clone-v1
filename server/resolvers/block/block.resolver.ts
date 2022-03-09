@@ -7,7 +7,7 @@ import { CreateBlockInput, UpdateBlockInput } from './block.types'
 export class BlockResolver {
 	@Query(() => [Block])
 	async getBlocks(@Arg('id') id: string): Promise<Block[]> {
-		return await BlockModel.find({ 'parent.id': id })
+		return await BlockModel.find({ 'parent.id': id }).sort({ order: 'asc' })
 	}
 
 	@Mutation(() => Boolean)
@@ -18,13 +18,13 @@ export class BlockResolver {
 
 	@Mutation(() => Block)
 	async updateBlock(
-		@Arg('updateBlockInput') { id, index, object }: UpdateBlockInput,
+		@Arg('updateBlockInput') { id, order, object }: UpdateBlockInput,
 		@Ctx() { user }: Context
 	): Promise<Block> {
 		const block = await BlockModel.findOneAndUpdate(
 			{ _id: id },
 			{
-				index,
+				order,
 				object,
 				lastEdited: {
 					user,
@@ -40,11 +40,11 @@ export class BlockResolver {
 
 	@Mutation(() => Block)
 	async createBlock(
-		@Arg('createBlockInput') { index, object, parent, type }: CreateBlockInput,
+		@Arg('createBlockInput') { order, object, parent, type }: CreateBlockInput,
 		@Ctx() { user }: Context
 	): Promise<Block> {
 		const block = await new BlockModel({
-			index,
+			order,
 			object,
 			parent,
 			type,

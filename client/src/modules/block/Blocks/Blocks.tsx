@@ -38,7 +38,7 @@ const Blocks = ({ page }: Props) => {
 					type: 'PAGE',
 					id: page.id
 				},
-				index: 0,
+				order: 100,
 				type: 'TEXT',
 				object: {
 					styles: [],
@@ -55,9 +55,21 @@ const Blocks = ({ page }: Props) => {
 			{data && data.length === 0 && (
 				<Text size='medium'>Press Enter to continue with an empty page</Text>
 			)}
-			{data?.map((block) => (
-				<Block {...block} page={page} key={block.id} />
-			))}
+			{data?.map((block, idx) => {
+				const nextBlock = data[idx + 1]
+				return (
+					<Block
+						{...block}
+						newOrder={
+							nextBlock
+								? (block.order + nextBlock.order) / 2
+								: block.order + 100
+						}
+						page={page}
+						key={block.id}
+					/>
+				)
+			})}
 		</div>
 	)
 }

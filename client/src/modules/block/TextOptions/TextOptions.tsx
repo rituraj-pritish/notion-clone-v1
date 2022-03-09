@@ -10,7 +10,7 @@ import TextColorPicker from '../TextColorPicker'
 import { OptionIcon } from '../TextColorPicker/TextColorPicker.styles'
 import { Option } from './TextOptions.styles'
 
-interface Props {
+export interface Props {
 	onSelect: (option: string) => void
 	activeOptions: string[]
 }

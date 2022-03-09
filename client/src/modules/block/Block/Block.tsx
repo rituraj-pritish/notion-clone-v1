@@ -14,7 +14,6 @@ import {
 	updateBlock,
 	UpdateBlockInput
 } from '@/api/endpoints'
-import { Modal } from '@/atoms'
 import { COLORS, BACKGROUNDS } from '@/constants/colorsAndBackgrounds'
 import queryClient from '@/core/queryClient'
 import { useDebouncedEffect } from '@/hooks/useDebouncedEffect'
@@ -51,13 +50,14 @@ const styleMap = {
 
 interface Props extends BlockType {
 	page: Page
+	newOrder: number
 }
 
-const Block = (props: Props) => {
+const Block = ({ newOrder, ...props }: Props) => {
 	const { page, object, id, order } = props
-	const newIndex = order + 1
 
-	const editorRef = useRef<HTMLDivElement>(null)
+	const editorRef = useRef(null)
+	const editorWrapperRef = useRef<HTMLDivElement>(null)
 	const [state, setState] = useState(() =>
 		EditorState.createWithContent(convertFromRaw(getRawData(object)))
 	)
@@ -66,18 +66,21 @@ const Block = (props: Props) => {
 		unknown,
 		UpdateBlockInput
 	>((values) => updateBlock(values))
-	const { mutateAsync: createBlockMutation, data: createData } = useMutation<
+	const { mutateAsync: createBlockMutation } = useMutation<
 		BlockType,
 		unknown,
 		CreateBlockInput
 	>((values) => createBlock(values), {
 		onSuccess: (data) => {
-			queryClient.setQueryData<BlockType[]>([page.id, 'blocks'], (prevData) => [
-				...prevData!,
-				data
-			])
+			queryClient.setQueryData<BlockType[]>([page.id, 'blocks'], (prevData) =>
+				[...prevData!, data].sort((a, b) => a.order - b.order)
+			)
 		}
 	})
+
+	useEffect(() => {
+		if (editorRef.current) editorRef.current.focus()
+	}, [])
 
 	const [modalPosition, setModalPosition] = useState({})
 
@@ -85,10 +88,10 @@ const Block = (props: Props) => {
 		const selection = state.getSelection()
 		const offset = selection.getStartOffset()
 
-		if (editorRef.current) {
+		if (editorWrapperRef.current) {
 			setModalPosition({
-				top: editorRef.current.offsetTop - 20 - 10 + 'px',
-				left: editorRef.current.offsetLeft + offset * 6.5 + 'px'
+				top: editorWrapperRef.current.offsetTop - 20 - 10 + 'px',
+				left: editorWrapperRef.current.offsetLeft + offset * 6.5 + 'px'
 			})
 		}
 	}
@@ -109,36 +112,16 @@ const Block = (props: Props) => {
 
 	useDebouncedEffect(
 		() => {
-			if (
-				convertToRaw(state.getCurrentContent()).blocks[0].text &&
-				newIndex &&
-				!createData
-			) {
-				const rawContent = convertToRaw(state.getCurrentContent()).blocks[0]
-				createBlockMutation({
-					parent: {
-						type: 'PAGE',
-						id: page.id
-					},
-					order: newIndex,
-					type: 'TEXT',
-					object: {
-						styles: rawContent.inlineStyleRanges,
-						text: rawContent.text
-					}
-				})
-			} else if (id) {
-				const rawContent = convertToRaw(state.getCurrentContent()).blocks[0]
-				if (isContentSame(object, rawContent)) return
-				updateBlockMutation({
-					id,
-					index,
-					object: {
-						styles: rawContent.inlineStyleRanges,
-						text: rawContent.text
-					}
-				})
-			}
+			const rawContent = convertToRaw(state.getCurrentContent()).blocks[0]
+			if (isContentSame(object, rawContent)) return
+			updateBlockMutation({
+				id,
+				order,
+				object: {
+					styles: rawContent.inlineStyleRanges,
+					text: rawContent.text
+				}
+			})
 		},
 		[state.getCurrentContent()],
 		500
@@ -160,7 +143,9 @@ const Block = (props: Props) => {
 
 	return (
 		<>
-			{/* <TextOptions
+			<TextOptions
+				isSelected={isSelected}
+				modalStyles={modalStyles}
 				onSelect={(name) => {
 					setState((prevState) => {
 						const editorState = RichUtils.toggleInlineStyle(prevState, name)
@@ -169,32 +154,14 @@ const Block = (props: Props) => {
 					})
 				}}
 				activeOptions={getActiveOptions() || []}
-			/> */}
-			<Modal
-				visible={isSelected}
-				styles={modalStyles}
-				showOverlay={false}
-				shouldFocusAfterRender={false}
-			>
-				<Modal.ModalContent>
-					<TextOptions
-						onSelect={(name) => {
-							setState((prevState) => {
-								const editorState = RichUtils.toggleInlineStyle(prevState, name)
-								const selectionState = prevState.getSelection()
-								return EditorState.forceSelection(editorState, selectionState)
-							})
-						}}
-						activeOptions={getActiveOptions() || []}
-					/>
-				</Modal.ModalContent>
-			</Modal>
+			/>
 			<BlockWrapper {...props}>
-				<div ref={editorRef} style={{ width: '100%' }}>
+				<div ref={editorWrapperRef} style={{ width: '100%' }}>
 					<Editor
 						customStyleMap={styleMap}
 						editorState={state}
 						onChange={setState}
+						ref={editorRef}
 						handleReturn={() => {
 							createBlockMutation({
 								parent: {
@@ -202,7 +169,7 @@ const Block = (props: Props) => {
 									id: page.id
 								},
 								type: 'TEXT',
-								order: newIndex,
+								order: newOrder,
 								object: {
 									styles: [],
 									text: ''
