@@ -63,12 +63,12 @@ export class CreateBlockInput {
 export class UpdateBlockInput {
 	@Field(() => ID)
 	id: string
-	
-	@Field(() => RichTextObjectInput)
+
+	@Field(() => RichTextObjectInput, { nullable: true })
 	@prop({ type: RichTextObjectInput })
 	object: RichTextObjectInput
 
-	@Field()
+	@Field({ nullable: true })
 	@prop({ type: Number })
 	order: number
 }

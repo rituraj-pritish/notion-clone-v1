@@ -188,8 +188,8 @@ type Style {
 
 input UpdateBlockInput {
   id: ID!
-  object: RichTextObjectInput!
-  order: Float!
+  object: RichTextObjectInput
+  order: Float
 }
 
 input UpdatePageInput {

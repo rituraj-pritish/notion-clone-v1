@@ -5,6 +5,7 @@ import {
 	convertToRaw,
 	convertFromRaw
 } from 'draft-js'
+import { useRouter } from 'next/router'
 import React, { useEffect, useRef, useState } from 'react'
 import { useMutation } from 'react-query'
 
@@ -55,6 +56,9 @@ interface Props extends BlockType {
 
 const Block = ({ newOrder, ...props }: Props) => {
 	const { page, object, id, order } = props
+	const router = useRouter()
+	const pathPageId = router.query.pageId
+	const isInsideModal = pathPageId !== page.id
 
 	const editorRef = useRef(null)
 	const editorWrapperRef = useRef<HTMLDivElement>(null)
@@ -91,7 +95,12 @@ const Block = ({ newOrder, ...props }: Props) => {
 		if (editorWrapperRef.current) {
 			setModalPosition({
 				top: editorWrapperRef.current.offsetTop - 20 - 10 + 'px',
-				left: editorWrapperRef.current.offsetLeft + offset * 6.5 + 'px'
+				left: isInsideModal
+					? editorWrapperRef.current.offsetLeft + offset * 6.5 + 'px'
+					: (window.innerWidth - 970) / 2 +
+					  editorWrapperRef.current.offsetLeft +
+					  offset * 6.5 +
+					  'px'
 			})
 		}
 	}

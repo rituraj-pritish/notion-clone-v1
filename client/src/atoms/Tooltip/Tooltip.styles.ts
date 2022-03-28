@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
 import theme from '@/theme'
 
@@ -16,4 +16,9 @@ export const SubText = styled.div`
 	color: #adadad;
 	font-weight: 500;
 	margin-top: 2px;
+	${({ inline }) =>
+		inline &&
+		css`
+			display: inline-block;
+		`};
 `

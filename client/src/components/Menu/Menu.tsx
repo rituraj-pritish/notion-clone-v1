@@ -13,8 +13,7 @@ interface Props extends Omit<PopoverProps, 'trigger' | 'ref' | 'children'> {
 	children: React.ReactElement[]
 }
 
-const Menu = ({ children, tooltip, ...props }: Props) => {
-	const trigger = children.find(({ type }) => type === Popover.Trigger)
+const Menu = ({ children, trigger, tooltip, ...props }: Props) => {
 	return (
 		<Popover {...props}>
 			{trigger || (

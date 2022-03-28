@@ -8,7 +8,6 @@ import {
 	registerEnumType
 } from 'type-graphql'
 import autoPopulate from 'mongoose-autopopulate'
-import { convertDocument } from '../middlewares/typegooseMiddleware'
 import { UserAndDate } from './commonObjects'
 
 enum ParentType {
