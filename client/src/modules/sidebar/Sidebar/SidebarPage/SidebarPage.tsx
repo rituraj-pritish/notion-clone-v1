@@ -6,6 +6,7 @@ import { useQuery } from 'react-query'
 import api from '@/api'
 import { Flex, IconButton, Space, Text } from '@/atoms'
 import { GET_PAGES } from '@/graphql/pages/queries'
+import useHover from '@/hooks/useHover'
 import useSidebar from '@/hooks/useSidebar'
 import ChangeIcon from '@/shared/ChangeIcon'
 import { Page } from '@/types/page'
@@ -46,7 +47,7 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 	const { pageId } = router.query
 
 	const [children, setChildren] = useState<Page[] | null>(null)
-	const [isHovering, setIsHovering] = useState<boolean>(false)
+	const [isHovering, hoverProps] = useHover()
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(true)
 
 	const toggleCollapsed = () => setIsCollapsed((state) => !state)
@@ -70,10 +71,9 @@ const SidebarPage = ({ depth = 0, isInsideFavoritesGroup, ...page }: Props) => {
 	return (
 		<>
 			<SidebarItem
+				{...hoverProps}
 				isActive={isActive}
 				onClick={() => router.push(`/${id}`)}
-				onMouseEnter={() => setIsHovering(true)}
-				onMouseLeave={() => setIsHovering(false)}
 				data-testid={`sidebar-page-${title}`}
 			>
 				<Flex

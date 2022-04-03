@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { DraggableProvidedDragHandleProps } from 'react-beautiful-dnd'
 import { GrDrag } from 'react-icons/gr'
 import { IoTrashOutline } from 'react-icons/io5'
@@ -8,6 +8,7 @@ import { deleteBlock } from '@/api/endpoints'
 import { IconButton, Popover, Space, Tooltip } from '@/atoms'
 import { Menu } from '@/components'
 import queryClient from '@/core/queryClient'
+import useHoverWithMenu from '@/hooks/useHoverWithMenu'
 import CreatedAndEditedMenuItem from '@/shared/CreatedAndEditedMenuItem'
 import { Block } from '@/types/block'
 import { Page } from '@/types/page'
@@ -28,6 +29,7 @@ const BlockWrapper = ({
 	created,
 	dragHandleProps
 }: Props) => {
+	const [isHovering, hoverProps, menuProps, showMenu] = useHoverWithMenu()
 	const { mutateAsync: deleteMutation } = useMutation(() => deleteBlock(id), {
 		onSuccess: () => {
 			queryClient.setQueryData<Block[]>([page.id, 'blocks'], (prevData) =>
@@ -38,21 +40,24 @@ const BlockWrapper = ({
 
 	const tooltip = (
 		<>
-			Drag <Tooltip.SubText inline>to move</Tooltip.SubText><br/>
+			Drag <Tooltip.SubText inline>to move</Tooltip.SubText>
+			<br />
 			Click <Tooltip.SubText inline>to open menu</Tooltip.SubText>
 		</>
 	)
 
 	return (
-		<RootWrapper>
-			<MenuWrapper>
+		<RootWrapper {...hoverProps}>
+			<MenuWrapper isHovering={isHovering}>
 				<Menu
+					{...menuProps}
 					trigger={
-						<Popover.Trigger >
+						<Popover.Trigger>
 							<IconButton
 								size='small'
 								tooltip={tooltip}
 								data-testid='menu-trigger'
+								onClick={showMenu}
 								{...dragHandleProps}
 							>
 								<GrDrag />
@@ -60,7 +65,10 @@ const BlockWrapper = ({
 						</Popover.Trigger>
 					}
 				>
-					<Menu.MenuItem icon={<IoTrashOutline />} onClick={deleteMutation}>
+					<Menu.MenuItem
+						icon={<IoTrashOutline />}
+						onClick={() => deleteMutation()}
+					>
 						Delete
 					</Menu.MenuItem>
 					<CreatedAndEditedMenuItem created={created} lastEdited={lastEdited} />

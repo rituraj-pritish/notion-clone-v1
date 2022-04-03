@@ -31,8 +31,9 @@ export interface PopoverProps extends Omit<TippyProps, 'trigger' | 'children'> {
 	children: React.ReactElement[]
 }
 
-interface Handle {
+export interface Handle {
 	close: VoidFunction
+	isVisible: boolean
 }
 
 const Popover = React.forwardRef(
@@ -49,7 +50,8 @@ const Popover = React.forwardRef(
 		}
 
 		useImperativeHandle(ref, () => ({
-			close: () => setIsVisible(false)
+			close: () => setIsVisible(false),
+			isVisible
 		}))
 
 		if (!Array.isArray(children)) return null

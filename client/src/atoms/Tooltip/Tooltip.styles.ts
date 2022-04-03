@@ -11,7 +11,11 @@ export const RootOverlay = styled.div`
 	border-radius: ${theme.borderRadius};
 `
 
-export const SubText = styled.div`
+interface SubTextProps {
+	inline?: boolean
+}
+
+export const SubText = styled.div<SubTextProps>`
 	font-size: 12px;
 	color: #adadad;
 	font-weight: 500;

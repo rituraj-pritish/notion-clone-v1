@@ -2,7 +2,7 @@ import React from 'react'
 import { IoEllipsisHorizontal } from 'react-icons/io5'
 
 import { Flex, IconButton, Popover } from '@/atoms'
-import { PopoverProps } from '@/atoms/Popover/Popover'
+import { Handle, PopoverProps } from '@/atoms/Popover/Popover'
 
 import MenuItem from './MenuItem'
 
@@ -13,26 +13,37 @@ interface Props extends Omit<PopoverProps, 'trigger' | 'ref' | 'children'> {
 	children: React.ReactElement[]
 }
 
-const Menu = ({ children, trigger, tooltip, ...props }: Props) => {
-	return (
-		<Popover {...props}>
-			{trigger || (
-				<Popover.Trigger>
-					<IconButton size='small' tooltip={tooltip} data-testid='menu-trigger'>
-						<IoEllipsisHorizontal />
-					</IconButton>
-				</Popover.Trigger>
-			)}
-			<Popover.Content>
-				<Flex flexDirection='column' py='6px'>
-					{children}
-				</Flex>
-			</Popover.Content>
-		</Popover>
-	)
-}
+const Menu = React.forwardRef(
+	(
+		{ children, trigger, tooltip, ...props }: Props,
+		ref?: React.Ref<Handle>
+	) => {
+		return (
+			<Popover {...props} ref={ref}>
+				{trigger || (
+					<Popover.Trigger>
+						<IconButton
+							size='small'
+							tooltip={tooltip}
+							data-testid='menu-trigger'
+						>
+							<IoEllipsisHorizontal />
+						</IconButton>
+					</Popover.Trigger>
+				)}
+				<Popover.Content>
+					<Flex flexDirection='column' py='6px'>
+						{children}
+					</Flex>
+				</Popover.Content>
+			</Popover>
+		)
+	}
+)
 
-Menu.Trigger = Popover.Trigger
-Menu.MenuItem = MenuItem
+const MenuNamespace = Object.assign(Menu, {
+	Trigger: Popover.Trigger,
+	MenuItem: MenuItem,
+})
 
-export default Menu
+export default MenuNamespace
