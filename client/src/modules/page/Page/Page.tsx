@@ -55,7 +55,8 @@ const Page = (props: PageType) => {
 					style={{
 						border: 'none',
 						fontSize: '50px',
-						fontWeight: 'bold'
+						fontWeight: 'bold',
+						paddingLeft: '24px'
 					}}
 					value={title === 'Untitled' ? '' : title}
 					onChange={(e) => setTitle(e.target.value)}

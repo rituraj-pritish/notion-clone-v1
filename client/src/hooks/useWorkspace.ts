@@ -3,13 +3,16 @@ import jwtDecode from 'jwt-decode'
 import React, { useEffect } from 'react'
 
 import { TokenPayload } from '@/types/tokenPayload'
+import { User } from '@/types/users'
 
 interface State {
 	workspace: string
+	user: User | null
 }
 
 const WORKSPACE_STATE = createState<State>({
-	workspace: ''
+	workspace: '',
+	user: null
 })
 
 export default () => {
@@ -17,9 +20,10 @@ export default () => {
 
 	const currentWorkspace = workspaceState.get().workspace
 
-	const setWorkspace = (workspaceId: string) => {
+	const setWorkspace = (workspaceId: string, user: User) => {
 		workspaceState.set({
-			workspace: workspaceId
+			workspace: workspaceId,
+			user
 		})
 	}
 
@@ -34,14 +38,15 @@ export default () => {
 		if (!token) return
 
 		const res = jwtDecode<TokenPayload>(token)
-		setWorkspace(res.workspace)
+		setWorkspace(res.workspace, { id: res.user, email: res.email, name: res.name })
 		//eslint-disable-next-line
 	}, [])
 
 	return React.useMemo(
 		() => ({
 			workspace: currentWorkspace,
-			setWorkspace
+			setWorkspace,
+			user: workspaceState.get().user
 		}),
 		// eslint-disable-next-line
 		[workspaceState]

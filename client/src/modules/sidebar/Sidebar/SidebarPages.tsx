@@ -8,6 +8,7 @@ import { SidebarPagesWrapper } from './SideBar.styles'
 
 const SidebarPages = () => {
 	const { data } = useQuery(queryKeys.ROOT_PAGES, () => getWorkspace())
+
 	return (
 		<SidebarPagesWrapper>
 			<SidebarPageGroup name='FAVORITES' pages={data?.favorites || []} />

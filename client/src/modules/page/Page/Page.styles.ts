@@ -13,6 +13,7 @@ export const StyledInput = styled(Input)`
 export const SubHeader = styled.div`
 	padding: 0 140px;
 	padding-top: 40px;
+	padding-left: 24px;
 	opacity: 0;
 
 	&:hover {

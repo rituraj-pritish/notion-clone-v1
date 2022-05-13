@@ -25,7 +25,11 @@ const NewPageHeader = (props: Page) => {
 				)}
 			</SubHeader>
 			<div
-				style={{ height: props.icon ? 'fit-content' : 0, padding: '0 140px' }}
+				style={{ 
+					height: props.icon ? 'fit-content' : 0, 
+					padding: '0 140px', 
+					paddingLeft: '164px' 
+				}}
 			>
 				<ChangeIcon {...props} iconSize='large' ref={iconRef} />
 			</div>

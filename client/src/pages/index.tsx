@@ -24,7 +24,7 @@ export const getServerSideProps: GetServerSideProps = async (
 
 	if (token) {
 		const data = await getWorkspace(token)
-
+		
 		return {
 			redirect: {
 				destination: `/${data.private[0].id}`,

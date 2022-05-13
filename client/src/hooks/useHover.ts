@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react'
 interface Params {
 	onShow?: VoidFunction
 	onHide?: VoidFunction
-	hideOnMouseLeave?: boolean
 }
 
 export default (
@@ -16,7 +15,6 @@ export default (
 	}
 ] => {
 	const initialRender = useRef(true)
-	const [isVisible, setIsVisible] = useState(false)
 	const [isHovering, setIsHovering] = useState(false)
 
 	useEffect(() => {
@@ -37,22 +35,11 @@ export default (
 	const props = React.useMemo(
 		() => ({
 			onMouseEnter: () => setIsHovering(true),
-			onMouseLeave: () => {
-				if(params?.hideOnMouseLeave === false) return
-				setIsHovering(false)
-			}
+			onMouseLeave: () => setIsHovering(false)
 		}),
-		[params?.hideOnMouseLeave]
+		[]
 	)
 
-	const menuProps = React.useMemo(() => ({
-		isVisible,
-		onClickOutside: () => {
-			setIsVisible(false)
-			setIsHovering(false)
-		}
-	}), [])
-
 	// eslint-disable-next-line
-	return React.useMemo(() => [isHovering, props, menuProps, () => setIsHovering(true)], [isHovering, props])
+	return React.useMemo(() => [isHovering, props], [isHovering, props])
 }

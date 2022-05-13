@@ -2,8 +2,9 @@ import { useRouter } from 'next/router'
 import { useMutation } from 'react-query'
 
 import api from '@/api'
-import { Button, Popover } from '@/atoms'
+import { Box, Button, Popover, Text } from '@/atoms'
 import { LOGOUT } from '@/graphql/users'
+import useWorkspace from '@/hooks/useWorkspace'
 
 import SidebarHeaderTrigger from './SidebarHeaderTrigger'
 
@@ -11,6 +12,7 @@ const { Trigger, Content } = Popover
 
 const SidebarHeader = () => {
 	const router = useRouter()
+	const { user } = useWorkspace()
 	const { mutateAsync } = useMutation(() => api(LOGOUT))
 
 	return (
@@ -21,13 +23,17 @@ const SidebarHeader = () => {
 				</div>
 			</Trigger>
 			<Content>
-				<Button
-					size='small'
-					variant='secondary'
-					onClick={() => mutateAsync().then(() => router.replace('/login'))}
-				>
-					Logout
-				</Button>
+				<Box p={2} style={{ borderRadius: '4px' }}>
+					<Text pb={2}>{user?.email}</Text>
+					<Button
+						size='small'
+						variant='secondary'
+						onClick={() => mutateAsync().then(() => router.replace('/login'))}
+						style={{ width: '100%' }}
+					>
+						Logout
+					</Button>
+				</Box>
 			</Content>
 		</Popover>
 	)
