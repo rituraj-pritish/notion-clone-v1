@@ -95,7 +95,7 @@ const Block = ({ newOrder, ...props }: Props) => {
 		if (editorWrapperRef.current) {
 			setModalPosition({
 				top: editorWrapperRef.current.offsetTop - 20 - 10 + 'px',
-				left: isInsideModal
+				left: !isInsideModal
 					? editorWrapperRef.current.offsetLeft + offset * 6.5 + 'px'
 					: (window.innerWidth - 970) / 2 +
 					  editorWrapperRef.current.offsetLeft +
